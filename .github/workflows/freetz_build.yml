@@ -54,7 +54,7 @@ jobs:
           echo "${{ matrix.typ }}=y" >> .config
           echo "FREETZ_DOWNLOAD_TOOLCHAIN=y" >> .config
           
-          # Tor und Bind bleiben auf der Box; nur Python, Git und Apache2 auslagern
+          # Tor, Bind und Samba bleiben im Flash; nur Python, Git und Apache2 auslagern
           if [ "${{ matrix.auslagern }}" = "ja" ]; then
             echo "FREETZ_EXTERNAL_ENABLE=y" >> .config
             echo "FREETZ_EXTERNAL_DOWNLOADER=n" >> .config
@@ -67,7 +67,13 @@ jobs:
           make olddefconfig
 
       - name: Image fuer ${{ matrix.modell }} bauen
-        run: make -j2
+        run: |
+          set -o pipefail
+          make -j2 2>&1 | tee build.log || {
+            echo "::error::$(tail -n 30 build.log | tr '\n' ' ')"
+            tail -n 60 build.log
+            exit 1
+          }
 
       - name: Ergebnisse (Image + optional External) hochladen
         uses: actions/upload-artifact@v4
