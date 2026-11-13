@@ -1,31 +1,33 @@
-$(call PKG_INIT_LIB, $(if $(FREETZ_LIB_libpcap_VERSION_ABANDON),1.1.1,1.10.5))
+$(call PKG_INIT_LIB, $(if $(FREETZ_LIB_libpcap_WITH_VERSION_ABANDON),1.1.1,1.11.0))
 $(PKG)_LIB_VERSION:=$($(PKG)_VERSION)
 $(PKG)_SOURCE:=$(pkg)-$($(PKG)_VERSION).tar.gz
 $(PKG)_HASH_ABANDON:=508cca15547e55d1318498b838456a21770c450beb2dc7d7d4a96d90816e5a85
-$(PKG)_HASH_CURRENT:=37ced90a19a302a7f32e458224a00c365c117905c2cd35ac544b6880a81488f0
-$(PKG)_HASH:=$($(PKG)_HASH_$(if $(FREETZ_LIB_libpcap_VERSION_ABANDON),ABANDON,CURRENT))
+$(PKG)_HASH_CURRENT:=596389bc8560ea027dff9db8aaf6c173d992366d9aef4baf5d7c6d180b4d49ad
+$(PKG)_HASH:=$($(PKG)_HASH_$(if $(FREETZ_LIB_libpcap_WITH_VERSION_ABANDON),ABANDON,CURRENT))
 $(PKG)_SITE:=https://www.tcpdump.org/release/
-### VERSION:=1.1.1/1.10.5
+### VERSION:=1.1.1/1.11.0
 ### WEBSITE:=https://www.tcpdump.org
 ### MANPAGE:=https://www.tcpdump.org/manpages/pcap-filter.7.html
-### CHANGES:=https://git.tcpdump.org/libpcap/blob/HEAD:/CHANGES
+### CHANGES:=https://github.com/the-tcpdump-group/libpcap/blob/master/CHANGES
 ### CVSREPO:=https://github.com/the-tcpdump-group/libpcap
+
+$(PKG)_CATEGORY_LIBS:=Networking
 
 $(PKG)_BINARY:=$($(PKG)_DIR)/$(pkg).so.$($(PKG)_LIB_VERSION)
 $(PKG)_STAGING_BINARY:=$(TARGET_TOOLCHAIN_STAGING_DIR)/usr/lib/$(pkg).so.$($(PKG)_LIB_VERSION)
 $(PKG)_TARGET_BINARY:=$($(PKG)_TARGET_DIR)/$(pkg).so.$($(PKG)_LIB_VERSION)
 
-$(PKG)_CONDITIONAL_PATCHES+=$(if $(FREETZ_LIB_libpcap_VERSION_ABANDON),abandon,current)
+$(PKG)_CONDITIONAL_PATCHES+=$(if $(FREETZ_LIB_libpcap_WITH_VERSION_ABANDON),abandon,current)
 
 $(PKG)_REBUILD_SUBOPTS += FREETZ_TARGET_IPV6_SUPPORT
-$(PKG)_REBUILD_SUBOPTS += FREETZ_LIB_libpcap_VERSION_ABANDON
-$(PKG)_REBUILD_SUBOPTS += FREETZ_LIB_libpcap_VERSION_CURRENT
+$(PKG)_REBUILD_SUBOPTS += FREETZ_LIB_libpcap_WITH_VERSION_ABANDON
+$(PKG)_REBUILD_SUBOPTS += FREETZ_LIB_libpcap_WITH_VERSION_CURRENT
 
 $(PKG)_CONFIGURE_OPTIONS += --with-pcap=linux
 $(PKG)_CONFIGURE_OPTIONS += --enable-shared
 $(PKG)_CONFIGURE_OPTIONS += --enable-static
 $(PKG)_CONFIGURE_OPTIONS += --disable-bluetooth
-ifeq ($(strip $(FREETZ_LIB_libpcap_VERSION_ABANDON)),y)
+ifeq ($(strip $(FREETZ_LIB_libpcap_WITH_VERSION_ABANDON)),y)
 $(PKG)_CONFIGURE_OPTIONS += --disable-can
 $(PKG)_CONFIGURE_OPTIONS += --disable-yydebug
 $(PKG)_CONFIGURE_OPTIONS += --with-build-cc="$(HOSTCC)"

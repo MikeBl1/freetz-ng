@@ -1,14 +1,14 @@
-$(call PKG_INIT_BIN, $(if $(FREETZ_PACKAGE_OPENSSH_VERSION_ABANDON),9.3p2,10.2p1))
+$(call PKG_INIT_BIN, $(if $(FREETZ_PACKAGE_OPENSSH_VERSION_ABANDON),9.3p2,10.6p2))
 $(PKG)_SOURCE:=$(pkg)-$($(PKG)_VERSION).tar.gz
 $(PKG)_HASH_ABANDON:=200ebe147f6cb3f101fd0cdf9e02442af7ddca298dffd9f456878e7ccac676e8
-$(PKG)_HASH_CURRENT:=ccc42c0419937959263fa1dbd16dafc18c56b984c03562d2937ce56a60f798b2
+$(PKG)_HASH_CURRENT:=9ae44872090cf2f06b3cf9ff147e7f16f309671340763ed2f99248398ae29d5b
 $(PKG)_HASH:=$($(PKG)_HASH_$(if $(FREETZ_PACKAGE_OPENSSH_VERSION_ABANDON),ABANDON,CURRENT))
 $(PKG)_SITE:=https://cdn.openbsd.org/pub/OpenBSD/OpenSSH/portable,$(PKG)_SITE:=https://mirror.planetunix.net/pub/OpenBSD/OpenSSH/portable
 ### WEBSITE:=https://www.openssh.com/
 ### MANPAGE:=https://www.openssh.com/manual.html
 ### CHANGES:=https://www.openssh.com/releasenotes.html
 ### CVSREPO:=https://github.com/openssh/openssh-portable
-### SUPPORT:=fda77
+### STEWARD:=fda77
 
 $(PKG)_CONDITIONAL_PATCHES+=$(if $(FREETZ_PACKAGE_OPENSSH_VERSION_ABANDON),abandon,current)
 
@@ -46,6 +46,7 @@ $(PKG)_EXCLUDED += $(addprefix usr/sbin/,$(filter-out $($(PKG)_SBIN_BINARIES_INC
 $(PKG)_EXCLUDED += $(addprefix usr/lib/,$(filter-out $($(PKG)_LIB_BINARIES_INCLUDED),$($(PKG)_LIB_BINARIES)))
 $(PKG)_EXCLUDED += $(if $(FREETZ_PACKAGE_OPENSSH_sshd),,etc/default.openssh etc/init.d/rc.openssh usr/lib/cgi-bin/openssh.cgi)
 $(PKG)_EXCLUDED += $(if $(FREETZ_PACKAGE_OPENSSH_INTERNAL_CRYPTO),etc/default.openssh/rsa_key.def etc/default.openssh/dsa_key.def)
+$(PKG)_EXCLUDED += $(if $(FREETZ_PACKAGE_OPENSSH_VERSION_ABANDON),etc/default.openssh/mldsa44-ed25519_key.def)
 
 $(PKG)_CONFIGURE_OPTIONS += --disable-etc-default-login
 $(PKG)_CONFIGURE_OPTIONS += --disable-lastlog
@@ -56,6 +57,10 @@ $(PKG)_CONFIGURE_OPTIONS += --disable-wtmpx
 $(PKG)_CONFIGURE_OPTIONS += --without-bsd-auth
 $(PKG)_CONFIGURE_OPTIONS += --without-kerberos5
 $(PKG)_CONFIGURE_OPTIONS += --without-pie
+
+ifneq ($(strip $(FREETZ_PACKAGE_HTOP_VERSION_ABANDON)),y)
+$(PKG)_CONFIGURE_OPTIONS += --with-sandbox=no
+endif
 
 $(PKG)_EXTRA_CFLAGS  += -ffunction-sections -fdata-sections
 $(PKG)_EXTRA_CFLAGS  += $(if $(FREETZ_TARGET_GCC_4_MAX),-std=c99)

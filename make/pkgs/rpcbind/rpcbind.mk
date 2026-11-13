@@ -1,12 +1,12 @@
-$(call PKG_INIT_BIN,1.2.7)
+$(call PKG_INIT_BIN,1.3.1)
 $(PKG)_SOURCE:=$(pkg)-$($(PKG)_VERSION).tar.bz2
-$(PKG)_HASH:=f6edf8cdf562aedd5d53b8bf93962d61623292bfc4d47eedd3f427d84d06f37e
+$(PKG)_HASH:=8e551b445f5172f8ef218845af342fb2a2d741b57ce8c777c781a01ea92f92a5
 $(PKG)_SITE:=@SF/rpcbind
 ### WEBSITE:=https://sourceforge.net/projects/rpcbind/
 ### MANPAGE:=https://linux.die.net/man/8/rpcbind
 ### CHANGES:=http://git.linux-nfs.org/?p=steved/rpcbind.git;a=shortlog;h=refs/heads/master
 ### CVSREPO:=http://git.linux-nfs.org/?p=steved/rpcbind.git
-### SUPPORT:=fda77
+### STEWARD:=fda77
 
 $(PKG)_BINARY_USRSBIN:=rpcbind
 $(PKG)_BINARY_BIN:=rpcinfo

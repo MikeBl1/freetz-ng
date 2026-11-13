@@ -1,12 +1,12 @@
-$(call PKG_INIT_BIN, 5.76)
+$(call PKG_INIT_BIN, 5.82)
 $(PKG)_SOURCE:=$(pkg)-$($(PKG)_VERSION).tar.gz
-$(PKG)_HASH:=cda37eb4d0fb1e129718ed27ad77b5735e899394ce040bb2be28bbb937fd79e1
+$(PKG)_HASH:=8e7438ccd6b3a2ab05182d0846e112a56a7f557ecdee40de07bf67820008bef7
 $(PKG)_SITE:=https://www.stunnel.org/downloads/archive/5.x
 ### WEBSITE:=https://www.stunnel.org/
 ### MANPAGE:=https://www.stunnel.org/static/stunnel.html
 ### CHANGES:=https://www.stunnel.org/NEWS.html
 ### CVSREPO:=https://github.com/mtrojnar/stunnel
-### SUPPORT:=fda77
+### STEWARD:=fda77
 
 $(PKG)_STARTLEVEL=81
 

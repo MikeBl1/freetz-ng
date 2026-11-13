@@ -1,12 +1,12 @@
-$(call PKG_INIT_BIN, 5.6.5)
+$(call PKG_INIT_BIN, 5.6.6)
 $(PKG)_SOURCE:=$(pkg)_$($(PKG)_VERSION).tar.xz
-$(PKG)_HASH:=3ec4168da3ff61e5e426964428202bc0573ad6ecc1f3baf6f43daea6c748aa7d
-$(PKG)_SITE:=http://ftp.debian.org/debian/pool/main/w/whois
+$(PKG)_HASH:=121a3b0467ad64a0e7034b44e71bd1cf28a2e4cca82886d40804ce1fac6494c0
+$(PKG)_SITE:=@DEBIAN/whois
 ### WEBSITE:=https://www.linux.it/~md/software/
 ### MANPAGE:=https://manpages.debian.org/whois/whois.1.en.html
 ### CHANGES:=https://github.com/rfc1036/whois/tags
 ### CVSREPO:=https://github.com/rfc1036/whois
-### SUPPORT:=fda77
+### STEWARD:=fda77
 
 $(PKG)_BINARY:=$($(PKG)_DIR)/whois
 $(PKG)_TARGET_BINARY:=$($(PKG)_DEST_DIR)/usr/bin/whois

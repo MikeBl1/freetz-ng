@@ -16,6 +16,18 @@ supervisor_delete_service() {
 	supervisor_remove_dependency "${service}"
 }
 
+# replace file of supervisor service "$1.service" with a dummy & remove dependencies
+supervisor_replace_service() {
+	local service="${1%.service}.service"
+cat > "${FILESYSTEM_MOD_DIR}/lib/systemd/system/${service}" <<'EOX'
+[Unit]
+ExecStart=/bin/true
+Type=oneshot
+DefaultDependencies=no
+EOX
+	supervisor_remove_dependency "${service}"
+}
+
 
 # removes a div by id name in all cock pits (since fos8)
 cockpit_pruner() {
@@ -57,6 +69,30 @@ quickstart_remove() {
 	done
 }
 
+#htmltab_remove <file> <href>
+#removes a html-tab with destination href in file
+htmltab_remove() {
+	local file="$HTML_LANG_MOD_DIR$1"
+	local HREF="href=\\\"#${2//\//\\\/}\\\""
+	local TAG="a"
+	local TAG_S="<$TAG "
+	local TAG_E="<\/$TAG>"
+	[ -e "$file" ] || return
+	modsed '/'"$TAG_S"'/{:x;N;/'"$TAG_E"'/!bx};/'"$HREF"'/d' "$file"
+}
+
+#js3tab_remove <file> <j3s>
+#removes a js3-tab with destination href in file
+js3tab_remove() {
+	local file="$HTML_LANG_MOD_DIR$1"
+	local NAME="name=\\\"$2\\\""
+	local TAG="js3-tab-content"
+	local TAG_S="<$TAG "
+	local TAG_E="<\/$TAG>"
+	[ -e "$file" ] || return
+	modsed '/'"$TAG_S"'/{:x;N;/'"$TAG_E"'/!bx};/'"$NAME"'/d' "$file"
+}
+
 #modern_remove <menu-item>
 #removes liks within menu_data.lua (left menu, responsive)
 modern_remove() {
@@ -64,24 +100,27 @@ modern_remove() {
 	modsed "s/pageData\[\"$1\"\] and /&false and /" "${MENU_DATA_LUA}"
 }
 
-#menulua_remove <page-link>
+#menulua_remove [old-page-link] {and/or} [new-page-link]
 #removes links within menu_data.lua (left menu)
 menulua_remove() {
 	local file="${MENU_DATA_LUA}"
 	if [ "$FREETZ_AVM_HAS_LUA_SCALABLE" == "y" ]; then
 		# find ["lua"] line
-		local pattern='\["lua"\] = "[^"]*'"$1"'.lua"'
-		local matchLine=$(cat "$file" | get_line_number_of_1st_match "${pattern}")
-		[ -z "${matchLine}" ] && error 1 "menulua_remove: no matches for '${pattern}' found"
+		local pattern1='\["lua"\] = "[^"]*'"${1//\//\\/}"'.lua"'
+		local pattern2='\["route"\] = "'"${2//\//\\/}"'"'
+		local matchLine
+		[ -z "${matchLine}" ] && [ -n "$1" ] && matchLine=$(cat "$file" | get_line_number_of_1st_match "${pattern1}")
+		[ -z "${matchLine}" ] && [ -n "$2" ] && matchLine=$(cat "$file" | get_line_number_of_1st_match "${pattern2}")
+		[ -z "${matchLine}" ] && error 1 "menulua_remove: no matches for '${pattern1}'${2:+ or '${pattern2}'} found"
 		# the  ["show"] line is either one or two lines before
 		modsed -r \
 		  "$((${matchLine}-2)),$((${matchLine}-1))"' {
-		      s!^(\["show"\] = ).+,$!\1false,!
+		      s/^( *\["show"\] = ).+,$/\1false,/
 		  }' \
 		  "$file"
 	else
 		modsed \
-		  "/{* *page = \".*\/$1.lua\",/d" \
+		  "/{* *page = \".*\/${1//\//\\/}.lua\",/d" \
 		  "$file"
 	fi
 }
@@ -352,6 +391,9 @@ warn1() { [ "$FREETZ_VERBOSITY_LEVEL" -ge 1 ] && warn "$@"; }
 warn2() { [ "$FREETZ_VERBOSITY_LEVEL" -ge 2 ] && warn "$@"; }
 warn3() { [ "$FREETZ_VERBOSITY_LEVEL" -ge 3 ] && warn "$@"; }
 
+# Important message
+hint() { echoX -c -p "IMPORTANT: " "$@" >&2; }
+
 
 # Error message + exit with specified error code
 error() {
@@ -475,7 +517,9 @@ modlang() {
 		fi
 		local dot_exclude="$(echo $FREETZ_BASE_DIR/$1 | sed 's/language$/exclude/')"
 		for i in $(modlangconf "files" "$conffile"); do
-			if [ -e "${i}" ]; then
+			  if [ -L "${i}" ]; then
+				continue  # sed destroys links !
+			elif [ -e "${i}" ]; then
 				modlangsubst "$lang" "${i}"
 			else
 				do_excluded=n
@@ -876,7 +920,7 @@ image_details() {
 	[ "$FREETZ_TYPE_LANG_IT" == "y" ]                                                            && AVM_FM_REGION='ITA'
 	[ "$FREETZ_TYPE_LANG_A_CH" == "y" ]                                                          && AVM_FM_REGION='ACH'
 	#
-	SOURCE_IMAGE_DETAILS="${AVM_FW_PRODUCT/ /-}${AVM_FW_LANGUAGE} ${AVM_FW_MAJOR}.${AVM_FW_VERSION}${AVM_FW_LABOR} rev${AVM_FW_REVISION} {${AVM_FM_REGION}}${AVM_FW_CYCLE}${AVM_FW_TYPE} <${AVM_FW_DATE}>"
+	SOURCE_IMAGE_DETAILS="${AVM_FW_PRODUCT// /-}${AVM_FW_LANGUAGE} ${AVM_FW_MAJOR}.${AVM_FW_VERSION}${AVM_FW_LABOR} rev${AVM_FW_REVISION} {${AVM_FM_REGION}}${AVM_FW_CYCLE}${AVM_FW_TYPE} <${AVM_FW_DATE}>"
 }
 
 #

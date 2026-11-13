@@ -1,6 +1,10 @@
-# PHP 5.6.40 (binary only) - DEPRECATED
+# PHP 5.6.40/8.2.35/8.3.36/8.4.27/8.5.12 (binary only)
+  - Homepage: [https://www.php.net](https://www.php.net)
+  - Manpage: [https://www.php.net/docs.php](https://www.php.net/docs.php)
+  - Changelog: [https://github.com/php/php-src/releases](https://github.com/php/php-src/releases)
+  - Repository: [https://github.com/php/php-src](https://github.com/php/php-src)
   - Package: [master/make/pkgs/php/](https://github.com/Freetz-NG/freetz-ng/tree/master/make/pkgs/php/)
-  - Maintainer: -
+  - Steward: ???
 
 "*PHP is a widely-used general-purpose scripting language that is
 especially suited for Web development and can be embedded into HTML.*"

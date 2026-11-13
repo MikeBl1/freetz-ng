@@ -4,9 +4,16 @@ $(PKG)_SOURCE:=$(pkg)-$($(PKG)_VERSION).tar.bz2
 $(PKG)_HASH:=fdc11e74c10fc9ffe4188537e2b370c0abacca7d89021d4d303afdf7fd7476fa
 $(PKG)_SITE:=http://ftp.gnome.org/pub/gnome/sources/libart_lgpl/2.3
 
+$(PKG)_CATEGORY_LIBS:=Graphics & fonts
+
 $(PKG)_BINARY:=$($(PKG)_DIR)/.libs/libart_lgpl_2.so.$($(PKG)_LIB_VERSION)
 $(PKG)_STAGING_BINARY:=$(TARGET_TOOLCHAIN_STAGING_DIR)/usr/lib/libart_lgpl_2.so.$($(PKG)_LIB_VERSION)
 $(PKG)_TARGET_BINARY:=$($(PKG)_TARGET_DIR)/libart_lgpl_2.so.$($(PKG)_LIB_VERSION)
+
+$(PKG)_DEPENDS_ON += config-host
+
+$(PKG)_CONFIGURE_PRE_CMDS += $(call PKG_UPDATE_CONFIGS,./)
+
 
 $(PKG_SOURCE_DOWNLOAD)
 $(PKG_UNPACKED)
@@ -29,6 +36,7 @@ $($(PKG)_TARGET_BINARY): $($(PKG)_STAGING_BINARY)
 $(pkg): $($(PKG)_STAGING_BINARY)
 
 $(pkg)-precompiled: $($(PKG)_TARGET_BINARY)
+
 
 $(pkg)-clean:
 	-$(SUBMAKE) -C $(LIBART_LGPL_DIR) clean

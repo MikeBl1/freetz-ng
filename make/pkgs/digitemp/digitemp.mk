@@ -6,7 +6,7 @@ $(PKG)_SITE:=git@https://github.com/bcl/digitemp.git
 ### MANPAGE:=https://github.com/bcl/digitemp#readme
 ### CHANGES:=https://github.com/bcl/digitemp/releases
 ### CVSREPO:=https://github.com/bcl/digitemp/commits/master
-### SUPPORT:=fda77
+### STEWARD:=fda77
 
 $(PKG)_BINARY:=$($(PKG)_DIR)/digitemp
 $(PKG)_TARGET_BINARY:=$($(PKG)_DEST_DIR)/usr/bin/digitemp
@@ -15,8 +15,8 @@ $(PKG)_MAKE_TARGET:=ds9097
 
 ifeq ($(strip $(FREETZ_PACKAGE_DIGITEMP_DS2490)),y)
 $(PKG)_MAKE_TARGET:=ds2490
-$(PKG)_DEPENDS_ON += libusb
-$(PKG)_REBUILD_SUBOPTS += $(LIBUSB_REBUILD_SUBOPTS)
+$(PKG)_DEPENDS_ON += libusb0
+$(PKG)_REBUILD_SUBOPTS += $(LIBUSB0_REBUILD_SUBOPTS)
 endif
 
 ifeq ($(strip $(FREETZ_PACKAGE_DIGITEMP_DS9097U)),y)

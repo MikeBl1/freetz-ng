@@ -1,13 +1,13 @@
-$(call TOOLS_INIT, 4.1.2)
+$(call TOOLS_INIT, 4.4.5)
 $(PKG)_MAJOR_VERSION:=$(call GET_MAJOR_VERSION,$($(PKG)_VERSION))
 $(PKG)_SOURCE:=$(pkg_short)-$($(PKG)_VERSION).tar.gz
-$(PKG)_HASH:=643f04182b7ba323ab31f526f785134fb79cba3188a852206ef0473fee282a15
+$(PKG)_HASH:=a0c54c88abb8078dd8eccadb717fc6bb194bf18e7d44c86309910288886e04e2
 $(PKG)_SITE:=https://github.com/Kitware/CMake/releases/download/v$($(PKG)_VERSION)
 ### WEBSITE:=https://cmake.org/
 ### MANPAGE:=https://cmake.org/cmake/help/latest/
 ### CHANGES:=https://github.com/Kitware/CMake/releases
 ### CVSREPO:=https://gitlab.kitware.com/cmake/cmake
-### SUPPORT:=fda77
+### STEWARD:=fda77
 
 $(PKG)_DEPENDS_ON+=patchelf-host
 $(PKG)_DEPENDS_ON+=openssl-host

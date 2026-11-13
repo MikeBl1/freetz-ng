@@ -1,12 +1,12 @@
-$(call PKG_INIT_BIN, 2.4.65)
+$(call PKG_INIT_BIN, 2.4.71)
 $(PKG)_SOURCE:=httpd-$($(PKG)_VERSION).tar.bz2
-$(PKG)_HASH:=58b8be97d9940ec17f7656c0c6b9f41b618aac468b894b534148e3296c53b8b3
+$(PKG)_HASH:=2bc5da5a33c247341de082717d4ebcb5cb49e8b73a05b7fddf7d5d6dc2f8de62
 $(PKG)_SITE:=@APACHE/httpd
 ### WEBSITE:=https://httpd.apache.org/
 ### MANPAGE:=https://httpd.apache.org/docs/2.4/
 ### CHANGES:=https://downloads.apache.org/httpd/CHANGES_2.4
 ### CVSREPO:=https://github.com/apache/httpd
-### SUPPORT:=fda77
+### STEWARD:=fda77
 
 $(PKG)_BINARY:=$($(PKG)_DIR)/$(pkg)
 $(PKG)_TARGET_BINARY:=$($(PKG)_DEST_DIR)/usr/sbin/$(pkg)
@@ -105,8 +105,8 @@ $($(PKG)_TARGET_BINARY): $($(PKG)_BINARY)
 		$(APACHE2_DEST_DIR)/usr/{bin,include,sbin/envvars-std,share/man} \
 		$(APACHE2_DEST_DIR)/usr/share/apache2/{build,cgi-bin/*,error/README*,icons/README*,icons/*.gif,icons/*/*.gif,manual} \
 		$(APACHE2_DEST_DIR)/var
-# strip binaries & modules
-	-$(TARGET_STRIP) $(APACHE2_DEST_DIR)/usr/sbin/* $(APACHE2_DEST_DIR)/usr/lib/apache2/*.so
+# strip binaries & modules (& scripts !)
+	-$(TARGET_STRIP) $(APACHE2_DEST_DIR)/usr/sbin/* $(APACHE2_DEST_DIR)/usr/lib/apache2/*.so >/dev/null 2>&1
 # rename suexec to suexec2 manually, apache ignores --with-suexec-bin option
 	mv $(APACHE2_DEST_DIR)/usr/sbin/suexec $(APACHE2_DEST_DIR)/usr/sbin/suexec2
 

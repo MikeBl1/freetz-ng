@@ -1,23 +1,23 @@
-$(call TOOLS_INIT, 5.45)
+$(call TOOLS_INIT, 5.48)
 $(PKG)_SOURCE:=$(pkg_short)-$($(PKG)_VERSION).tar.gz
-$(PKG)_HASH:=fc97f51029bb0e2c9f4e3bffefdaf678f0e039ee872b9de5c002a6d09c784d82
+$(PKG)_HASH:=ed14656883b23a364b4057c05595d93252da9bc473d30106519519d0da141283
 $(PKG)_SITE:=http://ftp.astron.com/pub/file,ftp://ftp.astron.com/pub/file
 ### WEBSITE:=https://www.darwinsys.com/file/
 ### MANPAGE:=https://linux.die.net/man/1/file
-### CHANGES:=https://github.com/file/file/releases
+### CHANGES:=http://ftp.astron.com/pub/file
 ### CVSREPO:=https://github.com/file/file
-### SUPPORT:=fda77
+### STEWARD:=fda77
 
 $(PKG)_BINARY_BUILD:=$($(PKG)_DIR)/src/file
-$(PKG)_BINARY_TARGET:=$(TOOLS_BUILD_DIR)/usr/bin/file
+$(PKG)_BINARY_TARGET:=$(TOOLS_DIR)/file
 
 $(PKG)_MAGIC_BUILD := $($(PKG)_DIR)/magic/magic.mgc
 $(PKG)_MAGIC_TARGET := $(TOOLS_BUILD_DIR)/usr/share/misc/magic.mgc
 
 $(PKG)_CONFIGURE_OPTIONS += --enable-static
 $(PKG)_CONFIGURE_OPTIONS += --disable-shared
-$(PKG)_CONFIGURE_OPTIONS += --disable-elf
-$(PKG)_CONFIGURE_OPTIONS += --disable-elf-core
+$(PKG)_CONFIGURE_OPTIONS += --enable-elf
+$(PKG)_CONFIGURE_OPTIONS += --enable-elf-core
 $(PKG)_CONFIGURE_OPTIONS += --disable-zlib
 $(PKG)_CONFIGURE_OPTIONS += --disable-bzlib
 $(PKG)_CONFIGURE_OPTIONS += --disable-xzlib
@@ -26,9 +26,7 @@ $(PKG)_CONFIGURE_OPTIONS += --disable-lzlib
 $(PKG)_CONFIGURE_OPTIONS += --disable-libseccomp
 
 
-ifneq ($($(PKG)_SOURCE),$(FILE_HOST_SOURCE))
 $(TOOLS_SOURCE_DOWNLOAD)
-endif
 $(TOOLS_UNPACKED)
 $(TOOLS_CONFIGURED_CONFIGURE)
 

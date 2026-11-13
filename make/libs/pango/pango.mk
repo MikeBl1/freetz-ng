@@ -1,14 +1,15 @@
-$(call PKG_INIT_LIB, 1.56.3)
-## Version 1.56.4 requires GLib 2.82
-$(PKG)_LIB_VERSION:=0.5600.3
+$(call PKG_INIT_LIB, 1.58.2)
+$(PKG)_LIB_VERSION:=0.5800.2
 $(PKG)_MAJOR_VERSION:=1.0
 $(PKG)_SOURCE:=pango-$($(PKG)_VERSION).tar.xz
-$(PKG)_HASH:=2606252bc25cd8d24e1b7f7e92c3a272b37acd6734347b73b47a482834ba2491
+$(PKG)_HASH:=342385b6ca3b7c73455d7c80a13b7dbe4489e00bc3bd4c5bd6ed4dce421e374a
 $(PKG)_SITE:=https://download.gnome.org/sources/pango/$(call GET_MAJOR_VERSION,$($(PKG)_VERSION))
 ### WEBSITE:=https://www.pango.org/
 ### MANPAGE:=https://docs.gtk.org/Pango/
 ### CHANGES:=https://gitlab.gnome.org/GNOME/pango/blob/main/NEWS
 ### CVSREPO:=https://gitlab.gnome.org/GNOME/pango
+
+$(PKG)_CATEGORY_LIBS:=Graphics & fonts
 
 $(PKG)_LIBNAMES_SHORT   := pango pangoft2 pangocairo
 $(PKG)_LIBNAMES_LONG    := $($(PKG)_LIBNAMES_SHORT:%=lib%-$($(PKG)_MAJOR_VERSION).so.$($(PKG)_LIB_VERSION))
@@ -26,11 +27,12 @@ $(PKG)_CONFIGURE_OPTIONS += -D cairo=enabled
 $(PKG)_CONFIGURE_OPTIONS += -D documentation=false
 $(PKG)_CONFIGURE_OPTIONS += -D fontconfig=enabled
 $(PKG)_CONFIGURE_OPTIONS += -D freetype=enabled
-$(PKG)_CONFIGURE_OPTIONS += -D gtk_doc=false
 $(PKG)_CONFIGURE_OPTIONS += -D introspection=disabled
 $(PKG)_CONFIGURE_OPTIONS += -D libthai=disabled
 $(PKG)_CONFIGURE_OPTIONS += -D sysprof=disabled
 $(PKG)_CONFIGURE_OPTIONS += -D xft=disabled
+
+$(PKG)_CONFIGURE_POST_CMDS += $(call PKG_PREVENT_MESON_BUILD_RPATH,builddir/build.ninja)
 
 $(PKG)_EXTRA_CFLAGS += -I$(TARGET_TOOLCHAIN_STAGING_DIR)/include/glib-2.0
 $(PKG)_EXTRA_CFLAGS += -I$(TARGET_TOOLCHAIN_STAGING_DIR)/lib/glib-2.0/include

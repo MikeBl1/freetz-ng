@@ -1,12 +1,14 @@
-$(call PKG_INIT_BIN, 8.6)
+$(call PKG_INIT_BIN, $(if $(FREETZ_PACKAGE_NANO_VERSION_ABANDON),9.2,9.3))
 $(PKG)_SOURCE:=$(pkg)-$($(PKG)_VERSION).tar.xz
-$(PKG)_HASH:=f7abfbf0eed5f573ab51bd77a458f32d82f9859c55e9689f819d96fe1437a619
-$(PKG)_SITE:=https://www.nano-editor.org/dist/v8
+$(PKG)_HASH_ABANDON:=05ecb99247b782e8a5b3a25ed4101dd034b0236902f7449bc9795b717642f7e9
+$(PKG)_HASH_CURRENT:=a9affc52c9596ee0682bcdd4ceb3c0b235eb221d83d733dfd9b0dff45897cb0d
+$(PKG)_HASH:=$($(PKG)_HASH_$(if $(FREETZ_PACKAGE_NANO_VERSION_ABANDON),ABANDON,CURRENT))
+$(PKG)_SITE:=https://www.nano-editor.org/dist/v$(call GET_MAJOR_VERSION,$($(PKG)_VERSION),1)
 ### WEBSITE:=https://www.nano-editor.org/
 ### MANPAGE:=https://www.nano-editor.org/docs.php
-### CHANGES:=https://www.nano-editor.org/dist/v8/NEWS
+### CHANGES:=https://www.nano-editor.org/dist/v9/NEWS
 ### CVSREPO:=https://git.savannah.gnu.org/cgit/nano.git/
-### SUPPORT:=fda77
+### STEWARD:=fda77
 
 $(PKG)_BINARY:=$($(PKG)_DIR)/src/nano
 $(PKG)_TARGET_BINARY:=$($(PKG)_DEST_DIR)/usr/bin/nano
@@ -15,6 +17,10 @@ $(PKG)_SYNTAX_FILES_DIR:=$($(PKG)_DIR)/syntax/
 $(PKG)_TARGET_SYNTAX_FILES_DIR:=$($(PKG)_DEST_DIR)/usr/share/nano/
 
 $(PKG)_DEPENDS_ON += $(if $(FREETZ_PACKAGE_NANO_UTF8),ncursesw,ncurses)
+
+$(PKG)_CONDITIONAL_PATCHES+=$(if $(FREETZ_PACKAGE_NANO_VERSION_ABANDON),abandon,current)
+
+$(PKG)_REBUILD_SUBOPTS += FREETZ_PACKAGE_NANO_VERSION_ABANDON
 
 $(PKG)_REBUILD_SUBOPTS += FREETZ_PACKAGE_NANO_UTF8
 $(PKG)_REBUILD_SUBOPTS += FREETZ_PACKAGE_NANO_TINY
@@ -30,12 +36,10 @@ $(PKG)_REBUILD_SUBOPTS += FREETZ_PACKAGE_NANO_NANORC
 $(PKG)_REBUILD_SUBOPTS += FREETZ_PACKAGE_NANO_WRAPPING_ROOT
 $(PKG)_REBUILD_SUBOPTS += FREETZ_PACKAGE_NANO_MOUSE_CONTROL
 
-$(PKG)_CONFIGURE_OPTIONS += --without-slang
 $(PKG)_CONFIGURE_OPTIONS += --disable-rpath
 $(PKG)_CONFIGURE_OPTIONS += $(if $(FREETZ_PACKAGE_NANO_MOUSE_CONTROL),--enable-mouse,--disable-mouse)
 $(PKG)_CONFIGURE_OPTIONS += --disable-speller
 $(PKG)_CONFIGURE_OPTIONS += --disable-extra
-$(PKG)_CONFIGURE_OPTIONS += --with-wordbounds
 $(PKG)_CONFIGURE_OPTIONS += $(if $(FREETZ_PACKAGE_NANO_UTF8),--enable-utf8,--disable-utf8)
 $(PKG)_CONFIGURE_OPTIONS += $(if $(FREETZ_PACKAGE_NANO_TINY),--enable-tiny)
 $(PKG)_CONFIGURE_OPTIONS += $(if $(FREETZ_PACKAGE_NANO_TINY),,$(if $(FREETZ_PACKAGE_NANO_HELP),--enable-help,--disable-help))

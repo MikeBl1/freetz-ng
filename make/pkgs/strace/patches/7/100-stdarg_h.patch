@@ -1,0 +1,10 @@
+--- src/defs.h
++++ src/defs.h
+@@ -409,6 +409,7 @@
+ # define n_args(tcp) MIN(tcp_sysent(tcp)->nargs, MAX_ARGS)
+ 
+ # include "xlat.h"
++# include <stdarg.h>
+ 
+ extern const struct xlat addrfams[];
+ extern const struct xlat arp_hardware_types[];

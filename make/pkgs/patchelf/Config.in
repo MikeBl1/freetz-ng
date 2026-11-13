@@ -1,5 +1,5 @@
 config FREETZ_PACKAGE_PATCHELF
-	bool "PatchELF 0.18.0 (binary only)"
+	bool "PatchELF 0.19.3 (binary only)"
 	depends on FREETZ_TARGET_GCC_13_MIN  # in fact min gcc11 for C++17
 	select FREETZ_STDCXXLIB_FORCE_GNULIBSTDCXX
 	select FREETZ_LIB_STDCXXLIB
@@ -7,7 +7,4 @@ config FREETZ_PACKAGE_PATCHELF
 	help
 		Modifies existing ELF executables and libraries. Can change the interpreter,
 		RPATH, and other ELF metadata.
-		
-		Useful for modifying binaries to use different dynamic linker paths or
-		library search paths (RPATH/RUNPATH).
 

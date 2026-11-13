@@ -1,12 +1,12 @@
-$(call TOOLS_INIT, 3.13.8)
+$(call TOOLS_INIT, 3.15.2)
 $(PKG)_SOURCE:=Python-$($(PKG)_VERSION).tar.xz
-$(PKG)_HASH:=b9910730526b298299b46b35595ced9055722df60c06ad6301f6a4e2c728a252
+$(PKG)_HASH:=8b5536d280142ecf6cdfe15d12a21ba1c65e300bbf7b28a8d0cdb849575797de
 $(PKG)_SITE:=https://www.python.org/ftp/python/$($(PKG)_VERSION)
 ### WEBSITE:=https://www.python.org/
 ### MANPAGE:=https://docs.python.org/3/
 ### CHANGES:=https://www.python.org/downloads/
 ### CVSREPO:=https://github.com/python/cpython
-### SUPPORT:=fda77
+### STEWARD:=fda77
 
 $(PKG)_MAJOR_VERSION:=$(call GET_MAJOR_VERSION,$($(PKG)_VERSION))
 $(PKG)_MAJOR_VERSION_1:=$(call GET_MAJOR_VERSION,$($(PKG)_VERSION),1)
@@ -22,8 +22,8 @@ $(PKG)_CONFIGURE_OPTIONS += --build=$(GNU_HOST_NAME)
 $(PKG)_CONFIGURE_OPTIONS += --host=$(GNU_HOST_NAME)
 $(PKG)_CONFIGURE_OPTIONS += --target=$(GNU_HOST_NAME)
 $(PKG)_CONFIGURE_OPTIONS += --prefix=/usr
-$(PKG)_CONFIGURE_OPTIONS += --enable-optimizations
 $(PKG)_CONFIGURE_OPTIONS += --disable-test-modules
+$(PKG)_CONFIGURE_OPTIONS += --with-openssl=/dev/null
 
 $(PKG)_CFLAGS := $(TOOLS_CFLAGS)
 #

@@ -14,6 +14,8 @@ sec_end
 
 sec_begin "$(lang de:"Wartung" en:"Maintenance")"
 
+let INIT_WINDOW_WIDTH=$MOD_CGI_WIDTH+78
+
 cat << EOF
 <p>
 <input type="button" value="$(lang de:"Hosts jetzt herunterladen" en:"Download hosts now")" onclick="if (confirm('$(lang de:"Fortfahren?" en:"Proceed?")')==true) window.open('$(href extra addhole download)','$(lang de:"Lade Hosts herunterladen" en:"Downloading hosts now")','menubar=no,width=$INIT_WINDOW_WIDTH,height=600,toolbar=no,resizable=yes,scrollbars=yes');" />
@@ -29,7 +31,8 @@ sec_begin "$(lang de:"Einstellungen" en:"Settings")"
 
 cgi_print_textline_p "file" "$ADDHOLE_FILE" 55/255 "$(lang de:"Datei mit blockierten Hosts" en:"File with blocked hosts"): "
 
-cgi_print_textline_p "sink" "$ADDHOLE_SINK" 15/15 "$(lang de:"Ziel-IP f&uuml;r blockierte Hosts" en:"Target IP for blocked hosts"): "
+cgi_print_textline_p "sink" "$ADDHOLE_SINK" 15/15 "$(lang de:"Ziel-IPv4 f&uuml;r blockierte Hosts" en:"Target IPv4 for blocked hosts"): "
+cgi_print_textline_p "sink6" "$ADDHOLE_SINK6" 15/39 "$(lang de:"Ziel-IPv6 f&uuml;r blockierte Hosts" en:"Target IPv6 for blocked hosts"): "
 
 cgi_print_checkbox_p "keep" "$ADDHOLE_KEEP" "$(lang de:"Beim Updaten die vorherigen Hosts behalten" en:"On updating keep the previous hosts")."
 

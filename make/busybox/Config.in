@@ -6,15 +6,15 @@
 
 choice
 	prompt "BusyBox version"
-	default FREETZ_BUSYBOX__VERSION_V137
+	default FREETZ_BUSYBOX__VERSION_V138
 	default FREETZ_BUSYBOX__VERSION_V127
 
 	config FREETZ_BUSYBOX__VERSION_V127
 		bool "1.27.2"
 		depends on FREETZ_KERNEL_VERSION_2_MAX
 
-	config FREETZ_BUSYBOX__VERSION_V137
-		bool "1.37.0"
+	config FREETZ_BUSYBOX__VERSION_V138
+		bool "1.38.0"
 		depends on FREETZ_KERNEL_VERSION_3_MIN
 
 endchoice # "BusyBox version" #
@@ -22,7 +22,7 @@ endchoice # "BusyBox version" #
 config FREETZ_BUSYBOX__VERSION_STRING
 	string
 	default "1.27.2" if FREETZ_BUSYBOX__VERSION_V127
-	default "1.37.0" if FREETZ_BUSYBOX__VERSION_V137
+	default "1.38.0" if FREETZ_BUSYBOX__VERSION_V138
 
 config FREETZ_BUSYBOX__RECOMMENDED
 	bool "recommended - DEVELOPER" if FREETZ_SHOW_DEVELOPER
@@ -49,6 +49,7 @@ config FREETZ_BUSYBOX__MANDATORY
 	select FREETZ_BUSYBOX__MANDATORY_07_2X if FREETZ_AVM_VERSION_07_2X_MIN
 	select FREETZ_BUSYBOX__MANDATORY_07_5X if FREETZ_AVM_VERSION_07_5X_MIN
 	select FREETZ_BUSYBOX__MANDATORY_08_0X if FREETZ_AVM_VERSION_08_0X_MIN
+	select FREETZ_BUSYBOX__MANDATORY_08_2X if FREETZ_AVM_VERSION_08_2X_MIN
 	select FREETZ_BUSYBOX_ADDGROUP
 	select FREETZ_BUSYBOX_ADDUSER
 	select FREETZ_BUSYBOX_ASH_ALIAS
@@ -568,6 +569,13 @@ config FREETZ_BUSYBOX__MANDATORY_08_0X
 	select FREETZ_BUSYBOX_TSORT
 	help
 		Selects everything needed to run properly with Fritz!OS 8.00 and up
+
+config FREETZ_BUSYBOX__MANDATORY_08_2X
+	bool # mandatory (since Fritz!OS 8.20)"
+	depends on FREETZ_AVM_VERSION_08_2X_MIN
+	select FREETZ_BUSYBOX_GETFATTR
+	help
+		Selects everything needed to run properly with Fritz!OS 8.20 and up
 
 #config FREETZ_BUSYBOX__NOEXEC_NOFORK_OPTIMIZATIONS
 #	bool "enable NOEXEC/NOFORK performance optimizations"

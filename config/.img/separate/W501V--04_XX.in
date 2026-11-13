@@ -12,6 +12,10 @@ config FREETZ_AVM_PROP_HWREV
 	string
 	default "93"
 
+config FREETZ_AVM_PROP_PRODUKT
+	string
+	default "Fritz_Box_SpeedportW501V"
+
 config FREETZ_AVM_HAS_BRANDING_tcom
 	def_bool y
 
@@ -37,7 +41,13 @@ config FREETZ_AVM_HAS_DMESG_LINK
 config FREETZ_AVM_HAS_DSLD
 	def_bool y
 
+config FREETZ_AVM_HAS_MULTID
+	def_bool y
+
 config FREETZ_AVM_HAS_WEBSRV
+	def_bool y
+
+config FREETZ_AVM_HAS_RUN_CLOCK
 	def_bool y
 
 config FREETZ_AVM_HAS_OPENSSL

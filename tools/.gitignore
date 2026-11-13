@@ -22,6 +22,7 @@
 /eva2lzma
 /execstack
 /fastjar
+/file
 /find-squashfs
 /ftp
 /genext2fs
@@ -34,6 +35,8 @@
 /makedevs
 /md5sum
 /meson
+/mklibs
+/mklibs-readelf
 /mksquashfs2-lzma
 /mksquashfs3-multi
 /mksquashfs4-avm-be
@@ -44,11 +47,13 @@
 /ncftpput
 /ninja
 /openssl
+/patch
 /patchelf
 /sed
 /sfk
 /sha1sum
 /sha256sum
+/sha384sum
 /sha512sum
 /sum
 /tar
@@ -65,6 +70,7 @@
 /unsquashfs4-avm-le
 /unxz
 /unzip
+/uuidgen
 /wget
 /xargs
 /xdelta3

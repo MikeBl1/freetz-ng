@@ -1,11 +1,11 @@
-$(call TOOLS_INIT, 2025.04)
+$(call TOOLS_INIT, 2026.10)
 $(PKG)_SOURCE_DOWNLOAD_NAME:=v$($(PKG)_VERSION).tar.gz
-$(PKG)_SOURCE:=$(pkg_short)-$($(PKG)_VERSION).tar.gz
-$(PKG)_HASH:=d60836f86e69adecbade967ca8a0944911c2916a2f85855f2e678fc5698c1014
+$(PKG)_SOURCE:=u-boot-$($(PKG)_VERSION).tar.gz
+$(PKG)_HASH:=f943a88389c8fd70a6b0d061a88267465e143c7ca6ea2b75837ab20f5b60c739
 $(PKG)_SITE:=https://github.com/u-boot/u-boot/archive/refs/tags
 ### CHANGES:=https://github.com/u-boot/u-boot/tags
 ### CVSREPO:=https://github.com/u-boot/u-boot
-### SUPPORT:=fda77
+### STEWARD:=fda77
 
 $(PKG)_DESTDIR:=$(FREETZ_BASE_DIR)/$(TOOLS_DIR)/fit
 
@@ -62,7 +62,6 @@ $(pkg)-dirclean:
 	$(RM) -r $(UBOOT_HOST_DIR)
 
 $(pkg)-distclean: $(pkg)-dirclean
-	$(RM) \
-		$(UBOOT_HOST_BINARIES_TARGET_DIR)
+	$(RM) $(UBOOT_HOST_BINARIES_TARGET_DIR)
 
 $(TOOLS_FINISH)

@@ -12,10 +12,14 @@ config FREETZ_AVM_PROP_HWREV
 	string
 	default "107"
 
-config FREETZ_AVM_HAS_SIGNATURE
-	def_bool y
+config FREETZ_AVM_PROP_PRODUKT
+	string
+	default "Fritz_Box_7140_AnnexA"
 
 config FREETZ_AVM_HAS_BRANDING_avme
+	def_bool y
+
+config FREETZ_AVM_HAS_SIGNATURE
 	def_bool y
 
 config FREETZ_AVM_SERIAL_CONSOLE_DEVICE
@@ -55,6 +59,9 @@ config FREETZ_AVM_HAS_TELNETD
 config FREETZ_AVM_HAS_DMESG_LINK
 	def_bool y
 
+config FREETZ_AVM_HAS_HD_IDLE
+	def_bool y
+
 config FREETZ_AVM_HAS_TC
 	def_bool y
 
@@ -68,6 +75,12 @@ config FREETZ_AVM_HAS_SHOWDSLDSTAT
 	def_bool y
 
 config FREETZ_AVM_HAS_DSLD
+	def_bool y
+
+config FREETZ_AVM_HAS_MULTID
+	def_bool y
+
+config FREETZ_AVM_HAS_RUN_CLOCK
 	def_bool y
 
 config FREETZ_AVM_HAS_DTRACE

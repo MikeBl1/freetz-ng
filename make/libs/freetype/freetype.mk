@@ -1,12 +1,14 @@
-$(call PKG_INIT_LIB, 2.14.1)
-$(PKG)_LIB_VERSION:=6.20.4
+$(call PKG_INIT_LIB, 2.15.0)
+$(PKG)_LIB_VERSION:=6.20.7
 $(PKG)_SOURCE:=$(pkg)-$($(PKG)_VERSION).tar.xz
-$(PKG)_HASH:=32427e8c471ac095853212a37aef816c60b42052d4d9e48230bab3bdf2936ccc
+$(PKG)_HASH:=93cd47eb719c325107f2d3cf087d06299e944c3b48a40b55537302304dea1dd5
 $(PKG)_SITE:=@SF/freetype
 ### WEBSITE:=https://freetype.org
 ### MANPAGE:=https://freetype.org/freetype2/docs/documentation.html
 ### CHANGES:=https://freetype.org/index.html#news
 ### CVSREPO:=https://gitlab.freedesktop.org/freetype
+
+$(PKG)_CATEGORY_LIBS:=Graphics & fonts
 
 $(PKG)_BINARY:=$($(PKG)_DIR)/objs/.libs/libfreetype.so.$($(PKG)_LIB_VERSION)
 $(PKG)_STAGING_BINARY:=$(TARGET_TOOLCHAIN_STAGING_DIR)/usr/lib/libfreetype.so.$($(PKG)_LIB_VERSION)

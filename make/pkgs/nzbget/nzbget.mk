@@ -11,7 +11,7 @@ $(PKG)_SITE:=$($(PKG)_SITE_$(if $(FREETZ_PACKAGE_NZBGET_VERSION_ABANDON),ABANDON
 ### MANPAGE:=https://nzbget-ng.github.io/documentation
 ### CHANGES:=https://github.com/nzbget-ng/nzbget/tags
 ### CVSREPO:=https://github.com/nzbget-ng/nzbget
-### SUPPORT:=fda77
+### STEWARD:=fda77
 
 $(PKG)_BINARY:=$($(PKG)_DIR)/$(pkg)
 $(PKG)_STAGING_BINARY:=$(TARGET_TOOLCHAIN_STAGING_DIR)/usr/bin/$(pkg)
@@ -20,7 +20,7 @@ $(PKG)_STAGING_WEBUI_DIR:=$(TARGET_TOOLCHAIN_STAGING_DIR)/usr/share/nzbget
 $(PKG)_TARGET_WEBUI_DIR:=$($(PKG)_DEST_DIR)/usr/share/nzbget
 $(PKG)_TARGET_NZBGET_CONF:=$($(PKG)_TARGET_WEBUI_DIR)/nzbget.conf
 
-$(PKG)_DEPENDS_ON += libxml2 $(STDCXXLIB) zlib
+$(PKG)_DEPENDS_ON += libxml2 libstdcxx zlib
 $(PKG)_DEPENDS_ON += $(if $(FREETZ_PACKAGE_NZBGET_VERSION_ABANDON),,libcap)
 $(PKG)_DEPENDS_ON += $(if $(FREETZ_PACKAGE_NZBGET_WITH_CURSES),ncurses)
 $(PKG)_DEPENDS_ON += $(if $(FREETZ_PACKAGE_NZBGET_WITH_TLS),openssl)
@@ -40,6 +40,7 @@ $(PKG)_CONFIGURE_PRE_CMDS += $(SED) 's/^AC_INIT *(.*/AC_INIT( nzbget, $($(PKG)_V
 $(PKG)_CONFIGURE_PRE_CMDS += $(AUTORECONF)
 endif
 
+$(PKG)_CONFIGURE_ENV += CXX="$(TARGET_CXX_GNU)"
 $(PKG)_CONFIGURE_ENV += LIBPREF="$(TARGET_TOOLCHAIN_STAGING_DIR)/usr"
 
 $(PKG)_CONFIGURE_OPTIONS += $(if $(FREETZ_PACKAGE_NZBGET_WITH_CURSES),,--disable-curses)

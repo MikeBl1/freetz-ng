@@ -1,11 +1,12 @@
-$(call PKG_INIT_BIN, 1.7.2)
+$(call PKG_INIT_BIN, 1.8.1)
+# no meson because of fitdump !
 $(PKG)_SOURCE:=dtc-$($(PKG)_VERSION).tar.xz
-$(PKG)_HASH:=92d8ca769805ae1f176204230438fe52808f4e1c7944053c9eec0e649b237539
+$(PKG)_HASH:=23526015a6f1550e0541a53fe7acea1b5a11e3697cdf3a3bdc076abc38f6045d
 $(PKG)_SITE:=@KERNEL/software/utils/dtc
 ### WEBSITE:=https://git.kernel.org/pub/scm/utils/dtc/dtc.git
 ### CHANGES:=https://git.kernel.org/pub/scm/utils/dtc/dtc.git/log/
 ### CVSREPO:=https://git.kernel.org/pub/scm/utils/dtc/dtc.git/refs/
-### SUPPORT:=fda77
+### STEWARD:=fda77
 
 $(PKG)_BINARIES            := fdtdump fdtget fdtput fitdump
 $(PKG)_BINARIES_BUILD_DIR  := $($(PKG)_BINARIES:%=$($(PKG)_DIR)/%)
@@ -17,7 +18,7 @@ $(PKG)_EXCLUDED += $(if $(FREETZ_PACKAGE_DTC_fdtput)  ,,usr/bin/fdtput)
 $(PKG)_EXCLUDED += $(if $(FREETZ_PACKAGE_DTC_fitdump) ,,usr/bin/fitdump)
 
 
-# dtc-host and dtc using the same source, libdtc-host an older version
+# dtc-host and dtc using the same source
 ifneq ($($(PKG)_SOURCE),$(DTC_HOST_SOURCE))
 $(PKG_SOURCE_DOWNLOAD)
 endif
@@ -26,6 +27,7 @@ $(PKG_CONFIGURED_NOP)
 
 $($(PKG)_BINARIES_BUILD_DIR): $($(PKG)_DIR)/.configured
 	$(SUBMAKE) -C $(DTC_DIR) \
+		NO_PYTHON=1 \
 		CC="$(TARGET_CC)" \
 		CFLAGS="$(TARGET_CFLAGS) -O0" \
 		LDFLAGS="$(TARGET_LDFLAGS)" \

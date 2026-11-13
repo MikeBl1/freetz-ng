@@ -1,12 +1,14 @@
-$(call PKG_INIT_LIB, 1.3.1)
+$(call PKG_INIT_LIB, 1.4)
 $(PKG)_LIB_VERSION:=$($(PKG)_VERSION)
 $(PKG)_SOURCE:=$(pkg)-$($(PKG)_VERSION).tar.xz
-$(PKG)_HASH:=38ef96b8dfe510d42707d9c781877914792541133e1870841463bfa73f883e32
+$(PKG)_HASH:=4f11c512053d7bab8d9e9b89bde3575add3e4c50a383b42ef6cb837035fc5a7c
 $(PKG)_SITE:=https://www.zlib.net,https://github.com/madler/zlib/releases/download/v$($(PKG)_VERSION)
 ### WEBSITE:=https://www.zlib.net/
 ### MANPAGE:=https://www.zlib.net/manual.html
 ### CHANGES:=https://www.zlib.net/
 ### CVSREPO:=https://github.com/madler/zlib
+
+$(PKG)_CATEGORY_LIBS:=Data compression
 
 $(PKG)_BINARY:=$($(PKG)_DIR)/libz.so.$($(PKG)_LIB_VERSION)
 $(PKG)_STAGING_BINARY:=$(TARGET_TOOLCHAIN_STAGING_DIR)/usr/lib/libz.so.$($(PKG)_LIB_VERSION)

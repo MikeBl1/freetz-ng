@@ -1,15 +1,17 @@
-$(call PKG_INIT_BIN, $(if $(FREETZ_LIB_librrd_WITH_VERSION_ABANDON),1.2.30,1.9.0))
+$(call PKG_INIT_BIN, $(if $(FREETZ_LIB_librrd_WITH_VERSION_ABANDON),1.2.30,1.11.0))
 $(PKG)_LIB_VERSION:=$(if $(FREETZ_LIB_librrd_WITH_VERSION_ABANDON),2.0.15,8.3.0)
 $(PKG)_SOURCE:=$(pkg)-$($(PKG)_VERSION).tar.gz
 $(PKG)_HASH_ABANDON:=3190efea410a6dd035799717948b2df09910f608d72d23ee81adad4cd0184ae9
-$(PKG)_HASH_CURRENT:=5e65385e51f4a7c4b42aa09566396c20e7e1a0a30c272d569ed029a81656e56b
+$(PKG)_HASH_CURRENT:=24c345b5c077c1b2b2fcbc1a364f1da051650fb6743ad5213096adc04c862ed4
 $(PKG)_HASH:=$($(PKG)_HASH_$(if $(FREETZ_LIB_librrd_WITH_VERSION_ABANDON),ABANDON,CURRENT))
 $(PKG)_SITE:=https://github.com/oetiker/rrdtool-1.x/releases/download/v$($(PKG)_VERSION),https://oss.oetiker.ch/rrdtool/pub/archive
 ### WEBSITE:=https://www.rrdtool.org
 ### MANPAGE:=https://oss.oetiker.ch/rrdtool/doc
 ### CHANGES:=https://github.com/oetiker/rrdtool-1.x/blob/master/CHANGES
 ### CVSREPO:=https://github.com/oetiker/rrdtool-1.x
-### SUPPORT:=fda77
+### STEWARD:=fda77
+
+$(PKG)_CATEGORY_LIBS:=Databases##rrdtool
 
 $(PKG)_CONDITIONAL_PATCHES+=$(if $(FREETZ_LIB_librrd_WITH_VERSION_ABANDON),abandon,current)
 
@@ -24,10 +26,13 @@ $(PKG)_LIBS_BUILD_DIR:=$($(PKG)_LIBS_SELECTED:%=$($(PKG)_DIR)/src/.libs/%)
 $(PKG)_LIBS_STAGING_DIR:=$($(PKG)_LIBS_SELECTED:%=$(TARGET_TOOLCHAIN_STAGING_DIR)/usr/lib/%)
 $(PKG)_LIBS_TARGET_DIR:=$($(PKG)_LIBS_SELECTED:%=$($(PKG)_TARGET_LIBDIR)/%)
 
+$(PKG)_CONFIGURE_PRE_CMDS += $(call PKG_PREVENT_RPATH_HARDCODING,./configure)
+
 ifeq ($(strip $(FREETZ_LIB_librrd_WITH_VERSION_ABANDON)),y)
+$(PKG)_DEPENDS_ON += config-host
 $(PKG)_DEPENDS_ON += libpng freetype libart_lgpl zlib
 
-$(PKG)_CONFIGURE_PRE_CMDS += $(call PKG_PREVENT_RPATH_HARDCODING,./configure)
+$(PKG)_CONFIGURE_PRE_CMDS += $(call PKG_UPDATE_CONFIGS,./)
 
 $(PKG)_CONFIGURE_ENV += ac_cv_func_setpgrp_void=yes
 $(PKG)_CONFIGURE_ENV += rd_cv_ieee_works=yes

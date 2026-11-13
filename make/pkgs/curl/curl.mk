@@ -1,15 +1,17 @@
-$(call PKG_INIT_BIN, $(if $(FREETZ_LIB_libcurl_WITH_VERSION_ABANDON),8.12.1,8.16.0))
+$(call PKG_INIT_BIN, $(if $(FREETZ_LIB_libcurl_WITH_VERSION_ABANDON),8.12.1,8.23.0))
 $(PKG)_LIB_VERSION:=4.8.0
 $(PKG)_SOURCE:=$(pkg)-$($(PKG)_VERSION).tar.xz
 $(PKG)_HASH_ABANDON:=0341f1ed97a26c811abaebd37d62b833956792b7607ea3f15d001613c76de202
-$(PKG)_HASH_CURRENT:=40c8cddbcb6cc6251c03dea423a472a6cea4037be654ba5cf5dec6eb2d22ff1d
+$(PKG)_HASH_CURRENT:=8dadd7d2536a314f982ad05a651b713f426bf7d02cc2c76cffb9796f2218e6c5
 $(PKG)_HASH:=$($(PKG)_HASH_$(if $(FREETZ_LIB_libcurl_WITH_VERSION_ABANDON),ABANDON,CURRENT))
 $(PKG)_SITE:=https://curl.se/download,https://curl.haxx.se/download
 ### WEBSITE:=https://curl.se/
 ### MANPAGE:=https://curl.se/docs/manpage.html
 ### CHANGES:=https://curl.se/changes.html
 ### CVSREPO:=https://github.com/curl/curl
-### SUPPORT:=fda77
+### STEWARD:=fda77
+
+$(PKG)_CATEGORY_LIBS:=Web & WebDAV
 
 $(PKG)_CONDITIONAL_PATCHES+=$(if $(FREETZ_LIB_libcurl_WITH_VERSION_ABANDON),abandon,current)
 

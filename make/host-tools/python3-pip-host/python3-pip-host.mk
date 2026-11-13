@@ -1,14 +1,14 @@
-$(call TOOLS_INIT, 25.1.1)
+$(call TOOLS_INIT, 26.2.1)
 #
 $(PKG)_SOURCE_DOWNLOAD_NAME:=pip-$($(PKG)_VERSION).tar.gz
 $(PKG)_SOURCE:=$(pkg_short)-$($(PKG)_VERSION).tar.gz
-$(PKG)_HASH:=3de45d411d308d5054c2168185d8da7f9a2cd753dbac8acbfa88a8909ecd9077
-$(PKG)_SITE:=https://distfiles.macports.org/py-pip,https://files.pythonhosted.org/packages/59/de/241caa0ca606f2ec5fe0c1f4261b0465df78d786a38da693864a116c37f4
+$(PKG)_HASH:=f6ad667e89a1fe78046c8f13232b247200f5258d7828f3f7883d660878e0813f
+$(PKG)_SITE:=http://download.openpkg.org/components/cache/python-setup,https://distfiles.macports.org/py-pip,https://files.pythonhosted.org/packages/ae/15/4500e320e6b101ec3b719ae85b697d9940b6cda672bc555bd6016fc60c6f
 ### WEBSITE:=https://pypi.org/project/pip/
 ### MANPAGE:=https://pip.pypa.io/
 ### CHANGES:=https://pypi.org/project/pip/#history
 ### CVSREPO:=https://github.com/pypa/pip
-### SUPPORT:=fda77
+### STEWARD:=fda77
 
 $(PKG)_DEPENDS_ON+=python3-host
 

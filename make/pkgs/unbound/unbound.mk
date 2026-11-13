@@ -1,13 +1,15 @@
-$(call PKG_INIT_BIN, 1.24.1)
-$(PKG)_LIB_VERSION:=8.1.34
+$(call PKG_INIT_BIN, 1.26.2)
+$(PKG)_LIB_VERSION:=8.1.41
 $(PKG)_SOURCE:=$(pkg)-$($(PKG)_VERSION).tar.gz
-$(PKG)_HASH:=7f2b1633e239409619ae0527f67878b0f33ae0ec0ee5a3a51c042c359ba1eeab
+$(PKG)_HASH:=d8ee7aa6bbb3ff1be7d9e57637d0d0ec2f18273a8efff1a0afe2c665858b96f7
 $(PKG)_SITE:=https://www.unbound.net/downloads
 ### WEBSITE:=https://www.unbound.net
 ### MANPAGE:=https://www.unbound.net/documentation/unbound.html
 ### CHANGES:=https://www.nlnetlabs.nl/projects/unbound/download/
 ### CVSREPO:=https://github.com/NLnetLabs/unbound
-### SUPPORT:=fda77
+### STEWARD:=fda77
+
+$(PKG)_CATEGORY_LIBS:=Networking
 
 $(PKG)_STARTLEVEL=40 # multid-wrapper may start it earlier!
 

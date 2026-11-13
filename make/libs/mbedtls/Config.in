@@ -1,9 +1,30 @@
+choice
+	prompt "MbedTLS version"
+	default FREETZ_MBEDTLS_VERSION_306
+	default FREETZ_MBEDTLS_VERSION_228
+	default FREETZ_MBEDTLS_VERSION_207
+
+	config FREETZ_MBEDTLS_VERSION_207
+		bool "2.7 - DEPRECATED"
+		depends on  FREETZ_TARGET_GCC_4_MAX && !FREETZ_SYSTEM_TYPE_PUMA6
+
+	config FREETZ_MBEDTLS_VERSION_228
+		bool "2.28 - DEPRECATED"
+		depends on !FREETZ_TARGET_GCC_4_MAX ||  FREETZ_SYSTEM_TYPE_PUMA6
+
+	config FREETZ_MBEDTLS_VERSION_306
+		bool "3.6"
+		depends on !FREETZ_TARGET_GCC_4_MAX
+
+endchoice # "MbedTLS version"
+
 config FREETZ_LIB_libmbedcrypto
 	bool "mbedCrypto (libmbedcrypto.so)"
 	default n
 
 	config FREETZ_LIB_libmbedcrypto_WITH_BLOWFISH
 		bool "With Blowfish cipher" if FREETZ_LIB_libmbedcrypto
+		depends on FREETZ_MBEDTLS_VERSION_228_MAX
 		default n
 		help
 			Enables support for the Blowfish block cipher.
@@ -22,24 +43,45 @@ config FREETZ_LIB_libmbedx509
 	bool "mbedX.509 (libmbedx509.so)"
 	default n
 
-choice
-	prompt "mbedTLS version"
-#	default FREETZ_MBEDTLS_VERSION_306
-	default FREETZ_MBEDTLS_VERSION_228
-	default FREETZ_MBEDTLS_VERSION_207
+config FREETZ_MBEDTLS_SHORT_VERSION
+	string
+	default "2.7"   if FREETZ_MBEDTLS_VERSION_207
+	default "2.28"  if FREETZ_MBEDTLS_VERSION_228
+	default "3.6"   if FREETZ_MBEDTLS_VERSION_306
 
-	config FREETZ_MBEDTLS_VERSION_207
-		bool "2.7 - DEPRECATED"
-		depends on  FREETZ_TARGET_GCC_4_MAX && !FREETZ_SYSTEM_TYPE_PUMA6
 
-	config FREETZ_MBEDTLS_VERSION_228
-		bool "2.28 - DEPRECATED"
-		depends on !FREETZ_TARGET_GCC_4_MAX ||  FREETZ_SYSTEM_TYPE_PUMA6
+config FREETZ_MBEDTLS_VERSION_207_MIN
+	def_bool y
+	depends on \
+		FREETZ_MBEDTLS_VERSION_207 || \
+		FREETZ_MBEDTLS_VERSION_228_MIN
 
-	config FREETZ_MBEDTLS_VERSION_306
-		bool "3.6 - DEVELOPER"
-		depends on FREETZ_SHOW_DEVELOPER
-		depends on !FREETZ_TARGET_GCC_4_MAX
+config FREETZ_MBEDTLS_VERSION_228_MIN
+	def_bool y
+	depends on \
+		FREETZ_MBEDTLS_VERSION_228 || \
+		FREETZ_MBEDTLS_VERSION_306_MIN
 
-endchoice # "mbedTLS version"
+config FREETZ_MBEDTLS_VERSION_306_MIN
+	def_bool y
+	depends on \
+		FREETZ_MBEDTLS_VERSION_306
+
+
+config FREETZ_MBEDTLS_VERSION_207_MAX
+	def_bool y
+	depends on \
+		FREETZ_MBEDTLS_VERSION_207
+
+config FREETZ_MBEDTLS_VERSION_228_MAX
+	def_bool y
+	depends on \
+		FREETZ_MBEDTLS_VERSION_228 || \
+		FREETZ_MBEDTLS_VERSION_207_MAX
+
+config FREETZ_MBEDTLS_VERSION_306_MAX
+	def_bool y
+	depends on \
+		FREETZ_MBEDTLS_VERSION_306 || \
+		FREETZ_MBEDTLS_VERSION_228_MAX
 

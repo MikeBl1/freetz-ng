@@ -8,16 +8,20 @@ $(PKG)_SITE:=https://www.intra2net.com/en/developer/libftdi/download
 ### CHANGES:=https://www.intra2net.com/en/developer/libftdi/index.php
 ### CVSREPO:=http://developer.intra2net.com/git/?p=libftdi
 
+$(PKG)_CATEGORY_LIBS:=USB & related
+
 $(PKG)_BINARY:=$($(PKG)_DIR)/src/.libs/$(pkg).so.$($(PKG)_LIB_VERSION)
 $(PKG)_STAGING_BINARY:=$(TARGET_TOOLCHAIN_STAGING_DIR)/usr/lib/$(pkg).so.$($(PKG)_LIB_VERSION)
 $(PKG)_TARGET_BINARY:=$($(PKG)_TARGET_DIR)/$(pkg).so.$($(PKG)_LIB_VERSION)
 
-$(PKG)_DEPENDS_ON += libusb
+$(PKG)_DEPENDS_ON += config-host
+$(PKG)_DEPENDS_ON += libusb0
 
-$(PKG)_REBUILD_SUBOPTS += FREETZ_LIB_libusb_0_WITH_LEGACY
-$(PKG)_REBUILD_SUBOPTS += FREETZ_LIB_libusb_0_WITH_COMPAT
+$(PKG)_REBUILD_SUBOPTS += FREETZ_LIB_libusb0_WITH_VERSION_ABANDON
+$(PKG)_REBUILD_SUBOPTS += FREETZ_LIB_libusb0_WITH_VERSION_CURRENT
 
 $(PKG)_CONFIGURE_PRE_CMDS += $(call PKG_PREVENT_RPATH_HARDCODING,./configure)
+$(PKG)_CONFIGURE_PRE_CMDS += $(call PKG_UPDATE_CONFIGS,./)
 
 $(PKG)_CONFIGURE_OPTIONS += --enable-shared
 $(PKG)_CONFIGURE_OPTIONS += --enable-static

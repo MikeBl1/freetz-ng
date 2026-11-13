@@ -11,6 +11,9 @@ Index: [A](#a) - [B](#b) - [C](#c) - [D](#d) - [E](#e) - [F](#f) - [G](#g) - [H]
   * **<u>Remove Annex B firmware</u><a id='remove-annex-b-firmware'></a>**<br>
     Remove lib/modules/dsp_*/*-B-dsl.bin. This saves about 330-400 KB of uncompressed data size.
 
+  * **<u>Remove ASSETSD (assets downloader)</u><a id='remove-assetsd'></a>**<br>
+    Remove assetsd (assets downloader) files At least you can no longer download and update: - AVM IP-Sperrliste with eg ExpressVPN and egypt providers Vacation in Egypt? Unfortunately, no access to your Fritzbox! Not even if you chose wrong VPN provider. - Secret and unverifiable german BPjM-Sperrliste
+
   * **[Remove assistant (wizard)](REMOVE_ASSISTANT.md)<a id='remove-assistant'></a>**<br>
     Removes the installation assistant from the web menu.
 
@@ -99,10 +102,13 @@ Index: [A](#a) - [B](#b) - [C](#c) - [D](#d) - [E](#e) - [F](#f) - [G](#g) - [H]
     Remove /usr/bin/dect_update. This utility is only needed to update the dect firmware. This will save about 32kB uncompressed size.
 
   * **<u>Remove dsl_control</u><a id='remove-dsl-control'></a>**<br>
-    Removes /usr/sbin/dsl_control. This saves about 540-669 KB of uncompressed data size. Select this only if you don't use the the DSL modem. See https://web.archive.org/20200701000000/wehavemorefun.de/fritzbox/Dsl_control
+    Removes /usr/sbin/dsl_control. This saves about 540-669 KB of uncompressed data size. Select this only if you don't use the DSL modem. See https://web.archive.org/20200701000000/wehavemorefun.de/fritzbox/Dsl_control
 
   * **[Remove dsld](REMOVE_DSLD.md)<a id='remove-dsld'></a>**<br>
     Remove DSL daemon (dsld), if you are planning to use your box as a simple IP client ("Internet mitbenutzen") without routing. ATA ("via Lan1") and DSL mode will not work anymore. ATTENTION: You won't be able to use your box as a modem nor a router anymore. As well do *not* use this option if your ATA mode box uses PPPoE passthrough, because in this case dsld is still needed! Furthermore, selecting this patch also selects the UPnP patch, because UPnP must be deactivated anyway for IP clients, otherwise dsld will be used again. You can find the UPnP settings in the German web UI under Einstellungen System Netzwerkeinstellungen Statusinformationen ueber UPnP uebertragen (empfohlen) Thirdly, the usermand patch will also be selected if you activate this option, because kernel module userman.ko always depends on kdsldmod.ko which is stripped by this patch.
+
+  * **<u>Remove dsl_daemon</u><a id='remove-dsl-daemon'></a>**<br>
+    Removes /usr/sbin/dsl_daemon, the successor of dsl_control. This saves about 1500 KB of uncompressed data size. Select this only if you don't use the DSL modem. For dsl_control see https://web.archive.org/20200701000000/wehavemorefun.de/fritzbox/Dsl_control
 
   * **<u>Remove dtrace</u><a id='remove-dtrace'></a>**<br>
     Remove /usr/bin/dtrace. This utility is only needed to trace ISDN D-channel. This will save about 87kB uncompressed size.
@@ -127,6 +133,9 @@ Index: [A](#a) - [B](#b) - [C](#c) - [D](#d) - [E](#e) - [F](#f) - [G](#g) - [H]
     Remove FTP daemon (ftpd) This patch removes AVM's ftp daemon. The regular options in AVM's Webinterface are still present. If you select this item your USB drives won't be accessible through ftp anymore. But you can use Freetz bftpd/vsftpd package to grant ftp access to the devices.
 
 ### H
+
+  * **<u>REMOVE_HD_IDLE: Remove hd-idle</u><a id='remove-hd-idle'></a>**<br>
+    Remove hd-idle binary (about 9-66 kB uncompressed). The hd-idle binary is only usefull if you use a HDD. A SSD or USB stick does not need hd-idle.
 
   * **[Remove help](REMOVE_HELP.md)<a id='remove-help'></a>**<br>
     Removes the (offline) help pages from the web menu.
@@ -162,6 +171,8 @@ Index: [A](#a) - [B](#b) - [C](#c) - [D](#d) - [E](#e) - [F](#f) - [G](#g) - [H]
   * **<u>REMOVE_LANGUAGE_nl: nl</u><a id='remove-language-nl'></a>**<br>
 
   * **<u>REMOVE_LANGUAGE_pl: pl</u><a id='remove-language-pl'></a>**<br>
+
+  * **<u>REMOVE_LANGUAGE_sl: sl</u><a id='remove-language-sl'></a>**<br>
 
   * **<u>Remove leftover</u><a id='remove-leftover'></a>**<br>
     This enables the scripts in patches/cond/300-remove-leftover/ which remove some unused leftovers of avm, currently 111-disable_crashreport.sh 170-remove_dect_related_files_on_nondect_box.sh 510-remove_usbmon.sh 565-remove_more.sh 565-remove_ncurses.sh 570-remove-trustedd.sh 800-remove_oemcheck.sh 800-remove_ptest.sh
@@ -303,7 +314,7 @@ Index: [A](#a) - [B](#b) - [C](#c) - [D](#d) - [E](#e) - [F](#f) - [G](#g) - [H]
 ### U
 
   * **[REMOVE_UMTSD: Remove UMTS (USB GSM)](REMOVE_UMTSD.md)<a id='remove-umtsd'></a>**<br>
-    Remove UMTS support This patch will remove UMTS-dependent files from firmware. It saves about 12K compressed space in kernel.image.
+    Remove UMTS support This patch will remove UMTS and MOBILED dependent files from firmware. It saves about 12 KB - 176 KB compressed space in kernel.image.
 
   * **<u>Remove UNTRUSTEDD - DEVELOPER</u><a id='remove-untrustedd'></a>**<br>
     This removes the untrustedd daemon (10kB uncompressed) and related service script. Known so far: Nothing.

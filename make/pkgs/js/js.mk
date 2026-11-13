@@ -4,6 +4,8 @@ $(PKG)_SOURCE:=$(pkg)-$($(PKG)_VERSION).tar.gz
 $(PKG)_HASH:=b33014be72cd1030e171b1801a5cc90f8f727f03b197c7cc0d506c30c991ed44
 $(PKG)_SITE:=ftp://ftp.ossp.org/pkg/lib/js
 
+$(PKG)_CATEGORY_LIBS:=Web & WebDAV
+
 $(PKG)_BINARY_BUILD_DIR:=$($(PKG)_DIR)/.libs/js
 $(PKG)_BINARY_TARGET_DIR:=$($(PKG)_DEST_DIR)/usr/bin/js
 
@@ -12,6 +14,7 @@ $(PKG)_LIBRARY_BUILD_DIR:=$($(PKG)_DIR)/.libs/$($(PKG)_LIBNAME)
 $(PKG)_LIBRARY_STAGING_DIR:=$(TARGET_TOOLCHAIN_STAGING_DIR)/usr/lib/$($(PKG)_LIBNAME)
 $(PKG)_LIBRARY_TARGET_DIR:=$($(PKG)_TARGET_LIBDIR)/$($(PKG)_LIBNAME)
 
+$(PKG)_DEPENDS_ON += config-host
 $(PKG)_DEPENDS_ON += wget-host
 
 $(PKG)_CONFIGURE_OPTIONS += --enable-shared
@@ -22,6 +25,9 @@ $(PKG)_CONFIGURE_OPTIONS += --without-file
 $(PKG)_CONFIGURE_OPTIONS += --without-perl
 
 $(PKG)_CONFIGURE_ENV += ac_cv_va_copy=C99
+
+$(PKG)_CONFIGURE_PRE_CMDS += $(call PKG_UPDATE_CONFIGS,./)
+
 
 $(PKG_SOURCE_DOWNLOAD)
 $(PKG_UNPACKED)
@@ -47,6 +53,7 @@ $($(PKG)_LIBRARY_TARGET_DIR): $($(PKG)_LIBRARY_STAGING_DIR)
 $(pkg): $($(PKG)_LIBRARY_STAGING_DIR)
 
 $(pkg)-precompiled: $($(PKG)_BINARY_TARGET_DIR) $($(PKG)_LIBRARY_TARGET_DIR)
+
 
 $(pkg)-clean:
 	-$(SUBMAKE) -C $(JS_DIR) clean

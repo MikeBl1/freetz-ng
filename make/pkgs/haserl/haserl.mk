@@ -6,7 +6,7 @@ $(PKG)_SITE:=@SF/haserl
 ### MANPAGE:=http://haserl.sourceforge.net/manpage.html
 ### CHANGES:=https://sourceforge.net/p/haserl/mailman/haserl-users/
 ### CVSREPO:=https://sourceforge.net/projects/haserl/files/
-### SUPPORT:=fda77
+### STEWARD:=fda77
 
 $(PKG)_BINARY:=$($(PKG)_DIR)/src/haserl
 $(PKG)_TARGET_BINARY:=$($(PKG)_DEST_DIR)/usr/bin/haserl
@@ -16,7 +16,6 @@ $(PKG)_REBUILD_SUBOPTS += FREETZ_LIB_liblua_WITH_VERSION_ABANDON
 
 ifeq ($(strip $(FREETZ_PACKAGE_HASERL_WITH_LUA)),y)
 $(PKG)_DEPENDS_ON += lua
-$(PKG)_CONDITIONAL_PATCHES+=lua-$(if $(FREETZ_LIB_liblua_WITH_VERSION_ABANDON),abandon,current)
 $(PKG)_CONFIGURE_OPTIONS += --enable-luashell
 $(PKG)_CONFIGURE_OPTIONS += --enable-luacshell
 $(PKG)_CONFIGURE_OPTIONS += --with-lua

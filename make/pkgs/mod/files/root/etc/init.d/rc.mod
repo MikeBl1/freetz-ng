@@ -1,6 +1,6 @@
 #!/bin/sh
 
-[ -z "$1" ] && [ -e /tmp/.mod.started ] && echo "Freetz is yet started!" && exit 1
+[ -z "$1" ] && [ -e /tmp/.mod.started ] && echo "Freetz-NG is yet started!" && exit 1
 
 DAEMON=mod
 . /etc/init.d/modlibrc
@@ -80,7 +80,7 @@ motd() {
 }
 
 ar7lite() {
-	[ -e /bin/upx-hwk-boot-prx -o -e /usr/libexec/msoc/HW273/send-firmware ] || return
+	[ -z "$FREETZ_AVM_HAS_AR7_LITE" ] && return
 	local fit="/var/media/ftp/fit-image/${CONFIG_VERSION//\./-}-$(/etc/version --project 2>/dev/null).fit"
 	[ -e "$fit" ] && return
 	echo "For the fiber module you need a unmodified fit-image. Extract this"
@@ -99,7 +99,7 @@ update_lfs() {
 }
 
 start() {
-	echo "Freetz version $(sed 's/^freetz-//' /etc/.freetz-version)"
+	echo "Freetz-NG $(sed 's/^freetz-//;s/^ng-//' /etc/.freetz-version)"
 
 	# Basic Packages: links
 	for pkg in crond telnetd webcfg stickymon dsld ftpd rextd multid swap external websrv smbd; do

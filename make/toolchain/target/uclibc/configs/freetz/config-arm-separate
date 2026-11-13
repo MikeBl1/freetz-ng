@@ -1,6 +1,6 @@
 #
 # Automatically generated file; DO NOT EDIT.
-# uClibc-ng 1.0.55 C Library Configuration
+# uClibc-ng 1.0.59 C Library Configuration
 #
 # TARGET_aarch64 is not set
 # TARGET_alpha is not set
@@ -18,6 +18,7 @@ TARGET_arm=y
 # TARGET_ia64 is not set
 # TARGET_kvx is not set
 # TARGET_lm32 is not set
+# TARGET_loongarch is not set
 # TARGET_m68k is not set
 # TARGET_metag is not set
 # TARGET_microblaze is not set
@@ -181,6 +182,7 @@ UCLIBC_HAS_CTYPE_SIGNED=y
 UCLIBC_HAS_CTYPE_CHECKED=y
 # UCLIBC_HAS_CTYPE_ENFORCED is not set
 UCLIBC_HAS_WCHAR=y
+# UCLIBC_HAS_UCHAR is not set
 UCLIBC_HAS_LIBICONV=y
 # UCLIBC_HAS_LIBINTL is not set
 UCLIBC_HAS_LOCALE=y

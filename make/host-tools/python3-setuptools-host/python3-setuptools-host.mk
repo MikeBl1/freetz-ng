@@ -1,14 +1,14 @@
-$(call TOOLS_INIT, 80.9.0)
+$(call TOOLS_INIT, 84.0.0)
 #
 $(PKG)_SOURCE_DOWNLOAD_NAME:=setuptools-$($(PKG)_VERSION).tar.gz
 $(PKG)_SOURCE:=$(pkg_short)-$($(PKG)_VERSION).tar.gz
-$(PKG)_HASH:=f36b47402ecde768dbfafc46e8e4207b4360c654f1f3bb84475f0a28628fb19c
-$(PKG)_SITE:=https://distfiles.macports.org/py-setuptools,https://files.pythonhosted.org/packages/18/5d/3bf57dcd21979b887f014ea83c24ae194cfcd12b9e0fda66b957c69d1fca
+$(PKG)_HASH:=f4695c21257f0d9b537ec2692c941d02ee143b7cc1276941349a546573b2ef73
+$(PKG)_SITE:=https://distfiles.macports.org/py-setuptools,https://files.pythonhosted.org/packages/6d/44/f5da03a8ef95d369145c5bb53050e7877c9f3d312e128605fd9504829143
 ### WEBSITE:=https://pypi.org/project/setuptools/
 ### MANPAGE:=https://setuptools.pypa.io/
 ### CHANGES:=https://pypi.org/project/setuptools/#history
 ### CVSREPO:=https://github.com/pypa/setuptools
-### SUPPORT:=fda77
+### STEWARD:=fda77
 
 $(PKG)_DEPENDS_ON+=python3-pip-host
 

@@ -20,7 +20,7 @@ Index: [A](#a) - [B](#b) - [C](#c) - [D](#d) - [E](#e) - [F](#f) - [G](#g) - [H]
 
 ### C
 
-  * **[Cairo (libcairo.so) 1.18.4](cairo.md)<a id='cairo'></a>**<br>
+  * **[Cairo (libcairo.so) 1.18.6](cairo.md)<a id='cairo'></a>**<br>
     Cairo is a 2D graphics library with support for multiple output devices. Cairo is designed to produce consistent output on all output media while taking advantage of display hardware acceleration when available.
 
 ### D
@@ -33,7 +33,7 @@ Index: [A](#a) - [B](#b) - [C](#c) - [D](#d) - [E](#e) - [F](#f) - [G](#g) - [H]
 
 ### E
 
-  * **[expat: libexpat (libexpat.so) 2.7.3](expat.md)<a id='expat'></a>**<br>
+  * **[expat: libexpat (libexpat.so) 2.7.5/2.10.0](expat.md)<a id='expat'></a>**<br>
     This is Expat, a C library for parsing XML, written by James Clark. Expat is a stream-oriented XML parser. This means that you register handlers with the parser before starting the parse. These handlers are called when the parser discovers the associated structures in the document being parsed. A start tag is an example of the kind of structures for which you may register handlers.
 
 ### F
@@ -41,18 +41,21 @@ Index: [A](#a) - [B](#b) - [C](#c) - [D](#d) - [E](#e) - [F](#f) - [G](#g) - [H]
   * **[FLAC (libFLAC.so) 1.3.2](flac.md)<a id='flac'></a>**<br>
     Free Lossless Audio Codec library.
 
-  * **[FreeType (freetype.so) 2.14.1](freetype.md)<a id='freetype'></a>**<br>
+  * **[FreeType (freetype.so) 2.15.0](freetype.md)<a id='freetype'></a>**<br>
     FreeType 2 is a software font engine that is designed to be small, efficient, highly customizable, and portable while capable of producing high-quality output (glyph images). It can be used in graphics libraries, display servers, font conversion tools, text image generation tools, and many other products as well.
 
-  * **[FriBidi (libfribidi.so) 1.0.16](fribidi.md)<a id='fribidi'></a>**<br>
+  * **[FriBidi (libfribidi.so) 1.0.18](fribidi.md)<a id='fribidi'></a>**<br>
     The Free Implementation of the Unicode Bidirectional Algorithm.
 
 ### G
 
-  * **[gettext (libintl.so) 0.24](gettext.md)<a id='gettext'></a>**<br>
+  * **[gensio: libgensio (libgensio.so) 3.0.4](gensio.md)<a id='gensio'></a>**<br>
+    Gensio - a library for abstracting stream I/O. Provides network and serial I/O with support for TCP, UDP, serial devices, telnet, SSL/TLS, and more.
+
+  * **[gettext (libintl.so) 1.0](gettext.md)<a id='gettext'></a>**<br>
     GNU Internationalization library
 
-  * **[GLib2 libglib (libglib-2.0.so) 2.32.4/2.81.2](glib2.md)<a id='glib2'></a>**<br>
+  * **[glib2: libglib (libglib-2.0.so) 2.32.4/2.90.1](glib2.md)<a id='glib2'></a>**<br>
     GLib is a library containing many useful C routines for things such as trees, hashes, and lists.
 
   * **[gmp: GNU MP Bignum Library (libgmp.so) 6.3.0](gmp.md)<a id='gmp'></a>**<br>
@@ -63,7 +66,7 @@ Index: [A](#a) - [B](#b) - [C](#c) - [D](#d) - [E](#e) - [F](#f) - [G](#g) - [H]
 
 ### H
 
-  * **[HarfBuzz (libharfbuzz.so) 12.1.0](harfbuzz.md)<a id='harfbuzz'></a>**<br>
+  * **[HarfBuzz (libharfbuzz.so) 15.1.0](harfbuzz.md)<a id='harfbuzz'></a>**<br>
     HarfBuzz is a text shaping engine. It primarily supports OpenType, but also Apple Advanced Typography.
 
 ### I
@@ -98,19 +101,22 @@ Index: [A](#a) - [B](#b) - [C](#c) - [D](#d) - [E](#e) - [F](#f) - [G](#g) - [H]
   * **[libavmhmac (libavmhmac.so) - EXPERIMENTAL 0.2](libavmhmac.md)<a id='libavmhmac'></a>**<br>
     Replaces AVM's libavmhmac. Our libavmhmac only forwards functions to openssl's libcrypto where AVM wrote their own implementations. We have no clue why they did this.
 
-  * **[libcap (libcap.so) 2.49/2.75](libcap.md)<a id='libcap'></a>**<br>
+  * **[libcap (libcap.so) 2.49/2.78](libcap.md)<a id='libcap'></a>**<br>
     A library for getting and setting POSIX.1e (formerly POSIX 6) draft 15 capabilities.
 
   * **[libcapi: CAPI 2.0 (libcapi20.so) avm-7390.05.50](libcapi.md)<a id='libcapi'></a>**<br>
     COMMON-ISDN-API (CAPI) 2.0 Library
 
-  * **[libcap-ng (libcap-ng.so) 0.8.5](libcap-ng.md)<a id='libcap-ng'></a>**<br>
+  * **[libcap-ng (libcap-ng.so) 0.9.6](libcap-ng.md)<a id='libcap-ng'></a>**<br>
     The libcap-ng library should make programming with posix capabilities easier. The library has some utilities to help you analyse a system for apps that may have too much privileges.
+
+  * **[libcjson (libcjson.so) 1.7.19](libcjson.md)<a id='libcjson'></a>**<br>
+    Ultralightweight JSON parser in ANSI C.
 
   * **[libconfig (libconfig.so) 1.5](libconfig.md)<a id='libconfig'></a>**<br>
     Libconfig is a simple library for processing structured configuration files. Libconfig is very compact - just 46K for the stripped C shared library. This makes it well-suited for memory-constrained systems.
 
-  * **[libconfuse (libconfuse.so) 3.3](libconfuse.md)<a id='libconfuse'></a>**<br>
+  * **[libconfuse (libconfuse.so) 3.4](libconfuse.md)<a id='libconfuse'></a>**<br>
     libConfuse is a configuration file parser library written in C. It supports sections and (lists of) values, as well as other features such as single/double quoted strings, environment variable expansion, functions and nested include statements. Values can be strings, integers, floats, booleans, and sections. The goal is not to be the configuration file parser library with a gazillion of features. Instead, it aims to be easy to use and quick to integrate with your code.
 
   * **[libctlmgr (libctlmgr.so) 1.0](libctlmgr.md)<a id='libctlmgr'></a>**<br>
@@ -119,7 +125,7 @@ Index: [A](#a) - [B](#b) - [C](#c) - [D](#d) - [E](#e) - [F](#f) - [G](#g) - [H]
   * **[libdaemon (libdaemon.so) 0.14](libdaemon.md)<a id='libdaemon'></a>**<br>
     Libdaemon is a lightweight C library that eases the writing of UNIX daemons.
 
-  * **[libdeflate (libdeflate.so) 1.24](libdeflate.md)<a id='libdeflate'></a>**<br>
+  * **[libdeflate (libdeflate.so) 1.26](libdeflate.md)<a id='libdeflate'></a>**<br>
     Heavily optimized library for DEFLATE/zlib/gzip compression and decompression
 
   * **[libdnet (libdnet.so) 665](libdnet.md)<a id='libdnet'></a>**<br>
@@ -134,28 +140,28 @@ Index: [A](#a) - [B](#b) - [C](#c) - [D](#d) - [E](#e) - [F](#f) - [G](#g) - [H]
   * **[libev (libev.so) 4.33](libev.md)<a id='libev'></a>**<br>
     libev provides a full-featured and high-performance event loop that is loosely modelled after libevent. It includes relative timers, absolute timers with customized rescheduling, synchronous signals, process status change events, event watchers dealing with the event loop itself, file watchers, and even limited support for fork events. It uses a priority queue to manage timers and uses arrays as fundamental data structure. It has no artificial limitations on the number of watchers waiting for the same event.
 
-  * **[libevent (libevent.so) 2.1.12-stable](libevent.md)<a id='libevent'></a>**<br>
+  * **[libevent (libevent.so) 2.1.13](libevent.md)<a id='libevent'></a>**<br>
     libevent is an asynchronous event notification software library. The libevent API provides a mechanism to execute a callback function when a specific event occurs on a file descriptor or after a timeout has been reached. Furthermore, libevent also support callbacks due to signals or regular timeouts. libevent is meant to replace the event loop found in event-driven network servers. An application just needs to call event_dispatch() and then add or remove events dynamically without having to change the event loop.
 
-  * **[libexif: EXIF library (libexif.so) 0.6.25](libexif.md)<a id='libexif'></a>**<br>
+  * **[libexif: EXIF library (libexif.so) 0.6.26](libexif.md)<a id='libexif'></a>**<br>
     libexif is a library for parsing, editing, and saving EXIF data.
 
-  * **[libffi (libffi.so) 3.5.2](libffi.md)<a id='libffi'></a>**<br>
+  * **[libffi (libffi.so) 3.8.0](libffi.md)<a id='libffi'></a>**<br>
     libffi is a library that really only provides the lowest, machine dependent layer of a fully featured foreign function interface. A layer must exist above libffi that handles type conversions for values passed between the two languages. ffi stands for Foreign Function Interface. A foreign function interface is the popular name for the interface that allows code written in one language to call code written in another language.
 
   * **[libftdi (libftdi.so) 0.20](libftdi.md)<a id='libftdi'></a>**<br>
     A library (using libusb) to talk to FTDI's FT232BM/245BM, FT2232C/D and FT232/245R type chips including the popular bitbang mode.
 
   * **[libgcc_s (libgcc_s.so) 1](libgcc_s.md)<a id='libgcc-s'></a>**<br>
-    GCC low-level runtime library GCC provides a low-level runtime library, `libgcc.a' or `libgcc_s.so.1' on some platforms. GCC generates calls to routines in this library automatically, whenever it needs to perform some operation that is too complicated to emit inline code for. Most of the routines in libgcc handle arithmetic operations that the target processor cannot perform directly. This includes integer multiply and divide on some machines, and all floating-point operations on other machines. libgcc also includes routines for exception handling, and a handful of miscellaneous operations.
+    GCC low-level runtime library GCC provides a low-level runtime library, libgcc.a or libgcc_s.so.1 on some platforms. GCC generates calls to routines in this library automatically, whenever it needs to perform some operation that is too complicated to emit inline code for. Most of the routines in libgcc handle arithmetic operations that the target processor cannot perform directly. This includes integer multiply and divide on some machines, and all floating-point operations on other machines. libgcc also includes routines for exception handling, and a handful of miscellaneous operations.
 
-  * **[libgcrypt: GnuPG crypto library (libgcrypt.so) 1.10.2](libgcrypt.md)<a id='libgcrypt'></a>**<br>
+  * **[libgcrypt: GnuPG crypto library (libgcrypt.so) 1.12.4](libgcrypt.md)<a id='libgcrypt'></a>**<br>
     Libgcrypt is a general-purpose cryptographic library based on the code from GnuPG. It provides functions for all cryptographic building blocks: symmetric ciphers (AES, DES, Blowfish, CAST5, Twofish, and Arcfour), hash algorithms (MD4, MD5, RIPE-MD160, SHA-1, and TIGER-192), MACs (HMAC for all hash algorithms), public key algorithms (RSA, ElGamal, and DSA), large integer functions, random numbers, and a lot of supporting functions.
 
   * **[libgd (libgd.so) 2.3.3](libgd.md)<a id='libgd'></a>**<br>
     GD is an open source code library for the dynamic creation of images by programmers. GD creates PNG, JPEG and GIF images, among other formats. GD is commonly used to generate charts, graphics, thumbnails, and most anything else, on the fly.
 
-  * **[libgpg-error: GnuPG error library (libgpg-error.so) 1.47](libgpg-error.md)<a id='libgpg-error'></a>**<br>
+  * **[libgpg-error: GnuPG error library (libgpg-error.so) 1.61](libgpg-error.md)<a id='libgpg-error'></a>**<br>
     Libgpg-error is a small library that defines common error values for all GnuPG components. Among these are GPG, GPGSM, GPGME, GPG-Agent, libgcrypt, Libksba, DirMngr, Pinentry, SmartCard Daemon and possibly more in the future.
 
   * **[libgsm (libgsm.so) 1.0.13](libgsm.md)<a id='libgsm'></a>**<br>
@@ -170,7 +176,7 @@ Index: [A](#a) - [B](#b) - [C](#c) - [D](#d) - [E](#e) - [F](#f) - [G](#g) - [H]
   * **[libmad (libmad.so) 0.15.1b](libmad.md)<a id='libmad'></a>**<br>
     MAD is a high-quality MPEG audio decoder. It currently supports MPEG-1 and the MPEG-2 extension to Lower Sampling Frequencies, as well as the so-called MPEG 2.5 format. All three audio layers (Layer I, Layer II, and Layer III a.k.a. MP3) are fully implemented.
 
-  * **[libmaxminddb (libmaxminddb.so) 1.12.2](libmaxminddb.md)<a id='libmaxminddb'></a>**<br>
+  * **[libmaxminddb (libmaxminddb.so) 1.14.1](libmaxminddb.md)<a id='libmaxminddb'></a>**<br>
     C library for the MaxMind DB file format. You'll need an additional .mmdb file, put it on storage. Get it here: https://github.com/P3TERX/GeoLite.mmdb/
 
   * **[libmnl (libmnl.so) 1.0.4](libmnl.md)<a id='libmnl'></a>**<br>
@@ -188,7 +194,7 @@ Index: [A](#a) - [B](#b) - [C](#c) - [D](#d) - [E](#e) - [F](#f) - [G](#g) - [H]
   * **[libogg (libogg.so) 1.3.2](libogg.md)<a id='libogg'></a>**<br>
     Libogg is a library for manipulating ogg bitstreams. It handles both making ogg bitstreams and getting packets from ogg bitstreams.
 
-  * **[libonig: Oniguruma (libonig.so) 6.9.9](libonig.md)<a id='libonig'></a>**<br>
+  * **[libonig: Oniguruma (libonig.so) 6.9.10](libonig.md)<a id='libonig'></a>**<br>
     Oniguruma is a modern and flexible regular expressions library. It encompasses features from different regular expression implementations that traditionally exist in different languages. It comes close to being a complete superset of all regular expression features found in other regular expression implementations.
 
   * **[liboping (liboping.so) 1.6.1](liboping.md)<a id='liboping'></a>**<br>
@@ -197,10 +203,10 @@ Index: [A](#a) - [B](#b) - [C](#c) - [D](#d) - [E](#e) - [F](#f) - [G](#g) - [H]
   * **[libosip2 (libosip2.so) 3.5.0](libosip2.md)<a id='libosip2'></a>**<br>
     GNU oSIP library, a Session Initiation Protocol (SIP) implementation.
 
-  * **[libpcap (libpcap.so) 1.1.1/1.10.5](libpcap.md)<a id='libpcap'></a>**<br>
+  * **[libpcap (libpcap.so) 1.1.1/1.11.0](libpcap.md)<a id='libpcap'></a>**<br>
     libpcap is a system-independent interface for user-level packet capture. libpcap provides a portable framework for low-level network monitoring. Applications include network statistics collection, security monitoring, network debugging, etc.
 
-  * **[libpng: PNG library (libpng.so) 1.6.50](libpng.md)<a id='libpng'></a>**<br>
+  * **[libpng: PNG library (libpng.so) 1.6.59](libpng.md)<a id='libpng'></a>**<br>
     libpng is the official PNG reference library. It supports almost all PNG features, is extensible, and has been extensively tested for over 12 years. The home site for development versions (i.e., may be buggy or subject to change or include experimental features) is http://libpng.sourceforge.net/, and the place to go for questions about the library is the png-mng-implement mailing list.
 
   * **[libssh2 (libssh2.so) 1.11.1](libssh2.md)<a id='libssh2'></a>**<br>
@@ -212,37 +218,40 @@ Index: [A](#a) - [B](#b) - [C](#c) - [D](#d) - [E](#e) - [F](#f) - [G](#g) - [H]
   * **[libsynce (libsynce.so) 0.10.0](libsynce.md)<a id='libsynce'></a>**<br>
     A helper library for SynCE, a framework to sync WinCE devices
 
-  * **[libtasn1: GNU ASN1 library (libtasn1.so) 4.19.0](libtasn1.md)<a id='libtasn1'></a>**<br>
+  * **[libtasn1: GNU ASN1 library (libtasn1.so) 4.21.0](libtasn1.md)<a id='libtasn1'></a>**<br>
     A small ASN.1 library.
 
-  * **[libtirpc (libtirpc.so) 1.3.7](libtirpc.md)<a id='libtirpc'></a>**<br>
+  * **[libtirpc (libtirpc.so) 1.3.8](libtirpc.md)<a id='libtirpc'></a>**<br>
     Libtirpc is a port of Suns Transport-Independent RPC library to Linux. It's being developed by the Bull GNU/Linux NFSv4 project.
 
   * **[libtool (libltdl.so) 1.5.26](libtool.md)<a id='libtool'></a>**<br>
     A generic dynamic object loading library
 
-  * **[liburcu (liburcu.so) 0.15.3](liburcu.md)<a id='liburcu'></a>**<br>
+  * **[liburcu (liburcu.so) 0.15.6](liburcu.md)<a id='liburcu'></a>**<br>
     liburcu is a LGPLv2.1 userspace RCU (read-copy-update) library. This data synchronization library provides read-side access which scales linearly with the number of cores.
 
-  * **[libusb-0.1 (libusb-0.1.so) 0.1.8/0.1.12](libusb.md)<a id='libusb'></a>**<br>
+  * **[libusb0: libusb-0.1 (libusb-0.1.so) 0.1.12/0.1.9](libusb0.md)<a id='libusb0'></a>**<br>
     A library for accessing Linux USB devices (legacy API).
 
-  * **[libusb1: libusb-1.0 (libusb-1.0.so) 1.0.23/1.0.29](libusb1.md)<a id='libusb1'></a>**<br>
+  * **[libusb1: libusb-1.0 (libusb-1.0.so) 1.0.23/1.0.30](libusb1.md)<a id='libusb1'></a>**<br>
     A library for accessing Linux USB devices (current API).
 
-  * **[libuv (libuv.so) 1.44.2/1.51.0](libuv.md)<a id='libuv'></a>**<br>
+  * **[libuv (libuv.so) 1.44.2/1.53.0](libuv.md)<a id='libuv'></a>**<br>
     libuv is a async IO library for various programs
 
   * **[libvorbis (libvorbis.so) 1.3.5](libvorbis.md)<a id='libvorbis'></a>**<br>
     Vorbis is the name of a specific audio compression scheme that's designed to be contained in Ogg. libvorbis is a BSD-style license software implementation of the Vorbis specification by the Xiph.Org Foundation.
 
-  * **[libxml2 (libxml2.so) 2.15.1](libxml2.md)<a id='libxml2'></a>**<br>
+  * **[libxml2 (libxml2.so) 2.15.4](libxml2.md)<a id='libxml2'></a>**<br>
     XML toolkit from the GNOME project
+
+  * **[libzip (libzip.so) 1.12.1](libzip.md)<a id='libzip'></a>**<br>
+    libzip is a C library for reading, creating, and modifying zip archives. It supports encryption, compression, and Zip64 extensions.
 
   * **[linux-atm (libatm.so) 2.5.2](linux-atm.md)<a id='linux-atm'></a>**<br>
     Libatm is a library for accessing the Linux ATM subsystem.
 
-  * **[LZ4 (liblz4.so) 1.10.0](lz4.md)<a id='lz4'></a>**<br>
+  * **[LZ4 (liblz4.so) 1.11.1](lz4.md)<a id='lz4'></a>**<br>
     LZ4 is a very fast lossless compression algorithm, providing compression speed at 400 MB/s per core, scalable with multi-cores CPU. It also features an extremely fast decoder, with speed in multiple GB/s per core, typically reaching RAM speed limits on multi-core systems.
 
   * **[lzma1 465](lzma1.md)<a id='lzma1'></a>**<br>
@@ -252,24 +261,24 @@ Index: [A](#a) - [B](#b) - [C](#c) - [D](#d) - [E](#e) - [F](#f) - [G](#g) - [H]
 
 ### M
 
-  * **[mbedtls: mbedCrypto (libmbedcrypto.so) 2.7.19/2.28.10/3.6.4](mbedtls.md)<a id='mbedtls'></a>**<br>
+  * **[mbedtls: 2.7 - DEPRECATED 2.7.19/2.28.10/3.6.7](mbedtls.md)<a id='mbedtls'></a>**<br>
     Enables support for the Blowfish block cipher.
 
-  * **[mpc: GNU MPC Library (libmpc.so) 1.1.0](mpc.md)<a id='mpc'></a>**<br>
+  * **[mpc: GNU MPC Library (libmpc.so) 1.4.1](mpc.md)<a id='mpc'></a>**<br>
     MPC is a C library for the arithmetic of complex numbers with arbitrarily high precision and correct rounding of the result. It is built upon and follows the same principles as MPFR.
 
-  * **[mpfr: GNU MPFR Library (libmpfr.so) 3.1.6](mpfr.md)<a id='mpfr'></a>**<br>
+  * **[mpfr: GNU MPFR Library (libmpfr.so) 4.2.2](mpfr.md)<a id='mpfr'></a>**<br>
     MPFR provides a library for multiple-precision floating-point computation with correct rounding. The computation is both efficient and has a well-defined semantics. It copies the good ideas from the ANSI/IEEE-754 standard for double-precision floating-point arithmetic (53-bit mantissa).
 
 ### N
 
-  * **[ncurses (libncurses.so) 6.5](ncurses.md)<a id='ncurses'></a>**<br>
+  * **[ncurses (libncurses.so) 6.6](ncurses.md)<a id='ncurses'></a>**<br>
     ncurses is a programming library providing an API, allowing the programmer to write text user interfaces in a terminal-independent manner. It also optimizes screen changes, in order to reduce the latency experienced when using remote shells. Ncurses stands for "new curses", and is a replacement for the discontinued 4.4 BSD classic curses.
 
-  * **[ncursesw (libncursesw.so) 6.5](ncursesw.md)<a id='ncursesw'></a>**<br>
+  * **[ncursesw (libncursesw.so) 6.6](ncursesw.md)<a id='ncursesw'></a>**<br>
     ncurses is a programming library providing an API, allowing the programmer to write text user interfaces in a terminal-independent manner. It also optimizes screen changes, in order to reduce the latency experienced when using remote shells. Ncurses stands for "new curses", and is a replacement for the discontinued 4.4 BSD classic curses. Ncursesw has additional wide-character (unicode) support. Ncurses and Ncursesw libraries are source-compatible, but not binary-compatible.
 
-  * **[neon: libneon (libneon.so) 0.30.2/0.32.5](neon.md)<a id='neon'></a>**<br>
+  * **[neon: libneon (libneon.so) 0.30.2/0.37.0](neon.md)<a id='neon'></a>**<br>
     neon is an HTTP and WebDAV client library, with a C language API.
 
   * **[nettle: libnettle (libnettle.so) 3.10.2](nettle.md)<a id='nettle'></a>**<br>
@@ -291,13 +300,13 @@ Index: [A](#a) - [B](#b) - [C](#c) - [D](#d) - [E](#e) - [F](#f) - [G](#g) - [H]
 
 ### P
 
-  * **[Pango (libpango-1.0.so) 1.56.3](pango.md)<a id='pango'></a>**<br>
+  * **[Pango (libpango-1.0.so) 1.58.2](pango.md)<a id='pango'></a>**<br>
     Pango is a library for layout and rendering of text, with an emphasis on internationalization. Pango can be used anywhere that text layout is needed; however, most of the work on Pango so far has been done using the GTK widget toolkit as a test platform. Pango forms the core of text and font handling for GTK.
 
   * **[pcre: libpcre (libpcre.so) - DEPRECATED 8.45](pcre.md)<a id='pcre'></a>**<br>
     A Perl Compatible Regular Expression library
 
-  * **[pcre2: libpcre2 (libpcre2-8.so) 10.47](pcre2.md)<a id='pcre2'></a>**<br>
+  * **[pcre2: libpcre2 (libpcre2-8.so) 10.49](pcre2.md)<a id='pcre2'></a>**<br>
     A Perl Compatible Regular Expression library
 
   * **[Pixman (libpixman-1.so) 0.46.4](pixman.md)<a id='pixman'></a>**<br>
@@ -343,12 +352,12 @@ Index: [A](#a) - [B](#b) - [C](#c) - [D](#d) - [E](#e) - [F](#f) - [G](#g) - [H]
 
 ### T
 
-  * **[taglib (libtag.so) 1.6.3](taglib.md)<a id='taglib'></a>**<br>
+  * **[taglib (libtag.so) - DEPRECATED 1.6.3](taglib.md)<a id='taglib'></a>**<br>
     TagLib is a library for reading and editing the meta-data of several popular audio formats. Currently it supports both ID3v1 and ID3v2 for MP3 files, Ogg Vorbis comments and ID3 tags and Vorbis comments in FLAC, MPC, Speex, WavPack TrueAudio, WAV, AIFF, MP4 and ASF files.
 
 ### U
 
-  * **[uClibc (ld-uClibc-x.y.z.so) 0.9.28/0.9.29/0.9.32.1/0.9.33.2/1.0.14/1.0.55](uclibc.md)<a id='uclibc'></a>**<br>
+  * **[uClibc (ld-uClibc-x.y.z.so) 0.9.28/0.9.29/0.9.32.1/0.9.33.2/1.0.14/1.0.59](uclibc.md)<a id='uclibc'></a>**<br>
     uClibc is a small C standard library intended for embedded Linux systems. uClibc was created to support uClinux, a version of Linux not requiring a memory management unit and thus suited for microcontrollers (hence the "uC" in the name - "u" is a replacement for the Greek character "miu" often used as an abbreviation for the prefix "micro"). uClibc is much smaller than GNU C Library (glibc), the C library normally used with Linux distributions. While glibc is intended to fully support all relevant C standards across a wide range of platforms, uClibc is specifically focused on embedded Linux. Features can be enabled or disabled according to space requirements.
 
   * **[uclibcxx: uClibc++ (libuClibc++.so.0.2.6) 6687fc9276fa52defaf8592f2001c19b826aec93](uclibcxx.md)<a id='uclibcxx'></a>**<br>
@@ -357,7 +366,7 @@ Index: [A](#a) - [B](#b) - [C](#c) - [D](#d) - [E](#e) - [F](#f) - [G](#g) - [H]
   * **[udns: libudns (libudns.so) 0.4](udns.md)<a id='udns'></a>**<br>
     UDNS is a stub DNS resolver library with ability to perform both syncronous and asyncronous DNS queries.
 
-  * **[utf8proc (libutf8proc.so) 2.7.0](utf8proc.md)<a id='utf8proc'></a>**<br>
+  * **[utf8proc (libutf8proc.so) 2.12.0](utf8proc.md)<a id='utf8proc'></a>**<br>
     a clean C library for processing UTF-8 Unicode data: normalization, case-folding, graphemes, and more
 
 ### Y
@@ -367,5 +376,5 @@ Index: [A](#a) - [B](#b) - [C](#c) - [D](#d) - [E](#e) - [F](#f) - [G](#g) - [H]
 
 ### Z
 
-  * **[Zlib (libz.so) 1.3.1](zlib.md)<a id='zlib'></a>**<br>
+  * **[Zlib (libz.so) 1.4](zlib.md)<a id='zlib'></a>**<br>
     zlib is a lossless data-compression library for use on virtually any computer hardware and operating system. The zlib data format is itself portable across platforms.

@@ -30,7 +30,7 @@ echo "</p>"
 
 cat << EOF
 <script >
-var conftext='$(lang de:"Noch in der Erprobung!\\nZur Sicherheit sollte ein anderer Zugang zur Box vorhanden sein (telnet/ssh).\\nStandard PW ist \"freetz\", beim PW-Setzen wird es auf \"<User><PW>\" gesetzt!\\n\\nDas PW kann in Konsole so gesetzt werden:\\necho -n \"<Passwort>\" | md5sum | sed \"s/ .*$//\" > /tmp/flash/mod/webmd5\\n" en:"Still under development!\\nPlease make sure, you have an alternate way to access your box (telnet/ssh).\\nDefault password is \"freetz\", changing password will set it to \"<User><PW>\"!\\n\\nYou can set the PW in console with this command:\\necho -n \"<password>\" | md5sum | sed \"s/ .*$//\" > /tmp/flash/mod/webmd5\\n")'
+var conftext='$(lang de:"Standard PW ist \"freetz\".\\n\\nDas PW kann in Konsole so gesetzt werden:" en:"Default password is \"freetz\".\\n\\nYou can set the PW in console with this command:")\\necho -n \"freetz\" | md5sum | sed \"s/ .*//\" > /tmp/flash/mod/webmd5\\n'
 var el=document.getElementById('httpd_newlogin_yes');
 var eltime=document.getElementById('httpd_sessiontimeout');
 $([ "$MOD_HTTPD_NEWLOGIN" = yes ] || echo "eltime.disabled = true;")
@@ -70,13 +70,13 @@ if [ -r "/usr/lib/cgi-bin/mod/box_info.cgi" -o -r "/usr/lib/cgi-bin/mod/flash_in
 	echo "<p> $(lang de:"Zus&auml;tzliche Status-Seiten" en:"Additional status pages"):"
 
 	if [ -r "/usr/lib/cgi-bin/mod/box_info.cgi" ]; then
-		cgi_print_checkbox "show_box_info" "$MOD_SHOW_BOX_INFO" "$(lang de:"Box-Info" en:"Box info")"
+		cgi_print_checkbox "show_box_info" "$MOD_SHOW_BOX_INFO" "$(lang de:"AVM-Info" en:"AVM info")"
 	fi
 	if [ -r "/usr/lib/cgi-bin/mod/flash_info.cgi" ]; then
-		cgi_print_checkbox "show_flash_info" "$MOD_SHOW_FLASH_INFO" "$(lang de:"Flash-Info" en:"Flash info")"
+		cgi_print_checkbox "show_flash_info" "$MOD_SHOW_FLASH_INFO" "$(lang de:"Flashspeicher" en:"Flash storage")"
 	fi
 	if [ -r "/usr/lib/cgi-bin/mod/info.cgi" ]; then
-		cgi_print_checkbox "show_freetz_info" "$MOD_SHOW_FREETZ_INFO" "$(lang de:"Freetz-Info" en:"Freetz info")"
+		cgi_print_checkbox "show_freetz_info" "$MOD_SHOW_FREETZ_INFO" "$(lang de:"Mod-Info" en:"Mod info")"
 	fi
 
 	echo "</p>"

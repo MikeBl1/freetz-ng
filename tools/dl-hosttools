@@ -1,5 +1,5 @@
 #! /usr/bin/env bash
-# packs host-tools to dl/tools-VERSION.tar.xz in ~5min
+# packs host-tools to dl/tools-VERSION.tar.lzma in ~45min
 #Arg $1: <VERSION>
 
 MYPWD="$(dirname $(realpath $0))"
@@ -11,14 +11,15 @@ local i
 for i in "$@"; do echo "$i=y"; done
 cat << EOF
 FREETZ_USER_LEVEL_EXPERT=y
+FREETZ_DL_IMAGE_AT_LAST=y
 # FREETZ_HOSTTOOLS_DOWNLOAD is not set
 FREETZ_VERBOSITY_LEVEL_0=y
-FREETZ_DL_SITE_USER="https://github.com/Freetz-NG/dl-mirror/raw/master"
+FREETZ_DL_SITE_USER="http://192.168.1.104/mirror https://github.com/Freetz-NG/dl-mirror/releases/download/dl"
 EOF
 }
 
 SKIP="kconfig"
-OUTP="dl/tools-$VERSION.tar.xz"
+OUTP="dl/tools-$VERSION.tar.lzma"
 [ -s "$OUTP" ] && echo "File $OUTP exists" && exit 1
 
 miniconfig > .config
@@ -29,7 +30,7 @@ time make tools-allexcept-local  # 4min
 make tools-distclean-local
 PACK="$(sed -n 's,^/,tools/,p' tools/.gitignore | grep -vE "/(${SKIP// /|})$")"
 find $PACK -type f -a -executable | xargs strip --strip-all -R .note -R .comment 2>/dev/null
-time tar cf - $PACK | xz -9 - > "$OUTP"  # 1min
+time tar cf - $PACK | tools/lzma e -si -so -d25 > "$OUTP"  # 2min
 echo "################################################################"
 du -h "$OUTP"
 sha256sum "$OUTP" | sed 's/^/SHA256:=/;s/ .*//'

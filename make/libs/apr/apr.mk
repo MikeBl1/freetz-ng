@@ -9,6 +9,8 @@ $(PKG)_SITE:=@APACHE/apr
 ### CHANGES:=https://downloads.apache.org/apr/CHANGES-APR-1.7
 ### CVSREPO:=https://svn.apache.org/viewvc/apr/apr/
 
+$(PKG)_CATEGORY_LIBS:=Apache Portable Runtime
+
 $(PKG)_MAJOR_LIBNAME=libapr-$(APR_MAJOR_VERSION)
 $(PKG)_LIBNAME=$($(PKG)_MAJOR_LIBNAME).so.$($(PKG)_LIB_VERSION)
 $(PKG)_BINARY:=$($(PKG)_DIR)/.libs/$($(PKG)_LIBNAME)
@@ -23,12 +25,9 @@ $(PKG)_REBUILD_SUBOPTS += FREETZ_LIB_libapr_WITH_DSO
 
 $(PKG)_CONFIGURE_PRE_CMDS += $(call PKG_PREVENT_RPATH_HARDCODING,./configure)
 
-$(PKG)_CONFIGURE_ENV += ac_cv_file__dev_zero=yes
-$(PKG)_CONFIGURE_ENV += ac_cv_sizeof_struct_iovec=8
 $(PKG)_CONFIGURE_ENV += apr_cv_process_shared_works=no
 $(PKG)_CONFIGURE_ENV += apr_cv_mutex_robust_shared=no
 $(PKG)_CONFIGURE_ENV += apr_cv_tcp_nodelay_with_cork=yes
-$(PKG)_CONFIGURE_ENV += ac_cv_struct_rlimit=yes
 
 $(PKG)_CONFIGURE_ENV += apr_cv_pthreads_lib=-lpthread
 $(PKG)_CONFIGURE_OPTIONS += --enable-threads

@@ -1,15 +1,15 @@
-$(call PKG_INIT_BIN, $(if $(FREETZ_PACKAGE_BIND_VERSION_ABANDON),9.11.37,9.20.15))
+$(call PKG_INIT_BIN, $(if $(FREETZ_PACKAGE_BIND_VERSION_ABANDON),9.11.37,9.20.30))
 $(PKG)_LIB_VERSION:=$($(PKG)_VERSION)
 $(PKG)_SOURCE:=$(pkg)-$($(PKG)_VERSION).tar.$(if $(FREETZ_PACKAGE_BIND_VERSION_ABANDON),gz,xz)
 $(PKG)_HASH_ABANDON:=0d8efbe7ec166ada90e46add4267b7e7c934790cba9bd5af6b8380a4fbfb5aff
-$(PKG)_HASH_CURRENT:=d62b38fae48ba83fca6181112d0c71018d8b0f2ce285dc79dc6a0367722ccabb
+$(PKG)_HASH_CURRENT:=9e1443a40a72a30272cbc3196d020a6b2e26937111c83e59e101e82e1e3b4fef
 $(PKG)_HASH:=$($(PKG)_HASH_$(if $(FREETZ_PACKAGE_BIND_VERSION_ABANDON),ABANDON,CURRENT))
-$(PKG)_SITE:=https://downloads.isc.org/isc/bind9/$($(PKG)_VERSION),http://ftp.isc.org/isc/bind9/$($(PKG)_VERSION)
+$(PKG)_SITE:=https://downloads.isc.org/isc/bind9/$($(PKG)_VERSION),https://ftp.isc.org/isc/bind9/$($(PKG)_VERSION)
 ### WEBSITE:=https://www.isc.org/bind/
 ### MANPAGE:=https://bind9.readthedocs.io/en/
 ### CHANGES:=https://downloads.isc.org/isc/bind9/cur/9.20/
 ### CVSREPO:=https://gitlab.isc.org/isc-projects/bind9/
-### SUPPORT:=fda77
+### STEWARD:=fda77
 
 $(PKG)_STARTLEVEL=40 # multid-wrapper may start it earlier!
 

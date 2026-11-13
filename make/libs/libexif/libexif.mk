@@ -1,11 +1,13 @@
-$(call PKG_INIT_LIB, 0.6.25)
+$(call PKG_INIT_LIB, 0.6.26)
 $(PKG)_LIB_VERSION:=12.3.4
 $(PKG)_SOURCE:=$(pkg)-$($(PKG)_VERSION).tar.bz2
-$(PKG)_HASH:=7c9eba99aed3e6594d8c3e85861f1c6aaf450c218621528bc989d3b3e7a26307
+$(PKG)_HASH:=0830ed253fceeb60444fb309598bc8a9491d3007dc054aad3a50a347c5597c57
 $(PKG)_SITE:=https://github.com/libexif/libexif/releases/download/v$($(PKG)_VERSION)
 ### WEBSITE:=https://libexif.github.io/
 ### CHANGES:=https://github.com/libexif/libexif/releases
 ### CVSREPO:=https://github.com/libexif/libexif
+
+$(PKG)_CATEGORY_LIBS:=Graphics & fonts
 
 $(PKG)_BINARY:=$($(PKG)_DIR)/libexif/.libs/libexif.so.$($(PKG)_LIB_VERSION)
 $(PKG)_STAGING_BINARY:=$(TARGET_TOOLCHAIN_STAGING_DIR)/usr/lib/libexif.so.$($(PKG)_LIB_VERSION)

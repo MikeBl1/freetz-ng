@@ -1,13 +1,15 @@
-$(call PKG_INIT_LIB, 2.15.1)
-$(PKG)_LIB_VERSION:=16.1.1
+$(call PKG_INIT_LIB, 2.15.4)
+$(PKG)_LIB_VERSION:=16.1.4
 $(PKG)_SOURCE:=$(pkg)-$($(PKG)_VERSION).tar.xz
-$(PKG)_HASH:=c008bac08fd5c7b4a87f7b8a71f283fa581d80d80ff8d2efd3b26224c39bc54c
+$(PKG)_HASH:=98087fd181d9070724f3fbc65c7377db03038eb92bd882374daff44940138821
 $(PKG)_SITE:=https://download.gnome.org/sources/libxml2/$(call GET_MAJOR_VERSION,$($(PKG)_VERSION))
 ### WEBSITE:=http://www.xmlsoft.org
 ### MANPAGE:=https://gitlab.gnome.org/GNOME/libxml2/-/wikis/home#html-documentation
 ### CHANGES:=https://gitlab.gnome.org/GNOME/libxml2/-/releases
 ### CVSREPO:=https://gitlab.gnome.org/GNOME/libxml2/-/wikis/home
-### SUPPORT:=fda77
+### STEWARD:=fda77
+
+$(PKG)_CATEGORY_LIBS:=XML & XSLT
 
 $(PKG)_LIBNAME:=$(pkg).so.$($(PKG)_LIB_VERSION)
 $(PKG)_BINARY:=$($(PKG)_DIR)/.libs/$($(PKG)_LIBNAME)

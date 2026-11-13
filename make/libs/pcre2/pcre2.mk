@@ -1,13 +1,15 @@
-$(call PKG_INIT_LIB, 10.47)
-$(PKG)_LIB_VERSION:=0.15.0
-$(PKG)_POSIX_LIB_VERSION:=3.0.7
+$(call PKG_INIT_LIB, 10.49)
+$(PKG)_LIB_VERSION:=0.16.1
+$(PKG)_POSIX_LIB_VERSION:=3.0.9
 $(PKG)_SOURCE:=$(pkg)-$($(PKG)_VERSION).tar.bz2
-$(PKG)_HASH:=47fe8c99461250d42f89e6e8fdaeba9da057855d06eb7fc08d9ca03fd08d7bc7
+$(PKG)_HASH:=53c156e1ba416a20da8e65395daa132da0d80e76910424caca3fcdae7831d384
 $(PKG)_SITE:=https://github.com/PCRE2Project/pcre2/releases/download/pcre2-$($(PKG)_VERSION)
 ### WEBSITE:=https://www.pcre.org/
 ### MANPAGE:=https://www.pcre.org/current/doc/html/
 ### CHANGES:=https://github.com/PCRE2Project/pcre2/blob/master/ChangeLog
 ### CVSREPO:=https://github.com/PCRE2Project/pcre2
+
+$(PKG)_CATEGORY_LIBS:=Regular expressions##PCRE2
 
 $(PKG)_LIBNAME=libpcre2-8.so.$($(PKG)_LIB_VERSION)
 $(PKG)_BINARY:=$($(PKG)_DIR)/.libs/$($(PKG)_LIBNAME)
@@ -19,12 +21,15 @@ $(PKG)_POSIX_BINARY:=$($(PKG)_DIR)/.libs/$($(PKG)_POSIX_LIBNAME)
 $(PKG)_POSIX_STAGING_BINARY:=$(TARGET_TOOLCHAIN_STAGING_DIR)/usr/lib/$($(PKG)_POSIX_LIBNAME)
 $(PKG)_POSIX_TARGET_BINARY:=$($(PKG)_TARGET_DIR)/$($(PKG)_POSIX_LIBNAME)
 
+$(PKG)_REBUILD_SUBOPTS += FREETZ_LIB_libpcre2_WITH_JIT
+
 $(PKG)_CONFIGURE_OPTIONS += --enable-shared
 $(PKG)_CONFIGURE_OPTIONS += --enable-static
 $(PKG)_CONFIGURE_OPTIONS += --enable-pcre2-8
 $(PKG)_CONFIGURE_OPTIONS += --disable-pcre2-16
 $(PKG)_CONFIGURE_OPTIONS += --disable-pcre2-32
 $(PKG)_CONFIGURE_OPTIONS += --enable-unicode
+$(PKG)_CONFIGURE_OPTIONS += $(if $(FREETZ_LIB_libpcre2_WITH_JIT),--enable-jit,--disable-jit)
 $(PKG)_CONFIGURE_OPTIONS += --disable-pcre2test-libreadline
 $(PKG)_CONFIGURE_OPTIONS += --disable-pcre2test-libedit
 $(PKG)_CONFIGURE_OPTIONS += --disable-pcre2grep-libz

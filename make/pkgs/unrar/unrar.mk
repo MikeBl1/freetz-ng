@@ -1,20 +1,25 @@
-$(call PKG_INIT_BIN, $(if $(FREETZ_PACKAGE_UNRAR_VERSION_ABANDON),6.1.7,7.1.10))
+$(call PKG_INIT_BIN, $(if $(FREETZ_PACKAGE_UNRAR_VERSION_ABANDON),6.1.7,7.3.1))
 $(PKG)_SOURCE:=unrarsrc-$($(PKG)_VERSION).tar.gz
 $(PKG)_HASH_ABANDON:=de75b6136958173fdfc530d38a0145b72342cf0d3842bf7bb120d336602d88ed
-$(PKG)_HASH_CURRENT:=72a9ccca146174f41876e8b21ab27e973f039c6d10b13aabcb320e7055b9bb98
+$(PKG)_HASH_CURRENT:=634900842a3737d9cc15bbcc71d4c74cc713437e0bca296a573424fe5f2660ab
 $(PKG)_HASH:=$($(PKG)_HASH_$(if $(FREETZ_PACKAGE_UNRAR_VERSION_ABANDON),ABANDON,CURRENT))
 $(PKG)_SITE:=https://www.rarlab.com/rar
 ### WEBSITE:=https://www.rarlab.com/rar_add.htm
 ### MANPAGE:=https://linux.die.net/man/1/unrar
 ### CHANGES:=https://www.rarlab.com/rarnew.htm
-### SUPPORT:=fda77
+### CVSREPO:=https://www.rarlab.com/rar_add.htm
+### STEWARD:=fda77
 
 $(PKG)_BINARY:=$($(PKG)_DIR)/unrar
 $(PKG)_TARGET_BINARY:=$($(PKG)_DEST_DIR)/usr/bin/unrar
 
 $(PKG)_CONDITIONAL_PATCHES+=$(if $(FREETZ_PACKAGE_UNRAR_VERSION_ABANDON),abandon,current)
 
+ifeq ($(strip $(FREETZ_PACKAGE_UNRAR_VERSION_ABANDON)),y)
 $(PKG)_DEPENDS_ON += $(STDCXXLIB)
+else
+$(PKG)_DEPENDS_ON += libstdcxx
+endif
 $(PKG)_REBUILD_SUBOPTS += FREETZ_STDCXXLIB
 
 $(PKG)_REBUILD_SUBOPTS += FREETZ_PACKAGE_UNRAR_STATIC
@@ -43,7 +48,7 @@ $(PKG_CONFIGURED_NOP)
 
 $($(PKG)_BINARY): $($(PKG)_DIR)/.configured
 	$(SUBMAKE) -C $(UNRAR_DIR) -f makefile \
-		CXX="$(TARGET_CXX)" \
+		CXX="$(if $(FREETZ_PACKAGE_UNRAR_VERSION_ABANDON),$(TARGET_CXX),$(TARGET_CXX_GNU))" \
 		CXXFLAGS="$(UNRAR_CFLAGS)" \
 		LDFLAGS="$(UNRAR_LDFLAGS)" \
 		DEFINES="$(UNRAR_DEFINES)" \

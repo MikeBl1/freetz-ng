@@ -38,6 +38,11 @@ if [ "$FREETZ_AVM_VERSION_07_0X_MIN" == "y" ]; then
 		  "${FILESYSTEM_MOD_DIR}/etc/udev/rules.d/??-usb*.rules"
 	fi
 
+	# patcht Internet > Zugangsdaten > Ausfallschutz
+	htmltab_remove "/js3/views/internet/internet/internet.html" "/internet/fallback"
+	js3tab_remove "/js3/views/internet/internet/internet.html" "fallback"
+
+	modern_remove fallback
 	modern_remove mobile
 fi
 

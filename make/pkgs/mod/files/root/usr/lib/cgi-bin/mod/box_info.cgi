@@ -27,6 +27,8 @@ getNetworkInfo() {
 	done
 }
 
+[ -z "$ubootversion" ] && ubootversion="$(cat '/sys/firmware/devicetree/base/uboot-version' 2>/dev/null)"
+[ -z "$ubootversion" ] && ubootversion="$(cat '/sys/firmware/devicetree/base/chosen/u-boot,version' 2>/dev/null)"
 if [ -r /var/env ]; then
 	while read -r key value; do
 		case $key in
@@ -54,8 +56,8 @@ else
 fi
 if [ -r /proc/cpuinfo ]; then
 	cpu_family=$(sed -ne '/\(system type\|Hardware\)/ s/.*: //p' /proc/cpuinfo | sed 's/ .*//;s/Ikanos/IKS/')
-	cpu_model=$(sed -ne '/\(cpu model\|model name\)/ s/.*: //p' /proc/cpuinfo | head -n1)
-	cpu_cores=$(grep $'^processor\t*:' /proc/cpuinfo | wc -l)
+	cpu_model=$(sed -ne '/\(cpu model\|Processor\|model name\)/ s/.*: //p' /proc/cpuinfo | head -n1)
+	cpu_cores=$(grep $'^processor\t*:' /proc/cpuinfo | wc -l | grep -v '^0$')
 	cpu_bogom="$(sed -ne '/BogoMIPS/ s/.*: //p' /proc/cpuinfo)"
 	cpu_bogom="$(echo $cpu_bogom | sed 's! ! / !g')"
 
@@ -95,13 +97,13 @@ fi
 _CONFIG_TFFS="$(echo $CONFIG_ROMSIZE | sed -ne "s/^.*sflash_size=\([0-9BKMG]*\).*/\1/p" | sed -r 's/([0-9]*)/\1 /' | grep -v '^0 ')"
 _CONFIG_NAND="$(echo $CONFIG_ROMSIZE | sed -ne   "s/^.*nand_size=\([0-9BKMG]*\).*/\1/p" | sed -r 's/([0-9]*)/\1 /' | grep -v '^0 ')"
 _CONFIG_EMMC="$(echo $CONFIG_ROMSIZE | sed -ne   "s/^.*emmc_size=\([0-9BKMG]*\).*/\1/p" | sed -r 's/([0-9]*)/\1 /' | grep -v '^0 ')"
-[ $(which run_clock) ] && run_clock=$(run_clock | sed 's/.*: //')
+[ $(which run_clock) ] && run_clock="$(run_clock | sed 's/.*: //')" && service_code="$(run_clock -S | sed 's/.* //')"
 reboot_status="$(cat /proc/sys/urlader/reboot_status 2>/dev/null)"
 
 if [ -e /sys/devices/system/cpu/cpu0/cpufreq/scaling_available_frequencies ]; then
 	_CPU_FQZ="$(sed 's!...[ $]! MHz !g;s! *$!!;;s!MHz !MHz, !g' /sys/devices/system/cpu/cpu0/cpufreq/scaling_available_frequencies)"
 elif [ -e /proc/clocks ]; then
-	_PCLOCKS="$(sed 's/ [ ]*/ /g;s/^Clocks: //;s/^[A-Z0-9 ]*Clock: //;s/\([A-Za-z0-9]*\):[ ]*\([0-9,.]*\)[ ]*\([a-zA-Z]*\) */<dt>\1<\/dt><dd>\2 \3<\/dd>/g;' /proc/clocks 2>/dev/null)"
+	_PCLOCKS="$(sed 's/ [ ]*/ /g;s/^Clocks: //;s/^[/A-Z0-9 ]*Clock: //;s/\([A-Za-z0-9]*\):[ ]*\([0-9,.]*\)[ ]*\([a-zA-Z]*\) */<dt>\1<\/dt><dd>\2 \3<\/dd>/g;' /proc/clocks 2>/dev/null)"
 else
 	_CPU_FRQ="$(sed -n 's/^cpufrequency\t//p' /proc/sys/urlader/environment | awk '{ printf "%.0f", $1 /1000/1000 }')"
 	_SYS_FRQ="$(sed -n 's/^sysfrequency\t//p' /proc/sys/urlader/environment | awk '{ printf "%.0f", $1 /1000/1000 }')"
@@ -109,17 +111,14 @@ else
 	[ -z "$_SYS_FRQ" ] && _SYS_FRQ="$(sed 's/000$//' /sys/devices/system/cpu/cpu1/cpufreq/cpuinfo_max_freq)"
 fi
 
-_CPU_TMP="$(sed -rn 's!^Channel .: ([0-9.]*) .*!\1!p' /proc/chip_temperature 2>/dev/null | sort -r | head -n1)"
-[ -z "$_CPU_TMP" ] && _CPU_TMP="$(sed 's/^../&./' /sys/devices/virtual/thermal/thermal_zone0/temp 2>/dev/null)"
-[ -z "$_CPU_TMP" ] && _CPU_TMP="$(sed 's/ .*//g' /proc/avm/powermanagmentressourceinfo/powerdevice_temperature | grep -v '^0$' 2>/dev/null)"
-[ -z "$_CPU_TMP" ] && _CPU_TMP="$(sed -rn 's!^(CPU|cpu-thermal) *: ([0-9.]*) .*!\2!p' /proc/avm/temp_sensors 2>/dev/null)"
+_CPU_TMP="$(modtemp)"
 
 
 sec_begin "$(lang de:"Hardware" en:"Hardware")"
 
 echo "<dl class='info'>"
-echo "<dt>$(lang de:"Boxname" en:"Box name")</dt><dd>$CONFIG_PRODUKT_NAME</dd>"
-echo "<dt>ANNEX</dt><dd>$ANNEX</dd>"
+echo "<dt>$(lang de:"Ger&auml;t" en:"Device")</dt><dd>$CONFIG_PRODUKT_NAME</dd>"
+echo "<dt>ANNEX</dt><dd>${ANNEX:-$(cat /proc/sys/urlader/annex 2>/dev/null)}</dd>"
 echo "</dl>"
 
 echo "<dl class='info'>"
@@ -169,9 +168,10 @@ sec_end
 sec_begin "$(lang de:"Bootenvironment" en:"Boot environment")"
 
 echo "<dl class='info'>"
+[ -n "$ubootversion" ] && echo "<dt>$(lang de:"U-Boot Version" en:"Version of U-Boot")</dt><dd>$ubootversion</dd>"
 [ -n "$loaderversion" ]  && echo "<dt>$(lang de:"Bootloaderversion" en:"Version of bootloader")</dt><dd>$loaderversion</dd>"
 [ -n "$urladerversion" ] && echo "<dt>$(lang de:"Urladerversion" en:"Version of urlader")</dt><dd>$urladerversion</dd>"
-[ -n "$loaderversion$urladerversion" -a -n "$defaultpass$reboot_status" ] && echo "</dl>"&& echo "<dl class='info'>"
+[ -n "$loaderversion$urladerversion" -a -n "$defaultpass$reboot_status" ] && echo "</dl>" && echo "<dl class='info'>"
 [ -n "$defaultpass" ]    && echo "<dt>$(lang de:"AVM-Standardpasswort" en:"AVM default password")</dt><dd>" && \
   echo -e "<a title='$defaultpass' style='background-color:#000000;color:#000000;text-decoration:none'>$defaultpass</a>\n</dd>"
 [ -n "$reboot_status" ]  && echo "<dt>$(lang de:"Rebootursache" en:"Reboot cause")</dt><dd>$reboot_status</dd>"
@@ -179,6 +179,11 @@ echo "</dl>"
 if [ -n "$run_clock" ]; then
 	echo "<dl class='info'>"
 	echo "<dt>$(lang de:"Betriebsstundenz&auml;hler" en:"Operating hours counter")</dt><dd>$run_clock</dd>"
+	echo "</dl>"
+fi
+if [ -n "$service_code" ]; then
+	echo "<dl class='info'>"
+	echo "<dt>$(lang de:"Service-Code" en:"Service Code")</dt><dd>$service_code</dd>"
 	echo "</dl>"
 fi
 

@@ -1,16 +1,16 @@
-$(call TOOLS_INIT, 2.5.1)
+$(call TOOLS_INIT, 3.0.7)
 $(PKG)_SOURCE:=$(pkg_short)-$($(PKG)_VERSION).tar.xz
-$(PKG)_HASH:=cd05c9589b9f86ecf044c10a2269822bc9eb001eced2582cfffd658b0a50c243
+$(PKG)_HASH:=c926ff491cbd9a331a589160811bd97ab1749b4d5198a519338f2cdfabe6940a
 $(PKG)_SITE:=https://distfiles.ariadne.space/pkgconf
 ### WEBSITE:=http://pkgconf.org/
 ### MANPAGE:=http://pkgconf.org/features.html
 ### CHANGES:=https://github.com/pkgconf/pkgconf/blob/master/NEWS
 ### CVSREPO:=https://github.com/pkgconf/pkgconf/tags
-### SUPPORT:=fda77
+### STEWARD:=fda77
 
 $(PKG)_DESTDIR             := $(FREETZ_BASE_DIR)/$(TOOLS_BUILD_DIR)
 
-$(PKG)_BINARIES            := pkgconf bomtool
+$(PKG)_BINARIES            := pkgconf
 $(PKG)_BINARIES_TARGET_DIR := $($(PKG)_BINARIES:%=$($(PKG)_DESTDIR)/bin/%)
 
 $(PKG)_WRAPPER             := pkg-config
@@ -37,12 +37,17 @@ $($(PKG)_DIR)/.installed: $($(PKG)_DIR)/.compiled
 $($(PKG)_WRAPPER_TARGET): $($(PKG)_WRAPPER_SOURCE)
 	cp $< $@
 
+$(pkg)-fixhardcoded:
+	-@$(SED) -i "s!$(TOOLS_HARDCODED_DIR)!$(PKGCONF_HOST_DESTDIR)!g" \
+		$(PKGCONF_HOST_DESTDIR)/lib/libpkgconf.la \
+		$(PKGCONF_HOST_DESTDIR)/lib/pkgconfig/libpkgconf.pc
+
 $(pkg)-precompiled: $($(PKG)_DIR)/.installed $($(PKG)_WRAPPER_TARGET)
 
 
 $(pkg)-clean:
 	-$(MAKE) -C $(PKGCONF_HOST_DIR) clean
-	-$(RM) $(PKGCONF_HOST_DIR)/.{configured,compiled,installed}
+	-$(RM) $(PKGCONF_HOST_DIR)/.{configured,compiled,installed,fixhardcoded}
 
 $(pkg)-dirclean:
 	$(RM) -r $(PKGCONF_HOST_DIR)

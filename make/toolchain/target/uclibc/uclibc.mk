@@ -7,7 +7,7 @@ UCLIBC_HASH_0.9.29   = ca70501ae859cd86b387bb196908838275b4b06e6f4d692f9aa51b8a6
 UCLIBC_HASH_0.9.32.1 = b41c91dcc043919a3c19bd73a524adfd375d6d8792ad7be3631f90ecad8465e9
 UCLIBC_HASH_0.9.33.2 = 988d2c777e0605fe253d12157f71ec68f25d1bb8428725d2b7460bf9977e1662
 UCLIBC_HASH_1.0.14   = 3c63d9f8c8b98b65fa5c4040d1c8ab1b36e99a16e1093810cedad51ac15c9a9e
-UCLIBC_HASH_1.0.55   = 5f7f3aafddb2ca08fb295be45561c0188407103d7446cfd264b9b822fed3ed2d
+UCLIBC_HASH_1.0.59   = 86c6f15971bfb14156850f2e36906dac5a69df7b3e688216d1aea09d2db54174
 UCLIBC_HASH=$(UCLIBC_HASH_$(UCLIBC_VERSION))
 UCLIBC_SITE_0:=http://www.uclibc.org/downloads$(if $(or $(FREETZ_TARGET_UCLIBC_0_9_28),$(FREETZ_TARGET_UCLIBC_0_9_29)),/old-releases)
 UCLIBC_SITE_1:=https://downloads.uclibc-ng.org/releases/$(TARGET_TOOLCHAIN_UCLIBC_VERSION)
@@ -24,7 +24,7 @@ UCLIBC_KERNEL_HEADERS_DIR:=$(KERNEL_HEADERS_DEVEL_DIR)
 
 UCLIBC_DEVEL_SUBDIR:=uClibc_dev
 
-UCLIBC_CONFIG_FILE:=$(UCLIBC_MAKE_DIR)/configs/freetz/config-$(FREETZ_TARGET_ARCH)-$(if $(FREETZ_SEPARATE_AVM_UCLIBC),separate,$(UCLIBC_VERSION))
+UCLIBC_CONFIG_FILE:=$(UCLIBC_MAKE_DIR)/configs/freetz/config-$(FREETZ_TARGET_ARCH_ENDIANNESS_DEPENDENT)-$(if $(FREETZ_SEPARATE_AVM_UCLIBC),separate,$(UCLIBC_VERSION))
 
 UCLIBC_PATCHES_DIR:=$(UCLIBC_MAKE_DIR)/patches/$(if $(FREETZ_SEPARATE_AVM_UCLIBC),separate,$(UCLIBC_VERSION))
 
@@ -32,7 +32,7 @@ UCLIBC_TARGET_SUBDIR:=$(if $(FREETZ_SEPARATE_AVM_UCLIBC),$(FREETZ_RPATH),/lib)
 
 # uClibc >= 0.9.31 supports parallel building
 #  TODO    1.0.14: reenable parallel building
-UCLIBC_MAKE:=$(if $(or $(FREETZ_TARGET_UCLIBC_0_9_28),$(FREETZ_TARGET_UCLIBC_0_9_29),$(FREETZ_TARGET_UCLIBC_1_0_14)),$(MAKE1),$(MAKE)) 
+UCLIBC_MAKE:=$(if $(or $(FREETZ_TARGET_UCLIBC_0_9_28),$(FREETZ_TARGET_UCLIBC_0_9_29),$(FREETZ_TARGET_UCLIBC_1_0_14)),$(MAKE1),$(MAKE))
 
 UCLIBC_COMMON_BUILD_FLAGS:=
 
@@ -65,7 +65,12 @@ UCLIBC_COMMON_BUILD_FLAGS += V=1
 endif
 endif
 
-UCLIBC_HOST_CFLAGS:=$(TOOLCHAIN_HOST_TARGET_CFLAGS) -U_GNU_SOURCE -fno-strict-aliasing
+UCLIBC_HOST_CFLAGS:=$(TOOLCHAIN_HOST_CFLAGS)
+# g++ -v --help 2>/dev/null | grep ' -std='
+#ifeq ($(strip $(FREETZ_TARGET_GCC_5_MAX)),y)
+#UCLIBC_HOST_CFLAGS+=--std=gnu11
+#endif
+UCLIBC_HOST_CFLAGS+=-U_GNU_SOURCE -fno-strict-aliasing
 
 
 $(DL_DIR)/$(UCLIBC_LOCALE_DATA_FILENAME): | $(DL_DIR)
@@ -87,7 +92,7 @@ $(UCLIBC_DIR)/.unpacked: $(DL_DIR)/$(UCLIBC_SOURCE) $(DL_DIR)/$(UCLIBC_LOCALE_DA
 	$(call APPLY_PATCHES,$(UCLIBC_PATCHES_DIR)/avm $(UCLIBC_PATCHES_DIR),$(UCLIBC_DIR))
 ifeq ($(strip $(FREETZ_TARGET_UCLIBC_0)),y)
 	@echo "#fixing ncurses detection bug" $(SILENT); \
-	$(SED) 's/^main()/int &/' -i "$(UCLIBC_DIR)/extra/config/lxdialog/check-lxdialog.sh" || true
+	$(SED) 's/main() {}/int &/' -i "$(UCLIBC_DIR)/extra/config/Makefile" "$(UCLIBC_DIR)/extra/config/lxdialog/check-lxdialog.sh" 2>/dev/null || true
 endif
 ifeq ($(FREETZ_TARGET_UCLIBC_0_9_33),y)
 # "remove"-part of 980-nptl_remove_duplicate_vfork_in_libpthread
@@ -204,6 +209,17 @@ ifneq ($(or $(FREETZ_TARGET_UCLIBC_0_9_28),$(FREETZ_TARGET_UCLIBC_0_9_29)),y)
 endif
 	touch -c $@
 
+define STRIP_UCLIBC
+	[ "$(FREETZ_STRIP_UCLIBC)" != "y" ] || \
+	for i in $(UCLIBC_FILES); do \
+		[ ! -L "$(TARGET_SPECIFIC_ROOT_DIR)$(UCLIBC_TARGET_SUBDIR)/$$i" ] || continue; \
+		[ -f "$(TARGET_SPECIFIC_ROOT_DIR)$(UCLIBC_TARGET_SUBDIR)/$$i" ] || continue; \
+		file $(TARGET_SPECIFIC_ROOT_DIR)$(UCLIBC_TARGET_SUBDIR)/$$i | grep -q ':.* not stripped' || continue; \
+		echo "stripping $(TARGET_SPECIFIC_ROOT_DIR)$(UCLIBC_TARGET_SUBDIR)/$$i" $(SILENT); \
+		$(TARGET_STRIP) $(TARGET_SPECIFIC_ROOT_DIR)$(UCLIBC_TARGET_SUBDIR)/$$i; \
+	done
+endef
+
 ifeq ($(strip $(FREETZ_BUILD_TOOLCHAIN)),y)
 $(TARGET_TOOLCHAIN_STAGING_DIR)/usr/lib/libc.a: $(UCLIBC_DIR)/lib/libc.a
 	@$(call _ECHO,installing,$(UCLIBC_ECHO_TYPE),$(UCLIBC_ECHO_MAKE))
@@ -252,6 +268,7 @@ $(TARGET_SPECIFIC_ROOT_DIR)$(UCLIBC_TARGET_SUBDIR)/libc.so.$(TARGET_TOOLCHAIN_UC
 		DEVEL_PREFIX=/usr/ \
 		RUNTIME_PREFIX=/ \
 		install_runtime $(SILENT)
+	$(call STRIP_UCLIBC)
 	touch -c $@
 else
 $(TARGET_TOOLCHAIN_STAGING_DIR)/usr/lib/libc.a: $(TARGET_CROSS_COMPILER)
@@ -263,8 +280,8 @@ $(TARGET_SPECIFIC_ROOT_DIR)$(UCLIBC_TARGET_SUBDIR)/libc.so.$(TARGET_TOOLCHAIN_UC
 	for i in $(UCLIBC_FILES); do \
 		[ "$$i" == "libc.so.0" ] && [ ! -e $(TARGET_TOOLCHAIN_STAGING_DIR)/lib/$$i ] && [ ! -L $(TARGET_TOOLCHAIN_STAGING_DIR)/lib/$$i ] && continue; \
 		cp -a $(TARGET_TOOLCHAIN_STAGING_DIR)/lib/$$i $(TARGET_SPECIFIC_ROOT_DIR)$(UCLIBC_TARGET_SUBDIR)/$$i; \
-		file $(TARGET_SPECIFIC_ROOT_DIR)$(UCLIBC_TARGET_SUBDIR)/$$i | grep -q ':.* not stripped' && $(TARGET_STRIP) $(TARGET_SPECIFIC_ROOT_DIR)$(UCLIBC_TARGET_SUBDIR)/$$i || true; \
 	done
+	$(call STRIP_UCLIBC)
 	ln -sf libuClibc-$(UCLIBC_VERSION).so $(TARGET_SPECIFIC_ROOT_DIR)$(UCLIBC_TARGET_SUBDIR)/libc.so
 	touch -c $@
 endif

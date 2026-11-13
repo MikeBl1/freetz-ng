@@ -4,25 +4,35 @@ $(PKG)_SOURCE:=$(pkg)-$($(PKG)_VERSION).tar.gz
 $(PKG)_HASH:=e0491a07cdb21fb9aa82773bbbedaeb7639cbd0e7f96147ab46141e0045db72a
 $(PKG)_SITE:=http://download.oracle.com/berkeley-db
 
+$(PKG)_CATEGORY_LIBS:=Databases
+
 $(PKG)_LIBNAME:=lib$(pkg)-$($(PKG)_LIB_VERSION).so
 $(PKG)_BUILD_SUBDIR:=build_unix
 $(PKG)_BINARY:=$($(PKG)_DIR)/$($(PKG)_BUILD_SUBDIR)/.libs/$($(PKG)_LIBNAME)
 $(PKG)_STAGING_BINARY:=$(TARGET_TOOLCHAIN_STAGING_DIR)/usr/lib/$($(PKG)_LIBNAME)
 $(PKG)_TARGET_BINARY:=$($(PKG)_TARGET_DIR)/$($(PKG)_LIBNAME)
 
+$(PKG)_DEPENDS_ON += config-host
+
 $(PKG)_CONFIGURE_PRE_CMDS := ln -sf ../dist/configure $(DB_BUILD_SUBDIR)/ ;
+$(PKG)_CONFIGURE_PRE_CMDS += $(call PKG_UPDATE_CONFIGS,./dist/)
 $(PKG)_CONFIGURE_OPTIONS += --srcdir=../dist/
 
+#$(PKG)_MUTEX_aarch64:=disabled
 $(PKG)_MUTEX_arm:=ARM/gcc-assembly
-$(PKG)_MUTEX_i686:=*x86/gcc-assembly
 $(PKG)_MUTEX_mips:=MIPS/gcc-assembly
+$(PKG)_MUTEX_i686:=*x86/gcc-assembly
 
 $(PKG)_CONFIGURE_OPTIONS += --enable-static
 $(PKG)_CONFIGURE_OPTIONS += --enable-shared
-$(PKG)_CONFIGURE_OPTIONS += --with-mutex='$($(PKG)_MUTEX_$(call qstrip,$(FREETZ_TARGET_ARCH)))'
 $(PKG)_CONFIGURE_OPTIONS += --disable-cxx
 $(PKG)_CONFIGURE_OPTIONS += --disable-compat185
 $(PKG)_CONFIGURE_OPTIONS += --disable-tcl
+ifeq ($(strip $(FREETZ_TARGET_ARCH_AARCH64)),y)
+$(PKG)_CONFIGURE_OPTIONS += --disable-mutexsupport
+else
+$(PKG)_CONFIGURE_OPTIONS += --with-mutex='$($(PKG)_MUTEX_$(call qstrip,$(FREETZ_TARGET_ARCH)))'
+endif
 $(PKG)_CONFIGURE_OPTIONS += --enable-smallbuild
 
 $(PKG_SOURCE_DOWNLOAD)

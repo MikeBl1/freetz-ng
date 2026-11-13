@@ -57,40 +57,33 @@ MAKE_ENV+=FREETZ_LIBRARY_DIR="$(FREETZ_LIBRARY_DIR)"
 
 
 TARGET_CFLAGS_HW_CAPABILITIES :=
+#
+ifeq ($(findstring y, $(FREETZ_CPU_MODEL_ARM_arm11) $(FREETZ_SYSTEM_TYPE_BCM63138) $(FREETZ_TARGET_ARCH_AARCH64) ),y)
+TARGET_CFLAGS_HW_CAPABILITIES += $(if $(call qstrip,$(FREETZ_GCC_ARCH)),-march=$(call qstrip,$(FREETZ_GCC_ARCH)))
+TARGET_CFLAGS_HW_CAPABILITIES += $(if $(call qstrip,$(FREETZ_GCC_CPU)),-mtune=$(call qstrip,$(FREETZ_GCC_CPU)))
+else
 ifeq ($(strip $(FREETZ_TARGET_ARCH_ARM)),y)
-ifeq ($(strip $(FREETZ_CPU_MODEL_ARM_arm11)),y)
-TARGET_CFLAGS_HW_CAPABILITIES += $(if $(call qstrip,$(FREETZ_GCC_ARCH)),-march=$(call qstrip,$(FREETZ_GCC_ARCH)))
-TARGET_CFLAGS_HW_CAPABILITIES += $(if $(call qstrip,$(FREETZ_GCC_CPU)),-mtune=$(call qstrip,$(FREETZ_GCC_CPU)))
-else
-ifeq ($(strip $(FREETZ_SYSTEM_TYPE_BCM63138)),y)
-TARGET_CFLAGS_HW_CAPABILITIES += $(if $(call qstrip,$(FREETZ_GCC_ARCH)),-march=$(call qstrip,$(FREETZ_GCC_ARCH)))
-TARGET_CFLAGS_HW_CAPABILITIES += $(if $(call qstrip,$(FREETZ_GCC_CPU)),-mtune=$(call qstrip,$(FREETZ_GCC_CPU)))
-else
 TARGET_CFLAGS_HW_CAPABILITIES += $(if $(call qstrip,$(FREETZ_GCC_CPU)),-mcpu=$(call qstrip,$(FREETZ_GCC_CPU)))
-endif
-endif
 else
 TARGET_CFLAGS_HW_CAPABILITIES += $(if $(call qstrip,$(FREETZ_GCC_CPU)),-march=$(call qstrip,$(FREETZ_GCC_CPU)))
 TARGET_CFLAGS_HW_CAPABILITIES += $(if $(call qstrip,$(FREETZ_GCC_CPU)),-mtune=$(call qstrip,$(FREETZ_GCC_CPU)))
 endif
-#
-ifneq ($(strip $(FREETZ_SYSTEM_TYPE_BCM63138)),y)
-TARGET_CFLAGS_HW_CAPABILITIES += $(if $(call qstrip,$(FREETZ_GCC_FPU)),-mfpu=$(call qstrip,$(FREETZ_GCC_FPU)))
 endif
 #
-ifeq ($(strip $(FREETZ_TARGET_ARCH_ARM)),y)
 ifeq ($(strip $(FREETZ_CPU_MODEL_ARM_arm11)),y)
 # ARM 6 uses not like 7+8 common -m%
 TARGET_CFLAGS_HW_CAPABILITIES += $(if $(call qstrip,$(FREETZ_GCC_FLOAT_ABI)),-m$(call qstrip,$(FREETZ_GCC_FLOAT_ABI))-float)
 else
+ifeq ($(strip $(FREETZ_TARGET_ARCH_ARM)),y)
 # ARM 7+8 is the only ARCH using -mfloat-abi=%
 TARGET_CFLAGS_HW_CAPABILITIES += $(if $(call qstrip,$(FREETZ_GCC_FLOAT_ABI)),-mfloat-abi=$(call qstrip,$(FREETZ_GCC_FLOAT_ABI)))
-endif
 else
 # all other ARCHs use -m%-float
 TARGET_CFLAGS_HW_CAPABILITIES += $(if $(call qstrip,$(FREETZ_GCC_FLOAT_ABI)),-m$(call qstrip,$(FREETZ_GCC_FLOAT_ABI))-float)
 endif
+endif
 #
+TARGET_CFLAGS_HW_CAPABILITIES += $(if $(call qstrip,$(FREETZ_GCC_FPU)),-mfpu=$(call qstrip,$(FREETZ_GCC_FPU)))
 TARGET_CFLAGS_HW_CAPABILITIES += $(if $(call qstrip,$(FREETZ_GCC_MODE)),-m$(call qstrip,$(FREETZ_GCC_MODE)))
 
 # additional Freetz controlled and $(FREETZ_TARGET_ARCH) dependent flags
@@ -140,6 +133,7 @@ TARGET_SITE:=$(FREETZ_BASE_DIR)/$(INCLUDE_DIR)/config.site/$(call qstrip,$(FREET
 TARGET_AR:=$(TARGET_MAKE_PATH)/$(TARGET_CROSS)ar
 TARGET_AS:=$(TARGET_MAKE_PATH)/$(TARGET_CROSS)as
 TARGET_CC:=$(TARGET_MAKE_PATH)/$(TARGET_CROSS)gcc
+TARGET_CXX_GNU:=$(TARGET_MAKE_PATH)/$(TARGET_CROSS)g++
 TARGET_CXX:=$(TARGET_MAKE_PATH)/$(TARGET_CROSS)g++-wrapper
 TARGET_LD:=$(TARGET_MAKE_PATH)/$(TARGET_CROSS)ld
 TARGET_LDCONFIG:=$(TARGET_MAKE_PATH)/$(TARGET_CROSS)ldconfig
@@ -297,6 +291,26 @@ PKG_PREVENT_RPATH_HARDCODING = $(foreach f,$1,$(call PKG_PREVENT_RPATH_HARDCODIN
 # 1st level PKG_PREVENT_RPATH_HARDCODING
 PKG_PREVENT_RPATH_HARDCODING1 = $(subst $$$$,$$,$(call PKG_PREVENT_RPATH_HARDCODING,$1))
 
+# Fix meson scripts to prevent RPATH from being hardcoded.
+# Based on PKG_PREVENT_RPATH_HARDCODING
+#
+# Whether RPATH has been hardcoded or not could be tested using the following command:
+#   readelf -d <binary/library> | grep RPATH
+#
+# The macro is intended to be used in $(PKG)_CONFIGURE_PRE_CMDS variable in the following way:
+# $(PKG)_CONFIGURE_POST_CMDS += $(call PKG_PREVENT_RPATH_HARDCODING,builddir/build.ninja)
+#
+# Removes: -Wl,-rpath,/home/.../freetz/toolchain/build/.../.../usr/lib
+PKG_FIX_MESON_HARDCODED_BUILD_RPATH__INT  = -e "s@'?-Wl,-rpath,[^' ]*:?$(TARGET_TOOLCHAIN_STAGING_DIR)/[^' ]+:?[^' ]*'?@@g"
+#
+#
+PKG_PREVENT_MESON_BUILD_RPATH__INT = \
+	cp -a $1 $1.before_rpath_fix; \
+	$(SED) -i -r \
+		$(PKG_FIX_MESON_HARDCODED_BUILD_RPATH__INT) \
+	$1;
+PKG_PREVENT_MESON_BUILD_RPATH = $(foreach f,$1,$(call PKG_PREVENT_MESON_BUILD_RPATH__INT,$(f)))
+
 # Changes a typical Makefile.in line from "FOO = @FOO@" to "FOO = @FOO@ $(EXTRA_FOO)", i.e. adds $(EXTRA_FOO) at the end
 # $1 - variable name or variable names separated by |, i.e. regex OR pattern
 # $2 - optional $($(PKG)_DIR) subdir
@@ -333,7 +347,7 @@ endef
 
 define INSTALL_BINARY_STRIP
 $(INSTALL_FILE) \
-[ "$(FREETZ_SEPARATE_AVM_UCLIBC)" == "y" ] && $(PATCHELF) --set-interpreter $(FREETZ_LIBRARY_DIR)/ld-uClibc.so.1 $@ || true; \
+[ "$(FREETZ_SEPARATE_AVM_UCLIBC)" != "y" ] || ! $(TARGET_READELF) -l $@ | grep -q INTERP || $(PATCHELF) --set-interpreter $(FREETZ_LIBRARY_DIR)/ld-uClibc.so.1 $@; \
 $(TARGET_STRIP) $@;
 endef
 define INSTALL_LIBRARY__INT
@@ -367,8 +381,9 @@ endef
 # $1 - library to be installed
 # $2 - directory library to be installed in
 # $3 (optional) - DESTDIR library to be installed in, defaults to $(PKG)_DEST_DIR if omitted
+# $4 (optional) - DESTLIB library install name, defaults to $(notdir $(1)) if omitted
 define INSTALL_LIBRARY_STRIP_RULE
-$(if $(strip $(3)),$(strip $(3)),$($(PKG)_DEST_DIR))$(strip $(2))/$(notdir $(strip $(1))): $(strip $(1))
+$(if $(strip $(3)),$(strip $(3)),$($(PKG)_DEST_DIR))$(strip $(2))/$(if $(strip $(4)),$(notdir $(strip $(4))),$(notdir $(strip $(1)))): $(strip $(1))
 	$(value INSTALL_LIBRARY_STRIP)
 endef
 
@@ -576,7 +591,7 @@ $(pkg)-distclean: $(pkg)-dirclean $(pkg)-clean $(pkg)-uninstall
 
 $(pkg)-autofix: $(pkg)-dirclean
 	$(MAKE) AUTO_FIX_PATCHES=y $(pkg)-unpacked
-$(pkg)-recompile: $(pkg)-dirclean $(pkg)-precompiled
+$(pkg)-recompile: $(pkg)-distclean $(pkg)-precompiled
 .PHONY: $(pkg)-autofix $(pkg)-recompile
 
 PKG_TYPE:=

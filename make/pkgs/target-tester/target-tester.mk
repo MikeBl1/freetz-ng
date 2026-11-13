@@ -1,5 +1,5 @@
 $(call PKG_INIT_BIN, 0.1)
-### SUPPORT:=X
+### STEWARD:=X
 
 $(PKG)_BINARY_NAME_LFS:=target-tester-lfs
 $(PKG)_BINARY_LFS:=$($(PKG)_DIR)/$($(PKG)_BINARY_NAME_LFS)
@@ -44,7 +44,7 @@ $(PKG)_BINARY_NAME_excepttest:=excepttest
 $(PKG)_BINARY_excepttest:=$($(PKG)_DIR)/$($(PKG)_BINARY_NAME_excepttest)
 $(PKG)_TARGET_BINARY_excepttest:=$($(PKG)_DEST_DIR)/usr/bin/$($(PKG)_BINARY_NAME_excepttest)
 
-$(PKG)_CATEGORY:=Debug helpers
+$(PKG)_CATEGORY_PKGS:=Debug helpers
 
 TARGET_CFLAGS_WITHOUT_OPTIMIZATION_FLAGS:=$(strip $(subst -Os,,$(TARGET_CFLAGS)))
 

@@ -1,12 +1,14 @@
-$(call PKG_INIT_BIN, 5.6.4)
+$(call PKG_INIT_BIN, 5.8.4)
 $(PKG)_LIB_VERSION:=$($(PKG)_VERSION)
 $(PKG)_SOURCE:=$(pkg)-$($(PKG)_VERSION).tar.xz
-$(PKG)_HASH:=829ccfe79d769748f7557e7a4429a64d06858e27e1e362e25d01ab7b931d9c95
+$(PKG)_HASH:=4ce24038fd4221e0d13bc1a2de7a4db56e90b92b3bf75321f6c14be73f65de4b
 $(PKG)_SITE:=https://github.com/tukaani-project/xz/releases/download/v$($(PKG)_VERSION),https://tukaani.org/xz
 ### WEBSITE:=https://tukaani.org/xz/
 ### CHANGES:=https://git.tukaani.org/?p=xz.git;a=blob_plain;f=NEWS;hb=HEAD
 ### CVSREPO:=https://git.tukaani.org/?p=xz.git
-### SUPPORT:=fda77
+### STEWARD:=fda77
+
+$(PKG)_CATEGORY_LIBS:=Data compression
 
 $(PKG)_BINARY:=$($(PKG)_DIR)/src/xz/.libs/xz
 $(PKG)_TARGET_BINARY:=$($(PKG)_DEST_DIR)/usr/bin/xz

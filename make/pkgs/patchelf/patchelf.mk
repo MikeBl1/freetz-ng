@@ -1,19 +1,22 @@
-$(call PKG_INIT_BIN, 0.18.0)
+$(call PKG_INIT_BIN, 0.19.3)
 $(PKG)_SOURCE:=patchelf-$($(PKG)_VERSION).tar.bz2
-$(PKG)_HASH:=1952b2a782ba576279c211ee942e341748fdb44997f704dd53def46cd055470b
+$(PKG)_HASH:=20dbe23e9dbc4ad769078a867ad002c04297a069ff93c95fb72242dd55d4dd6f
 $(PKG)_SITE:=https://github.com/NixOS/patchelf/releases/download/$($(PKG)_VERSION)
 ### WEBSITE:=https://github.com/NixOS/patchelf
 ### MANPAGE:=https://github.com/NixOS/patchelf/blob/master/README.md
 ### CHANGES:=https://github.com/NixOS/patchelf/releases
 ### CVSREPO:=https://github.com/NixOS/patchelf
-### SUPPORT:=Ircama
+### STEWARD:=fda77
 
-$(PKG)_CATEGORY:=Debug helpers
+$(PKG)_CATEGORY_PKGS:=Debug helpers
 
-$(PKG)_DEPENDS_ON += $(STDCXXLIB)
+$(PKG)_DEPENDS_ON += libstdcxx
 
 $(PKG)_BINARY_BUILD := $($(PKG)_DIR)/src/patchelf
 $(PKG)_BINARY_TARGET := $($(PKG)_DEST_DIR)/usr/bin/patchelf
+
+$(PKG)_CONFIGURE_ENV += CXX="$(TARGET_CXX_GNU)"
+$(PKG)_CONFIGURE_ENV += CXXFLAGS="$(TARGET_CFLAGS) -fPIC"
 
 
 ifneq ($($(PKG)_SOURCE),$(PATCHELF_HOST_SOURCE))

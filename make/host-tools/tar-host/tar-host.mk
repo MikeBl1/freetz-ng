@@ -6,14 +6,13 @@ $(PKG)_SITE:=@GNU/tar
 ### MANPAGE:=https://www.gnu.org/software/tar/manual/
 ### CHANGES:=https://www.gnu.org/software/tar/#releases
 ### CVSREPO:=https://git.savannah.gnu.org/cgit/tar.git
-### SUPPORT:=fda77
+### STEWARD:=fda77
 
 $(PKG)_DEPENDS_ON:=kconfig-host
 
 $(PKG)_BINARY:=$($(PKG)_DIR)/src/tar
 $(PKG)_TARGET_BINARY:=$(TOOLS_DIR)/tar-gnu
 
-$(PKG)_CONFIGURE_OPTIONS += --prefix=/
 $(PKG)_CONFIGURE_OPTIONS += --without-selinux
 $(PKG)_CONFIGURE_OPTIONS += --disable-acl
 ifeq ($(strip $(FREETZ_ANCIENT_SYSTEM)),y)
@@ -32,8 +31,8 @@ $(TOOLS_UNPACKED)
 $(TOOLS_CONFIGURED_CONFIGURE)
 
 $($(PKG)_BINARY): $($(PKG)_DIR)/.configured
-	$(TOOLS_SUBMAKE) -C $(TAR_HOST_DIR) all
-	touch -c $@
+	$(TOOLS_SUBMAKE) -C $(TAR_HOST_DIR) \
+		all
 
 $($(PKG)_TARGET_BINARY): $($(PKG)_BINARY)
 	$(INSTALL_FILE)

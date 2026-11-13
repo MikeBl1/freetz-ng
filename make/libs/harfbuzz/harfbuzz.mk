@@ -1,12 +1,14 @@
-$(call PKG_INIT_LIB, 12.1.0)
-$(PKG)_LIB_VERSION:=0.61210.0
+$(call PKG_INIT_LIB, 15.1.0)
+$(PKG)_LIB_VERSION:=0.61510.0
 $(PKG)_SOURCE:=harfbuzz-$($(PKG)_VERSION).tar.xz
-$(PKG)_HASH:=e5c81b7f6e0b102dfb000cfa424538b8e896ab78a2f4b8a5ec8cae62ab43369e
+$(PKG)_HASH:=0fc7c565443a5f4be7da65ac5ee5bd737d9b158dc908708b7689a0a5796b0c8d
 $(PKG)_SITE:=https://github.com/harfbuzz/harfbuzz/releases/download/$($(PKG)_VERSION)
 ### WEBSITE:=https://harfbuzz.github.io/
 ### MANPAGE:=https://github.com/harfbuzz/harfbuzz/wiki
 ### CHANGES:=https://github.com/harfbuzz/harfbuzz/releases
 ### CVSREPO:=https://github.com/harfbuzz/harfbuzz
+
+$(PKG)_CATEGORY_LIBS:=Graphics & fonts
 
 $(PKG)_LIBNAME_SHORT:=$(pkg)
 $(PKG)_LIBNAME_LONG:=$($(PKG)_LIBNAME_SHORT:%=lib%.so.$($(PKG)_LIB_VERSION))
@@ -16,11 +18,13 @@ $(PKG)_TARGET_BINARY:=$($(PKG)_TARGET_DIR)/$($(PKG)_LIBNAME_LONG)
 
 $(PKG)_DEPENDS_ON += meson-host
 $(PKG)_DEPENDS_ON += freetype
+$(PKG)_DEPENDS_ON += libstdcxx
 
 $(PKG)_REBUILD_SUBOPTS += FREETZ_STDCXXLIB
 
+$(PKG)_CONFIGURE_PRE_CMDS += $(SED) -i "s!$(TARGET_CXX)!$(TARGET_CXX_GNU)!g" meson.freetz;
+
 $(PKG)_CONFIGURE_OPTIONS += -D buildtype=release
-$(PKG)_CONFIGURE_OPTIONS += -D tests=disabled
 $(PKG)_CONFIGURE_OPTIONS += -D benchmark=disabled
 $(PKG)_CONFIGURE_OPTIONS += -D docs=disabled
 $(PKG)_CONFIGURE_OPTIONS += -D doc_tests=false
@@ -32,10 +36,19 @@ $(PKG)_CONFIGURE_OPTIONS += -D directwrite=disabled
 $(PKG)_CONFIGURE_OPTIONS += -D gdi=disabled
 $(PKG)_CONFIGURE_OPTIONS += -D glib=disabled
 $(PKG)_CONFIGURE_OPTIONS += -D gobject=disabled
+$(PKG)_CONFIGURE_OPTIONS += -D gpu=disabled
+$(PKG)_CONFIGURE_OPTIONS += -D gpu_demo=disabled
 $(PKG)_CONFIGURE_OPTIONS += -D graphite=disabled
 $(PKG)_CONFIGURE_OPTIONS += -D graphite2=disabled
 $(PKG)_CONFIGURE_OPTIONS += -D icu=disabled
 $(PKG)_CONFIGURE_OPTIONS += -D introspection=disabled
+$(PKG)_CONFIGURE_OPTIONS += -D raster=disabled
+$(PKG)_CONFIGURE_OPTIONS += -D subset=disabled
+$(PKG)_CONFIGURE_OPTIONS += -D tests=disabled
+$(PKG)_CONFIGURE_OPTIONS += -D utilities=disabled
+$(PKG)_CONFIGURE_OPTIONS += -D vector=disabled
+$(PKG)_CONFIGURE_OPTIONS += -D wasm=disabled
+$(PKG)_CONFIGURE_OPTIONS += -D zlib=disabled
 
 
 $(PKG_SOURCE_DOWNLOAD)

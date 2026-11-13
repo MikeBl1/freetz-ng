@@ -1,7 +1,6 @@
-CCACHE_VERSION:=4.11.3
-# Since cmake 4.12 is cmake 3.18 required, ubuntu 20lts has cmake 3.16.3
+CCACHE_VERSION:=$(CCACHE_KERNEL_VERSION)
 CCACHE_SOURCE:=ccache-$(CCACHE_VERSION).tar.xz
-CCACHE_HASH:=d5a340e199977b7b1e89c0add794132c977fdc2ecc7ca5451e03d43627a1b1be
+CCACHE_HASH:=$(CCACHE_KERNEL_HASH)
 CCACHE_SITE:=https://github.com/ccache/ccache/releases/download/v$(CCACHE_VERSION)
 ### WEBSITE:=https://ccache.dev/
 ### MANPAGE:=https://ccache.dev/documentation.html
@@ -39,8 +38,8 @@ $(CCACHE_DIR)/.configured: $(CCACHE_DIR)/.unpacked
 	(cd $(CCACHE_DIR); $(RM) CMakeCache.txt; \
 		CC="$(TOOLCHAIN_HOSTCC)" \
 		CXX="$(TOOLCHAIN_HOSTCXX)" \
-		CFLAGS="$(TOOLCHAIN_HOST_TARGET_CFLAGS)" \
-		CXXFLAGS="$(TOOLCHAIN_HOST_TARGET_CFLAGS)" \
+		CFLAGS="$(TOOLCHAIN_HOST_CFLAGS)" \
+		CXXFLAGS="$(TOOLCHAIN_HOST_CFLAGS)" \
 		$(CMAKE) . \
 		-DCMAKE_C_COMPILER_TARGET=$(GNU_HOST_NAME) \
 		-DCMAKE_CXX_COMPILER_TARGET=$(GNU_HOST_NAME) \

@@ -1,14 +1,14 @@
-$(call PKG_INIT_BIN, $(if $(FREETZ_PACKAGE_TCPDUMP_VERSION_ABANDON),4.1.1,4.99.5))
+$(call PKG_INIT_BIN, $(if $(FREETZ_PACKAGE_TCPDUMP_VERSION_ABANDON),4.1.1,4.99.7))
 $(PKG)_SOURCE:=tcpdump-$($(PKG)_VERSION).tar.gz
 $(PKG)_HASH_ABANDON:=e6cd4bbd61ec7adbb61ba8352c4b4734f67b8caaa845d88cb826bc0b9f1e7f0a
-$(PKG)_HASH_CURRENT:=8c75856e00addeeadf70dad67c9ff3dd368536b2b8563abf6854d7c764cd3adb
+$(PKG)_HASH_CURRENT:=8be364e28d3b745ef1459b385cd2f4bc0e1ebad7a5d2ebdf70071d6c9b5b9a54
 $(PKG)_HASH:=$($(PKG)_HASH_$(if $(FREETZ_PACKAGE_TCPDUMP_VERSION_ABANDON),ABANDON,CURRENT))
 $(PKG)_SITE:=https://www.tcpdump.org/release
 ### WEBSITE:=https://www.tcpdump.org
 ### MANPAGE:=https://www.tcpdump.org/manpages/tcpdump.1.html
 ### CHANGES:=https://github.com/the-tcpdump-group/tcpdump/blob/master/CHANGES
 ### CVSREPO:=https://github.com/the-tcpdump-group/tcpdump
-### SUPPORT:=fda77
+### STEWARD:=fda77
 
 $(PKG)_BINARY:=$($(PKG)_DIR)/tcpdump
 $(PKG)_TARGET_BINARY:=$($(PKG)_DEST_DIR)/usr/bin/tcpdump

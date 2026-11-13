@@ -1,7 +1,7 @@
 $(call PKG_INIT_BIN, 0.2.3.cvs20090713.orig)
 $(PKG)_LIB_VERSION:=1.0.0
 $(PKG)_SOURCE:=$(pkg)_$($(PKG)_VERSION).tar.gz
-$(PKG)_SITE:=http://ftp.de.debian.org/debian/pool/main/s/scanbuttond
+$(PKG)_SITE:=@DEBIAN/scanbuttond
 $(PKG)_HASH:=1cf06323b76bdb263dc1eed98460d0a33ca92a27a48d8dfd3ed56bda2b3654c5
 
 $(PKG)_INSTALL_SUBDIR:=_install
@@ -22,12 +22,12 @@ $(PKG)_SCRIPTS_TARGET_DIR := $($(PKG)_SCRIPTS:%=$($(PKG)_DEST_DIR)/etc/default.s
 
 $(PKG)_META_TARGET_DIR    := $($(PKG)_DEST_DIR)/etc/default.scanbuttond/meta.conf
 
-$(PKG)_CATEGORY:=Unstable
+$(PKG)_CATEGORY_PKGS:=Unstable
 
 $(PKG)_REBUILD_SUBOPTS += $(foreach backend,$($(PKG)_BACKENDS_ALL),FREETZ_PACKAGE_SCANBUTTOND_BACKEND_$(backend))
-$(PKG)_REBUILD_SUBOPTS += $(LIBUSB_REBUILD_SUBOPTS)
+$(PKG)_REBUILD_SUBOPTS += $(LIBUSB0_REBUILD_SUBOPTS)
 
-$(PKG)_DEPENDS_ON += libusb
+$(PKG)_DEPENDS_ON += libusb0
 
 $(PKG)_CONFIGURE_PRE_CMDS += $(AUTORECONF)
 $(PKG)_CONFIGURE_PRE_CMDS += $(call PKG_PREVENT_RPATH_HARDCODING,./configure)

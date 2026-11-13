@@ -112,13 +112,29 @@ config FREETZ_REMOVE_DSL_CONTROL
 	help
 		Removes /usr/sbin/dsl_control. This saves about
 		540-669 KB of uncompressed data size.
-		Select this only if you don't use the the DSL modem. See
+		Select this only if you don't use the DSL modem. See
+		https://web.archive.org/20200701000000/wehavemorefun.de/fritzbox/Dsl_control
+
+config FREETZ_REMOVE_DSL_DAEMON
+	bool "Remove dsl_daemon"
+	depends on FREETZ_AVM_HAS_DSL_DAEMON && \
+		( \
+			FREETZ_REMOVE_ANNEX_A_FIRMWARE || \
+			FREETZ_REMOVE_ANNEX_B_FIRMWARE || \
+			FREETZ_REMOVE_MULTI_ANNEX_FIRMWARE_PRIME \
+		)
+	default n
+	help
+		Removes /usr/sbin/dsl_daemon, the successor of dsl_control. This saves about
+		1500 KB of uncompressed data size.
+		Select this only if you don't use the DSL modem. For dsl_control see
 		https://web.archive.org/20200701000000/wehavemorefun.de/fritzbox/Dsl_control
 
 config FREETZ_REMOVE_DSLD
 	bool "Remove dsld"
 	default n
 	depends on FREETZ_AVM_HAS_DSLD
+	depends on FREETZ_AVM_VERSION_08_0X_MAX || FREETZ_REAL_DEVELOPER_ONLY  # never tested by anyone with fos 8.2x+
 	select FREETZ_REMOVE_UPNP
 	select FREETZ_REMOVE_KIDS if FREETZ_AVM_HAS_KIDS
 	help
@@ -310,6 +326,7 @@ config FREETZ_REMOVE_NEXUS
 	bool "Remove NEXUS - EXPERIMENTAL"
 	default n
 	depends on FREETZ_AVM_HAS_NEXUS
+	depends on FREETZ_AVM_VERSION_08_0X_MAX || FREETZ_REAL_DEVELOPER_ONLY  # never tested by anyone with fos 8.2x+
 	help
 		Removes "nexus" related files like
 		the daemon, service and some scripts.
@@ -385,8 +402,8 @@ config FREETZ_REMOVE_MYFRITZ
 
 config FREETZ_REMOVE_DDNSD
 	bool "Remove DDNSD"
-	default n
 	depends on FREETZ_AVM_HAS_DDNSD
+	default n
 	help
 		Removes the Dynamic DNS daemon (saves about 70 KB in compressed image)
 
@@ -484,6 +501,11 @@ config FREETZ_REMOVE_LANGUAGE_nl
 config FREETZ_REMOVE_LANGUAGE_pl
 	bool "pl"
 	depends on FREETZ_REMOVE_LANGUAGE && FREETZ_AVM_HAS_LANGUAGE_pl
+	default y
+
+config FREETZ_REMOVE_LANGUAGE_sl
+	bool "sl"
+	depends on FREETZ_REMOVE_LANGUAGE && FREETZ_AVM_HAS_LANGUAGE_sl
 	default y
 
 
@@ -675,6 +697,7 @@ config FREETZ_REMOVE_HELP
 config FREETZ_REMOVE_LIBFUSE
 	bool "Remove libfuse.so"
 	depends on FREETZ_AVM_HAS_LIBFUSE
+	depends on FREETZ_AVM_VERSION_08_0X_MAX || FREETZ_REAL_DEVELOPER_ONLY  # never tested by anyone with fos 8.2x+
 	select FREETZ_REMOVE_NTFS if FREETZ_AVM_HAS_NTFS && !FREETZ_AVMPLUGINS_NTFS
 	select FREETZ_REMOVE_WEBDAV if FREETZ_AVM_HAS_WEBDAV
 	default n
@@ -736,6 +759,15 @@ config FREETZ_REMOVE_LSOF
 		Remove /bin/lsof binary.
 		This saves about 48 KB compressed space in kernel.image.
 
+config FREETZ_REMOVE_HD_IDLE
+	bool "Remove hd-idle"
+	depends on FREETZ_AVM_HAS_HD_IDLE
+	default n
+	help
+		Remove hd-idle binary (about 9-66 kB uncompressed).
+		The hd-idle binary is only usefull if you use a HDD.
+		A SSD or USB stick does not need hd-idle.
+
 config FREETZ_REMOVE_SOCAT
 	bool "Remove socat"
 	depends on FREETZ_AVM_HAS_SOCAT
@@ -789,6 +821,7 @@ config FREETZ_REMOVE_NLS
 config FREETZ_REMOVE_USBHOST
 	bool "Remove USB Host"
 	depends on FREETZ_AVM_HAS_USB_HOST
+	depends on FREETZ_AVM_VERSION_08_0X_MAX || FREETZ_REAL_DEVELOPER_ONLY  # never tested by anyone with fos 8.2x+
 	default n
 	help
 		Remove USB Host
@@ -817,6 +850,7 @@ config FREETZ_REMOVE_PRINTSERV_MODULE
 
 config FREETZ_REMOVE_RUNCLOCK
 	bool "Remove run_clock"
+	depends on FREETZ_AVM_HAS_RUN_CLOCK
 	default n
 	help
 		Remove /bin/run_clock (operating hours meter) daemon.
@@ -951,12 +985,13 @@ config FREETZ_REMOVE_UMTSD
 	default n
 	help
 		Remove UMTS support
-		This patch will remove UMTS-dependent files from firmware.
-		It saves about 12K compressed space in kernel.image.
+		This patch will remove UMTS and MOBILED dependent files from firmware.
+		It saves about 12 KB - 176 KB compressed space in kernel.image.
 
 config FREETZ_REMOVE_UPNP
 	bool "Remove UPnP (igdd/upnpd)"
 	depends on !FREETZ_TYPE_EXTENDER
+	depends on FREETZ_AVM_VERSION_08_0X_MAX || FREETZ_REAL_DEVELOPER_ONLY  # never tested by anyone with fos 8.2x+
 	select FREETZ_AVMDAEMON_DISABLE_IGD
 	select FREETZ_REMOVE_UPNP_LIBS if \
 		FREETZ_TYPE_2170 || \
@@ -997,6 +1032,19 @@ config FREETZ_REMOVE_UPNP_LIBS
 	bool
 	depends on FREETZ_REMOVE_UPNP
 	default n
+
+config FREETZ_REMOVE_ASSETSD
+	bool "Remove ASSETSD (assets downloader)"
+	depends on FREETZ_AVM_HAS_ASSETSD
+	default n
+	help
+		Remove assetsd (assets downloader) files
+		At least you can no longer download and update:
+		 - AVM IP-Sperrliste with eg ExpressVPN and egypt providers
+		   Vacation in Egypt?
+		   Unfortunately, no access to your Fritzbox!
+		   Not even if you chose wrong VPN provider.
+		 - Secret and unverifiable german BPjM-Sperrliste
 
 config FREETZ_REMOVE_KIDS
 	bool "Remove kids (usermand/contfiltd)"
@@ -1384,7 +1432,7 @@ config FREETZ_MODIFY_DSL_SETTINGS
 
 config FREETZ_MODIFY_COUNTER
 	bool "Extend online counter"
-	depends on !FREETZ_TYPE_EXTENDER && FREETZ_AVM_VERSION_06_5X_MIN && !FREETZ_REMOVE_DSLD
+	depends on !FREETZ_TYPE_EXTENDER && FREETZ_AVM_VERSION_06_5X_MIN && !FREETZ_REMOVE_DSLD && FREETZ_AVM_VERSION_08_2X_MAX
 	default n
 	help
 		Converts counter hours to days and traffic MB to GB.
@@ -1810,6 +1858,7 @@ config FREETZ_REPLACE_DTRACE
 config FREETZ_REPLACE_ONLINECHANGED
 	bool "Replace onlinechanged - EXPERIMENTAL"
 	depends on FREETZ_SHOW_EXPERT
+	depends on !FREETZ_AVM_HAS_SVCTL
 	default n
 	help
 		AVM's built-in onlinechanged is not reliably called on some DSL boxes for

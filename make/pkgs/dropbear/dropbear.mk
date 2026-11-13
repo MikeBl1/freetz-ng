@@ -1,13 +1,13 @@
-$(call PKG_INIT_BIN, 2025.88)
+$(call PKG_INIT_BIN, 2026.94)
 $(PKG)_SOURCE:=$(pkg)-$($(PKG)_VERSION).tar.bz2
-$(PKG)_HASH:=783f50ea27b17c16da89578fafdb6decfa44bb8f6590e5698a4e4d3672dc53d4
+$(PKG)_HASH:=e098034a843699200c8c977a991fff73159735bf795d5f72ef672c41a6b1ae81
 $(PKG)_SITE:=https://matt.ucc.asn.au/dropbear/releases,https://dropbear.nl/mirror/releases
 #$(PKG)_SITE:=hg@https://secure.ucc.asn.au/hg/dropbear
 ### WEBSITE:=https://matt.ucc.asn.au/dropbear/dropbear.html
 ### MANPAGE:=https://linux.die.net/man/8/dropbear
 ### CHANGES:=https://matt.ucc.asn.au/dropbear/CHANGES
 ### CVSREPO:=https://github.com/mkj/dropbear
-### SUPPORT:=fda77
+### STEWARD:=fda77
 
 $(PKG)_BINARY:=$($(PKG)_DIR)/dropbearmulti
 $(PKG)_TARGET_BINARY:=$($(PKG)_DEST_DIR)/usr/sbin/dropbearmulti

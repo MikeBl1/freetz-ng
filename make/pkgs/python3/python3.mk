@@ -1,14 +1,18 @@
-$(call PKG_INIT_BIN, 3.13.7)
-$(PKG)_MAJOR_VERSION:=$(call GET_MAJOR_VERSION,$($(PKG)_VERSION))
+$(call PKG_INIT_BIN, 3.14.8)
 $(PKG)_SOURCE:=Python-$($(PKG)_VERSION).tar.xz
-$(PKG)_HASH:=5462f9099dfd30e238def83c71d91897d8caa5ff6ebc7a50f14d4802cdaaa79a
+$(PKG)_HASH:=c2215904f02b175596dc49351585104f4bc20341e1c47378b26a2c274360ce73
 $(PKG)_SITE:=https://www.python.org/ftp/python/$($(PKG)_VERSION)
 ### WEBSITE:=https://www.python.org/
 ### MANPAGE:=https://docs.python.org/3/
 ### CHANGES:=https://www.python.org/downloads/
 ### CVSREPO:=https://github.com/python/cpython
 
+$(PKG)_DEPENDS_ON+=patchelf-host
+
 $(PKG)_LOCAL_INSTALL_DIR:=$($(PKG)_DIR)/_install
+
+$(PKG)_MAJOR_VERSION:=$(call GET_MAJOR_VERSION,$($(PKG)_VERSION))
+$(PKG)_MAJOR_VERSION_1:=$(call GET_MAJOR_VERSION,$($(PKG)_VERSION),1)
 
 $(PKG)_TARGET_BINARY:=$($(PKG)_DEST_DIR)/usr/bin/python$($(PKG)_MAJOR_VERSION).bin
 $(PKG)_LIB_PYTHON3_TARGET_DIR:=$($(PKG)_TARGET_LIBDIR)/libpython$($(PKG)_MAJOR_VERSION).so.1.0
@@ -29,9 +33,9 @@ $(PKG)_MODULES_ALL := \
 $(PKG)_MODULES_SELECTED := $(call PKG_SELECTED_SUBOPTIONS,$($(PKG)_MODULES_ALL),MOD)
 $(PKG)_MODULES_EXCLUDED := $(filter-out $($(PKG)_MODULES_SELECTED),$($(PKG)_MODULES_ALL))
 
-$(PKG)_EXCLUDED_FILES   := $(call newline2space,$(foreach mod,$($(PKG)_MODULES_EXCLUDED),$(PyMod/$(mod)/files)))
-$(PKG)_UNNECESSARY_DIRS := $(if $(FREETZ_PACKAGE_PYTHON3_COMPRESS_PYC),$(call newline2space,$(Python/unnecessary-if-compression-enabled/dirs)))
-$(PKG)_UNNECESSARY_DIRS += $(call newline2space,$(foreach mod,$($(PKG)_MODULES_EXCLUDED),$(PyMod/$(mod)/dirs)))
+$(PKG)_EXCLUDED_FILES   := $(call newline2space,$(foreach mod,$($(PKG)_MODULES_EXCLUDED),$(PyMod3/$(mod)/files)))
+$(PKG)_UNNECESSARY_DIRS := $(if $(FREETZ_PACKAGE_PYTHON3_COMPRESS_PYC),$(call newline2space,$(Python3/unnecessary-if-compression-enabled/dirs)))
+$(PKG)_UNNECESSARY_DIRS += $(call newline2space,$(foreach mod,$($(PKG)_MODULES_EXCLUDED),$(PyMod3/$(mod)/dirs)))
 
 $(PKG)_DEPENDS_ON += python3-host expat libffi zlib
 $(PKG)_DEPENDS_ON += $(if $(FREETZ_PACKAGE_PYTHON3_MOD_BSDDB),db)
@@ -56,12 +60,15 @@ $(PKG)_CONFIGURE_ENV += ac_cv_have_long_long_format=yes
 $(PKG)_CONFIGURE_ENV += ac_cv_buggy_getaddrinfo=no
 $(PKG)_CONFIGURE_ENV += ac_cv_file__dev_ptmx=no
 $(PKG)_CONFIGURE_ENV += ac_cv_file__dev_ptc=no
+# CPython 3.14 builds this module even when process_vm_readv is unavailable.
+$(PKG)_CONFIGURE_ENV += py_cv_module__remote_debugging=n/a
 $(PKG)_CONFIGURE_ENV += OPT="-fno-inline"
 
 $(PKG)_CONFIGURE_OPTIONS += --disable-test-modules
 $(PKG)_CONFIGURE_OPTIONS += --with-system-expat
 $(PKG)_CONFIGURE_OPTIONS += --with-build-python=$(abspath $(TOOLS_DIR)/path/python3)
 $(PKG)_CONFIGURE_OPTIONS += --with-ensurepip=no
+$(PKG)_CONFIGURE_OPTIONS += --without-remote-debug
 $(PKG)_CONFIGURE_OPTIONS += --enable-ipv6
 $(PKG)_CONFIGURE_OPTIONS += $(if $(FREETZ_PACKAGE_PYTHON3_STATIC),--disable-shared,--enable-shared)
 
@@ -89,11 +96,11 @@ $($(PKG)_DIR)/.installed: $($(PKG)_DIR)/.compiled
 		install
 	(cd $(FREETZ_BASE_DIR)/$(PYTHON3_LOCAL_INSTALL_DIR); \
 		chmod -R u+w usr; \
-		$(RM) -r $(call newline2space,$(Python/unnecessary/files)); \
+		$(RM) -r $(call newline2space,$(Python3/unnecessary/files)); \
 		\
 		find usr/lib/python$(PYTHON3_MAJOR_VERSION)/ -name "*.pyo" -delete; \
 		\
-		[ "$(FREETZ_SEPARATE_AVM_UCLIBC)" == "y" ] && $(PATCHELF) --set-interpreter /usr/lib/freetz/ld-uClibc.so.1 usr/bin/python$(PYTHON3_MAJOR_VERSION); \
+		[ "$(FREETZ_SEPARATE_AVM_UCLIBC)" != "y" ] || $(PATCHELF) --set-interpreter $(FREETZ_LIBRARY_DIR)/ld-uClibc.so.1 usr/bin/python$(PYTHON3_MAJOR_VERSION); \
 		\
 		$(TARGET_STRIP) \
 			usr/bin/python$(PYTHON3_MAJOR_VERSION) \
@@ -115,7 +122,7 @@ $($(PKG)_TARGET_BINARY): $($(PKG)_DIR)/.installed
 	(cd $(PYTHON3_DEST_DIR); \
 		echo -n > usr/lib/python$(PYTHON3_MAJOR_VERSION)/config-$(PYTHON3_MAJOR_VERSION)/Makefile; \
 		find usr/include/python$(PYTHON3_MAJOR_VERSION)/ -name "*.h" \! -name "pyconfig.h" \! -name "Python.h" -delete; \
-		$(RM) -r $(call newline2space,$(Python/development/files)); \
+		$(RM) -r $(call newline2space,$(Python3/development/files)); \
 	); \
 	touch -c $@
 

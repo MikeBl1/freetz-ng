@@ -6,7 +6,7 @@ $(PKG)_SITE:=@GNU/$(pkg_short)
 ### MANPAGE:=https://www.gnu.org/software/make/manual/
 ### CHANGES:=https://ftp.gnu.org/gnu/make/
 ### CVSREPO:=https://git.savannah.gnu.org/cgit/make.git
-### SUPPORT:=fda77
+### STEWARD:=fda77
 
 $(PKG)_DESTDIR:=$(FREETZ_BASE_DIR)/$(TOOLS_DIR)/build
 
@@ -38,6 +38,7 @@ $($(PKG)_INCLUDE_TARGET): $($(PKG)_INCLUDE_SOURCE)
 	$(INSTALL_FILE)
 
 $($(PKG)_BINARY_TARGET): $($(PKG)_BINARY_SOURCE)
+	$(RM) $(MAKE_HOST_BINARY_TARGET)
 	$(INSTALL_FILE)
 
 $(pkg)-precompiled: $($(PKG)_BINARY_TARGET) $($(PKG)_INCLUDE_TARGET)
