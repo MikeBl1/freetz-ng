@@ -32,8 +32,10 @@ jobs:
       - name: Repository auschecken
         uses: actions/checkout@v4
 
-      - name: Speicherplatz freigeben
-        run: sudo rm -rf /usr/share/dotnet /usr/local/lib/android /opt/ghc
+      - name: Maximalen Speicherplatz freigeben
+        run: |
+          sudo rm -rf /usr/share/dotnet /usr/local/lib/android /opt/ghc /opt/hostedtoolcache
+          df -h
 
       - name: Alle Freetz-NG Pakete installieren
         run: |
@@ -47,8 +49,8 @@ jobs:
             exit 1
           fi
           
-          # Modell-, Firmware-Versions-, Toolchain- und External-Zeilen bereinigen
-          grep -vE "^FREETZ_TYPE_7|^# FREETZ_TYPE_7|^FREETZ_TYPE_FIRMWARE_0|^# FREETZ_TYPE_FIRMWARE_0|^FREETZ_BUILD_TOOLCHAIN|^FREETZ_DOWNLOAD_TOOLCHAIN|^FREETZ_EXTERNAL_|^# EXTERNAL_ENABLED" config.base > .config
+          # Modell-, Firmware-, Toolchain-, Compiler- und External-Zeilen bereinigen
+          grep -vE "^FREETZ_TYPE_7|^# FREETZ_TYPE_7|^FREETZ_TYPE_FIRMWARE_0|^# FREETZ_TYPE_FIRMWARE_0|^FREETZ_BUILD_TOOLCHAIN|^FREETZ_DOWNLOAD_TOOLCHAIN|^FREETZ_TARGET_|^FREETZ_KERNEL_|^FREETZ_SEPARATE_|^FREETZ_STDCXXLIB|^FREETZ_EXTERNAL_|^# EXTERNAL_ENABLED" config.base > .config
           
           # Zielmodell setzen & fertige Toolchain herunterladen
           echo "${{ matrix.typ }}=y" >> .config
@@ -65,6 +67,7 @@ jobs:
           fi
           
           make olddefconfig
+          grep -E "TOOLCHAIN" .config
 
       - name: Image fuer ${{ matrix.modell }} bauen
         run: |
@@ -75,7 +78,20 @@ jobs:
             exit 1
           }
 
+      - name: Fehler-Log bei Abbruch speichern
+        if: failure()
+        run: tail -n 150 build.log > fehler-${{ matrix.modell }}.txt
+
+      - name: Fehler-Log hochladen
+        if: failure()
+        uses: actions/upload-artifact@v4
+        with:
+          name: fehler-log-${{ matrix.modell }}
+          path: fehler-${{ matrix.modell }}.txt
+          retention-days: 3
+
       - name: Ergebnisse (Image + optional External) hochladen
+        if: success()
         uses: actions/upload-artifact@v4
         with:
           name: freetz-ng-${{ matrix.modell }}
