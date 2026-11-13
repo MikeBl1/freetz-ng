@@ -1,44 +1,50 @@
-name: Freetz Build
+name: Freetz-NG Build
 
 on:
-# Löst den Workflow bei jedem Push auf den 'main'-Branch aus
-push:
-branches:
-- main
-# Ermöglicht auch das manuelle Starten über die GitHub-Oberfläche
-workflow_dispatch:
+  push:
+    branches: [ "main" ]
+  workflow_dispatch:
 
 jobs:
-build:
-runs-on: ubuntu-latest # Nutzt den kostenlosen Linux-Runner
-steps:
-- name: Checkout Code
-uses: actions/checkout@v4
-with:
-# Freetz benötigt oft Submodule
-submodules: true
+  build:
+    runs-on: ubuntu-24.04
 
-- name: Build Freetz Image
-run: |
-# Notwendige Build-Werkzeuge installieren
-sudo apt-get update
-sudo apt-get install -y build-essential subversion git
+    steps:
+      - name: Eigenes Repository auschecken
+        uses: actions/checkout@v4
 
-# Freetz-Quellen (Trunk) herunterladen
-svn co https://svn.freetz.org/trunk freetz-trunk
-cd freetz-trunk
+      - name: Speicherplatz auf Runner freigeben
+        run: |
+          sudo rm -rf /usr/share/dotnet /usr/local/lib/android /opt/ghc
+          df -h
 
-# Ihre hochgeladene .config-Datei verwenden
-cp ../.config .
+      - name: Abhängigkeiten installieren
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y subversion git bc bison flex gcc g++ make \
+            libncurses5-dev libncursesw5-dev zlib1g-dev libacl1-dev libcap-dev \
+            intltool libglib2.0-dev libtool-bin libxml-parser-perl automake \
+            autoconf pkg-config unzip bzip2 xz-utils wget curl python3 \
+            libssl-dev libelf-dev rsync cpio file patch
 
-# Build-Prozess starten (V=0 reduziert die Ausgabe)
-make V=0
+      - name: Freetz-NG klonen
+        run: |
+          git clone --depth=1 https://github.com build-dir
 
-- name: Upload Freetz Image
-uses: actions/upload-artifact@v4
-with:
-name: freetz-image-download
-# Das fertige Image liegt unter freetz-trunk/images/
-path: freetz-trunk/images/*.image
-# Bild wird 7 Tage gespeichert
-retention-days: 7
+      - name: .config kopieren und prüfen
+        run: |
+          cp .config build-dir/.config
+          cd build-dir
+          make olddefconfig
+
+      - name: Firmware-Image kompilieren
+        run: |
+          cd build-dir
+          make -j$(nproc)
+
+      - name: Fertiges Image als Artifact hochladen
+        uses: actions/upload-artifact@v4
+        with:
+          name: freetz-ng-firmware
+          path: build-dir/images/*
+          retention-days: 7
