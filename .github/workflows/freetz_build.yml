@@ -2,7 +2,8 @@ name: Freetz-NG Build
 
 on:
   push:
-    branches: [ "main" ]
+    branches:
+      - master
   workflow_dispatch:
 
 jobs:
@@ -10,41 +11,31 @@ jobs:
     runs-on: ubuntu-24.04
 
     steps:
-      - name: Eigenes Repository auschecken
+      - name: Repository auschecken
         uses: actions/checkout@v4
 
-      - name: Speicherplatz auf Runner freigeben
-        run: |
-          sudo rm -rf /usr/share/dotnet /usr/local/lib/android /opt/ghc
-          df -h
+      - name: Speicherplatz freigeben
+        run: sudo rm -rf /usr/share/dotnet /usr/local/lib/android /opt/ghc
 
-      - name: Abhängigkeiten installieren
+      - name: Pakete installieren
         run: |
           sudo apt-get update
-          sudo apt-get install -y subversion git bc bison flex gcc g++ make \
-            libncurses5-dev libncursesw5-dev zlib1g-dev libacl1-dev libcap-dev \
-            intltool libglib2.0-dev libtool-bin libxml-parser-perl automake \
-            autoconf pkg-config unzip bzip2 xz-utils wget curl python3 \
-            libssl-dev libelf-dev rsync cpio file patch
+          sudo apt-get install -y subversion git bc bison flex gcc g++ make libncurses5-dev libncursesw5-dev zlib1g-dev libacl1-dev libcap-dev intltool libglib2.0-dev libtool-bin libxml-parser-perl automake autoconf pkg-config unzip bzip2 xz-utils wget curl python3 libssl-dev libelf-dev rsync cpio file patch
 
-      - name: Freetz-NG klonen
+      - name: Konfiguration pruefen
         run: |
-          git clone --depth=1 https://github.com build-dir
-
-      - name: .config kopieren und prüfen
-        run: |
-          cp .config build-dir/.config
-          cd build-dir
+          if [ ! -f .config ]; then
+            echo "FEHLER: .config fehlt im Hauptverzeichnis!"
+            exit 1
+          fi
           make olddefconfig
 
-      - name: Firmware-Image kompilieren
-        run: |
-          cd build-dir
-          make -j$(nproc)
+      - name: Image bauen
+        run: make -j$(nproc)
 
-      - name: Fertiges Image als Artifact hochladen
+      - name: Image hochladen
         uses: actions/upload-artifact@v4
         with:
           name: freetz-ng-firmware
-          path: build-dir/images/*
+          path: images/*
           retention-days: 7
