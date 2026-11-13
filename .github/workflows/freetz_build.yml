@@ -1,4 +1,4 @@
-name: Freetz-NG Build
+name: Freetz-NG Multi-Build
 
 on:
   push:
@@ -9,6 +9,22 @@ on:
 jobs:
   build:
     runs-on: ubuntu-24.04
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - modell: "7690"
+            typ: "FREETZ_TYPE_7690"
+            ext_dir: "/var/media/ftp"
+            auslagern: "nein"
+          - modell: "7590ax"
+            typ: "FREETZ_TYPE_7590_W6"
+            ext_dir: "/var/media/ftp/uStor01"
+            auslagern: "ja"
+          - modell: "7590"
+            typ: "FREETZ_TYPE_7590_W5"
+            ext_dir: "/var/media/ftp/uStor01"
+            auslagern: "ja"
 
     steps:
       - name: Repository auschecken
@@ -22,20 +38,40 @@ jobs:
           sudo apt-get update
           sudo ./tools/prerequisites install -y
 
-      - name: Konfiguration pruefen
+      - name: Konfiguration fuer ${{ matrix.modell }} generieren
         run: |
-          if [ ! -f .config ]; then
-            echo "FEHLER: .config fehlt im Hauptverzeichnis!"
+          if [ ! -f "config.base" ]; then
+            echo "FEHLER: config.base fehlt im Hauptverzeichnis!"
             exit 1
           fi
+          
+          # Modell-, Firmware-Versions-, Toolchain- und External-Zeilen bereinigen
+          grep -vE "^FREETZ_TYPE_7|^# FREETZ_TYPE_7|^FREETZ_TYPE_FIRMWARE_0|^# FREETZ_TYPE_FIRMWARE_0|^FREETZ_BUILD_TOOLCHAIN|^FREETZ_DOWNLOAD_TOOLCHAIN|^FREETZ_EXTERNAL_|^# EXTERNAL_ENABLED" config.base > .config
+          
+          # Zielmodell setzen & fertige Toolchain herunterladen
+          echo "${{ matrix.typ }}=y" >> .config
+          echo "FREETZ_DOWNLOAD_TOOLCHAIN=y" >> .config
+          
+          # Tor und Bind bleiben auf der Box; nur Python, Git und Apache2 auslagern
+          if [ "${{ matrix.auslagern }}" = "ja" ]; then
+            echo "FREETZ_EXTERNAL_ENABLE=y" >> .config
+            echo "FREETZ_EXTERNAL_DOWNLOADER=n" >> .config
+            echo "FREETZ_EXTERNAL_DIRECTORY=\"${{ matrix.ext_dir }}\"" >> .config
+            echo "FREETZ_EXTERNAL_FREETZ_PACKAGE_PYTHON=y" >> .config
+            echo "FREETZ_EXTERNAL_FREETZ_PACKAGE_GIT=y" >> .config
+            echo "FREETZ_EXTERNAL_FREETZ_PACKAGE_APACHE2=y" >> .config
+          fi
+          
           make olddefconfig
 
-      - name: Image bauen
-        run: make -j$(nproc)
+      - name: Image fuer ${{ matrix.modell }} bauen
+        run: make -j2
 
-      - name: Image hochladen
+      - name: Ergebnisse (Image + optional External) hochladen
         uses: actions/upload-artifact@v4
         with:
-          name: freetz-ng-firmware
-          path: images/*
+          name: freetz-ng-${{ matrix.modell }}
+          path: |
+            images/*.image
+            images/*.external
           retention-days: 7
