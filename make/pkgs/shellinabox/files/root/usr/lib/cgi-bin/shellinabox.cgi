@@ -1,6 +1,10 @@
 #!/bin/sh
 
+. /usr/lib/libmodcgi.sh
+[ -r /etc/options.cfg ] && . /etc/options.cfg
+
 if  $(echo "$QUERY_STRING" | grep -q dogencert ); then
+	csrf_check required
 	sh /mod/etc/default.shellinabox/generate_cert.sh
 	echo '<textarea id="certout">'
 	cat /tmp/shellinabox_certificate.pem
@@ -9,9 +13,6 @@ if  $(echo "$QUERY_STRING" | grep -q dogencert ); then
 	rm /tmp/shellinabox_certificate.pem
 	exit
 fi
-
-. /usr/lib/libmodcgi.sh
-[ -r /etc/options.cfg ] && . /etc/options.cfg
 
 check "$SHELLINABOX_NOSSL" true:ssldis
 if [ "$SHELLINABOX_NOSSL" = true  -o "$FREETZ_PACKAGE_SHELLINABOX_SSL" != "y" ]; then
@@ -74,7 +75,7 @@ if which openssl_req >/dev/null 2>&1; then
 cat << EOF
 $(lang de:"Die Box kann ein minimales, selbst signiertes Zertifikat erstellen. Das dauert etwas..." en:"This will build a self signed certificate on the box. Will take some time..")
 <iframe name="dummy" id="id_iframe" style="display:none;" width=500 height=100 frameborder="0"> </iframe>
-<input type="button" value="$(lang de:"Zertifikat erstellen" en:"Generate certificate")" onclick='document.getElementById("id_iframe").src="/cgi-bin/conf/shellinabox?dogencert"; target="dummy"'>
+<input type="button" value="$(lang de:"Zertifikat erstellen" en:"Generate certificate")" onclick='document.getElementById("id_iframe").src=csrfUrl("/cgi-bin/conf/shellinabox?dogencert"); target="dummy"'>
 EOF
 fi
 

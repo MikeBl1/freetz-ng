@@ -335,7 +335,7 @@ Index: [A](#a) - [B](#b) - [C](#c) - [D](#d) - [E](#e) - [F](#f) - [G](#g) - [H]
 
 ### H
 
-  * **[HAProxy 2.6.33 - DEPRECATED](../../docs/make/haproxy.md)<a id='haproxy'></a>**<br>
+  * **[HAProxy 2.6.35](../../docs/make/haproxy.md)<a id='haproxy'></a>**<br>
     HAProxy is a free, very fast and reliable solution offering high availability, load balancing, and proxying for TCP and HTTP-based applications.
 
   * **[Haserl 0.9.36 (binary only)](../../docs/make/haserl.md)<a id='haserl'></a>**<br>
@@ -383,7 +383,7 @@ Index: [A](#a) - [B](#b) - [C](#c) - [D](#d) - [E](#e) - [F](#f) - [G](#g) - [H]
   * **[IGMPproxy 0.4](../../docs/make/igmpproxy.md)<a id='igmpproxy'></a>**<br>
     IGMPproxy is a simple dynamic Multicast Routing Daemon using only IGMP signalling. It's intended for simple forwarding of Multicast traffic between networks.
 
-  * **[ImageMagick 7.1.0-62/7.1.2-35 (binary only)](../../docs/make/imagemagick.md)<a id='imagemagick'></a>**<br>
+  * **[ImageMagick 7.1.0-62/7.1.2-36 (binary only)](../../docs/make/imagemagick.md)<a id='imagemagick'></a>**<br>
     ImageMagick is a robust collection of tools and libraries to read, write, and manipulate an image in many image formats, including popular formats like TIFF, JPEG, PNG, PDF, PhotoCD, and GIF. With ImageMagick, you can create images dynamically, making it suitable for Web applications. You can also resize, rotate, sharpen, color-reduce, or add special effects to an image and save your completed work in many different image formats. Image processing operations are available from the command line as well as through C, C++, and PERL-based programming interfaces.
 
   * **[Inadyn-mt 02.28.10 - DEPRECATED](../../docs/make/inadyn-mt.md)<a id='inadyn-mt'></a>**<br>
@@ -519,7 +519,7 @@ Index: [A](#a) - [B](#b) - [C](#c) - [D](#d) - [E](#e) - [F](#f) - [G](#g) - [H]
   * **[module-init-tools 3.12 (binary only) - DEPRECATED](../../docs/make/module-init-tools.md)<a id='module-init-tools'></a>**<br>
     The module-init-tools (m-i-t) package provides many of the utilities needed by Linux systems for managing loadable Linux Kernel Modules. This includes depmod, insmod, rmmod, modprobe and tools like modinfo.
 
-  * **[Mosquitto 2.0.23/2.1.2](../../docs/make/mosquitto.md)<a id='mosquitto'></a>**<br>
+  * **[Mosquitto 2.0.23/2.1.4](../../docs/make/mosquitto.md)<a id='mosquitto'></a>**<br>
     Eclipse Mosquitto™ is an open source (EPL/EDL licensed) message broker that implements the MQTT protocol versions 5.0, 3.1.1 and 3.1. MQTT provides a lightweight method of carrying out messaging using a publish/subscribe model. This makes it suitable for "Internet of Things" messaging such as with low power sensors or mobile devices such as phones, embedded computers or microcontrollers like the Arduino.
 
   * **[MTR 0.80/0.96 (binary only)](../../docs/make/mtr.md)<a id='mtr'></a>**<br>
@@ -651,7 +651,7 @@ Index: [A](#a) - [B](#b) - [C](#c) - [D](#d) - [E](#e) - [F](#f) - [G](#g) - [H]
   * **[PCP client 1c783fb (binary only)](../../docs/make/pcp.md)<a id='pcp'></a>**<br>
     PCP client library implements client side of PCP (RFC 6887) and NATPMP (RFC 6886) protocols. Switch to NATPMP is done automatically by version negotiation. This library enables any network application to manage network edge device (e.g. to create NAT mapping or ask router for specific flow treatment).
 
-  * **[PCSC-lite 1.9.5/2.5.2 (binary only)](../../docs/make/pcsc-lite.md)<a id='pcsc-lite'></a>**<br>
+  * **[PCSC-lite 1.9.5/2.5.3 (binary only)](../../docs/make/pcsc-lite.md)<a id='pcsc-lite'></a>**<br>
     The purpose of PCSC Lite is to provide a Windows(R) SCard interface in a very small form factor for communicating to smart cards and readers.
 
   * **<u>phonebook-tools: Phone book tools 1.0</u><a id='phonebook-tools'></a>**<br>
@@ -698,7 +698,7 @@ Index: [A](#a) - [B](#b) - [C](#c) - [D](#d) - [E](#e) - [F](#f) - [G](#g) - [H]
   * **<u>privatekeypassword 0.7-git</u><a id='privatekeypassword'></a>**<br>
     Reveals the password for AVM's private key file (/var/flash/websrv_ssl_key.pem), makes it possible to reuse it for other packages.
 
-  * **[Privoxy 4.1.0](../../docs/make/privoxy.md)<a id='privoxy'></a>**<br>
+  * **[Privoxy 4.2.0](../../docs/make/privoxy.md)<a id='privoxy'></a>**<br>
     Privoxy is a web proxy with advanced filtering capabilities for protecting privacy, modifying web page data, managing cookies, controlling access, and removing ads, banners, pop-ups and other obnoxious Internet junk. It can also be used together with Tor Proxy to forward HTTP traffic to Tor as described in the Tor documentation. Open http://config.privoxy.org/show-status for details.
      - [Filter und Aktionen](../../docs/make/privoxy.md#filter-und-aktionen)
      - [Zugriffskontrolle](../../docs/make/privoxy.md#zugriffskontrolle)
@@ -1013,7 +1013,7 @@ Index: [A](#a) - [B](#b) - [C](#c) - [D](#d) - [E](#e) - [F](#f) - [G](#g) - [H]
   * **[UNFS3 0.9.23 - DEPRECATED](../../docs/make/unfs3.md)<a id='unfs3'></a>**<br>
     Userspace NFS v3 Server.
 
-  * **[UnRAR 6.1.7/7.3.1 (binary only)](../../docs/make/unrar.md)<a id='unrar'></a>**<br>
+  * **[UnRAR 6.1.7/7.3.2 (binary only)](../../docs/make/unrar.md)<a id='unrar'></a>**<br>
     Unarchiver for .rar files
 
   * **[usbids: usb.ids 635738b64e](../../docs/make/usbids.md)<a id='usbids'></a>**<br>
@@ -1027,7 +1027,7 @@ Index: [A](#a) - [B](#b) - [C](#c) - [D](#d) - [E](#e) - [F](#f) - [G](#g) - [H]
 
 ### V
 
-  * **[Vim 9.2.1169 (binary only)](../../docs/make/vim.md)<a id='vim'></a>**<br>
+  * **[Vim 9.2.1302 (binary only)](../../docs/make/vim.md)<a id='vim'></a>**<br>
     An improved version of VI
 
   * **[Virtualip-NG - EXPERIMENTAL](../../docs/make/virtualip-ng.md)<a id='virtualip-ng'></a>**<br>

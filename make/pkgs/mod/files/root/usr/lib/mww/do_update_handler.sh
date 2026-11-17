@@ -1,10 +1,12 @@
 #!/bin/sh
 
-. /usr/lib/libmodcgi.sh
-[ -r /etc/options.cfg ] && . /etc/options.cfg
-
 # link FIFO to stdin
-exec < $1
+exec < "$1"
+
+. /usr/lib/libmodcgi.sh
+csrf_check required
+
+[ -r /etc/options.cfg ] && . /etc/options.cfg
 
 footer() {
 	echo "<p>"

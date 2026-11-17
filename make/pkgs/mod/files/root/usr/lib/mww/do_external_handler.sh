@@ -1,9 +1,10 @@
 #!/bin/sh
 
-. /usr/lib/libmodcgi.sh
-
 # link FIFO to stdin
-exec < $1
+exec < "$1"
+
+. /usr/lib/libmodcgi.sh
+csrf_check required
 
 footer() {
 	echo "<p>"
