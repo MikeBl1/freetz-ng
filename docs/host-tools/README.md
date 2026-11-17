@@ -46,6 +46,8 @@ Index: [A](#a) - [B](#b) - [C](#c) - [D](#d) - [E](#e) - [F](#f) - [G](#g) - [H]
 
 ### G
 
+  * **[gawk 5.4.2](gawk-host.md)<a id='gawk-host'></a>**<br>
+
   * **[genext2fs 1.6.3](genext2fs-host.md)<a id='genext2fs-host'></a>**<br>
 
   * **[gmp 6.3.0](gmp-host.md)<a id='gmp-host'></a>**<br>
@@ -148,7 +150,7 @@ Index: [A](#a) - [B](#b) - [C](#c) - [D](#d) - [E](#e) - [F](#f) - [G](#g) - [H]
 
   * **[tichksum 1.0](tichksum-host.md)<a id='tichksum-host'></a>**<br>
 
-  * **[tools 2026-11-11](tools-host.md)<a id='tools-host'></a>**<br>
+  * **[tools 2026-11-16](tools-host.md)<a id='tools-host'></a>**<br>
 
 ### U
 

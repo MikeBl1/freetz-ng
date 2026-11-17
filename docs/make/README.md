@@ -226,7 +226,7 @@ Index: [A](#a) - [B](#b) - [C](#c) - [D](#d) - [E](#e) - [F](#f) - [G](#g) - [H]
   * **<u>Ghostscript fonts 8.11 (binary only) - DEPRECATED</u><a id='ghostscript-fonts'></a>**<br>
     This package provides the Ghostscript fonts.
 
-  * **[Git 2.26.2/2.56.0](git.md)<a id='git'></a>**<br>
+  * **[Git 2.26.2/2.56.1](git.md)<a id='git'></a>**<br>
     Git is a fast, scalable, distributed revision control system with an unusually rich command set that provides both high-level operations and full access to internals.
 
   * **<u>gntpsend 0.3.2-git (binary only) - DEPRECATED</u><a id='gntpsend'></a>**<br>
@@ -731,7 +731,7 @@ Index: [A](#a) - [B](#b) - [C](#c) - [D](#d) - [E](#e) - [F](#f) - [G](#g) - [H]
   * **[tmux 3.8 (binary only)](tmux.md)<a id='tmux'></a>**<br>
     tmux, a BSD-licensed alternative to GNU screen. Uses ncurses.
 
-  * **[Tor 0.4.8.25/0.4.9.16](tor.md)<a id='tor'></a>**<br>
+  * **[Tor 0.4.8.25/0.4.9.17](tor.md)<a id='tor'></a>**<br>
     The Onion Router Anonymous Internet communication system.
 
   * **[Transmission 3.00/4.1.4 (binary only)](transmission.md)<a id='transmission'></a>**<br>

@@ -73,6 +73,7 @@ Latest changes
   - Host tools:
     * ca-bundle 2026-11-05
     * cmake 4.4.5
+    * gawk 5.4.2
     * kconfig 7.3
     * openssl 3.5.9
     * patchelf 0.14.5/0.19.3
@@ -97,6 +98,7 @@ Latest changes
     * New tagging: custom & modded
     * New Patch: Remove ASSETSD (assets downloader)
     * New Patch: Remove DSL_DAEMON (dsl_control successor)
+    * New Patch: Remove MOVED (settings migration)
     * Various Fritzos 8.25 related fixes
     * Various Fritzos 8.50 related fixes
 
@@ -111,7 +113,7 @@ Latest changes
     * Empty 0.6.23d
     * endlessh 1.1
     * FFmpeg 5.1.10/7.1.5
-    * Git 2.26.2/2.56.0
+    * Git 2.26.2/2.56.1
     * GnuTLS 3.7.11/3.8.13
     * htpdate 2.1.0
     * ImageMagick 7.1.0-62/7.1.2-35
@@ -136,7 +138,7 @@ Latest changes
     * Subversion 1.9.12/1.15.0
     * tcpdump 4.99.7
     * tmux 3.8
-    * Tor 0.4.8.25/0.4.9.16
+    * Tor 0.4.8.25/0.4.9.17
     * Transmission 3.00/4.1.4
     * Unbound 1.26.2
     * Vim 9.2.1169
@@ -150,6 +152,7 @@ Latest changes
     * GLib2 2.32.4/2.90.1
     * harfbuzz 15.1.0
     * libconfuse 3.4
+    * libffi 3.8.1
     * libgcrypt 1.12.4
     * libgpg-error 1.61
     * libpcap 1.11.0
@@ -157,6 +160,7 @@ Latest changes
     * libtasn1 4.21.0
     * libzip 1.12.1
     * lz4 1.11.1
+    * MbedTLS 2.7.19/2.28.10/3.6.8
     * pcre2 10.49
     * utf8proc 2.12.0
     * zlib 1.4
