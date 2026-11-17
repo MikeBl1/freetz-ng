@@ -57,8 +57,8 @@ jobs:
             exit 1
           fi
           
-          # Alle alten Modell-, Toolchain-, Compiler- und External-Flags sauber entfernen
-          grep -vE "^FREETZ_TYPE_7|^# FREETZ_TYPE_7|^FREETZ_TYPE_FIRMWARE_0|^# FREETZ_TYPE_FIRMWARE_0|^FREETZ_BUILD_TOOLCHAIN|^FREETZ_DOWNLOAD_TOOLCHAIN|^FREETZ_TARGET_|^FREETZ_KERNEL_|^FREETZ_SEPARATE_|^FREETZ_STDCXXLIB|^FREETZ_EXTERNAL_|^# EXTERNAL_ENABLED|^FREETZ_HOST_|^FREETZ_DISABLE_NLS" config.base > .config
+          # Alle Modell-, Toolchain-, Compiler-, NLS- und External-Flags sauber entfernen
+          grep -vE "^FREETZ_TYPE_7|^# FREETZ_TYPE_7|^FREETZ_TYPE_FIRMWARE_0|^# FREETZ_TYPE_FIRMWARE_0|^FREETZ_BUILD_TOOLCHAIN|^FREETZ_DOWNLOAD_TOOLCHAIN|^FREETZ_TARGET_|^FREETZ_KERNEL_|^FREETZ_SEPARATE_|^FREETZ_STDCXXLIB|^FREETZ_EXTERNAL_|^# EXTERNAL_ENABLED|^FREETZ_HOST_|^FREETZ_DISABLE_NLS|^FREETZ_NLS|^.*CFLAGS|^.*CXXFLAGS|^.*LDFLAGS" config.base > .config
           
           # Zielmodell setzen & fertige Toolchain herunterladen
           echo "${{ matrix.typ }}=y" >> .config
@@ -80,6 +80,7 @@ jobs:
       - name: Image fuer ${{ matrix.modell }} bauen
         run: |
           set -o pipefail
+          unset CFLAGS CXXFLAGS LDFLAGS CPPFLAGS
           timeout 330m make -j$(nproc) 2>&1 | tee build.log || {
             echo "::error::$(tail -n 30 build.log | tr '\n' ' ')"
             tail -n 60 build.log
