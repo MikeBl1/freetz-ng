@@ -10,7 +10,7 @@ on:
 
 jobs:
   build:
-    runs-on: ubuntu-24.04
+    runs-on: ubuntu-22.04
     strategy:
       fail-fast: false
       matrix:
@@ -57,11 +57,14 @@ jobs:
             exit 1
           fi
           
-          grep -vE "^FREETZ_TYPE_7|^# FREETZ_TYPE_7|^FREETZ_TYPE_FIRMWARE_0|^# FREETZ_TYPE_FIRMWARE_0|^FREETZ_BUILD_TOOLCHAIN|^FREETZ_DOWNLOAD_TOOLCHAIN|^FREETZ_TARGET_|^FREETZ_KERNEL_|^FREETZ_SEPARATE_|^FREETZ_STDCXXLIB|^FREETZ_EXTERNAL_|^# EXTERNAL_ENABLED" config.base > .config
+          # Alle alten Modell-, Toolchain-, Compiler- und External-Flags sauber entfernen
+          grep -vE "^FREETZ_TYPE_7|^# FREETZ_TYPE_7|^FREETZ_TYPE_FIRMWARE_0|^# FREETZ_TYPE_FIRMWARE_0|^FREETZ_BUILD_TOOLCHAIN|^FREETZ_DOWNLOAD_TOOLCHAIN|^FREETZ_TARGET_|^FREETZ_KERNEL_|^FREETZ_SEPARATE_|^FREETZ_STDCXXLIB|^FREETZ_EXTERNAL_|^# EXTERNAL_ENABLED|^FREETZ_HOST_|^FREETZ_DISABLE_NLS" config.base > .config
           
+          # Zielmodell setzen & fertige Toolchain herunterladen
           echo "${{ matrix.typ }}=y" >> .config
           echo "FREETZ_DOWNLOAD_TOOLCHAIN=y" >> .config
           
+          # Tor, Bind und Samba bleiben im Flash; nur Python, Git und Apache2 auslagern
           if [ "${{ matrix.auslagern }}" = "ja" ]; then
             echo "FREETZ_EXTERNAL_ENABLE=y" >> .config
             echo "FREETZ_EXTERNAL_DOWNLOADER=n" >> .config
