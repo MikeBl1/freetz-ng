@@ -48,10 +48,12 @@ jobs:
       - name: Defekten uClibc-Locale-Download vorab beheben
         run: |
           mkdir -p dl
-          if [ ! -f "dl/uClibc-locale-030818.tgz" ]; then
-            wget --no-check-certificate -O dl/uClibc-locale-030818.tgz https://buildroot.net || \
-            wget --no-check-certificate --ciphers=DEFAULT:@SECLEVEL=1 -O dl/uClibc-locale-030818.tgz https://uclibc.org || true
-          fi
+          rm -f dl/uClibc-locale-030818.tgz
+          curl -fL --insecure -o dl/uClibc-locale-030818.tgz https://buildroot.net || \
+          curl -fL --insecure --ciphers DEFAULT:@SECLEVEL=1 -o dl/uClibc-locale-030818.tgz https://uclibc.org || \
+          curl -fL --insecure -o dl/uClibc-locale-030818.tgz https://gentoo.org || \
+          rm -f dl/uClibc-locale-030818.tgz
+          ls -lh dl/uClibc-locale-030818.tgz || true
 
       - name: Alle Freetz-NG Pakete installieren
         run: |
@@ -106,11 +108,11 @@ jobs:
           }
 
       - name: Fehler-Log bei Abbruch speichern
-        if: failure()
+        if: failure() && hashFiles('build.log') != ''
         run: tail -n 150 build.log > fehler-${{ matrix.modell }}.txt
 
       - name: Fehler-Log hochladen
-        if: failure()
+        if: failure() && hashFiles('fehler-*.txt') != ''
         uses: actions/upload-artifact@v4
         with:
           name: fehler-log-${{ matrix.modell }}
