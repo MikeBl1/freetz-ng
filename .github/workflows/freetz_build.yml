@@ -17,16 +17,13 @@ jobs:
         include:
           - modell: "7690"
             typ: "FREETZ_TYPE_7690"
-            ext_dir: "/var/media/ftp"
-            auslagern: "nein"
+            platz_sparen: "nein"
           - modell: "7590ax"
             typ: "FREETZ_TYPE_7590_W6"
-            ext_dir: "/var/media/ftp/uStor01"
-            auslagern: "ja"
+            platz_sparen: "ja"
           - modell: "7590"
             typ: "FREETZ_TYPE_7590_W5"
-            ext_dir: "/var/media/ftp/uStor01"
-            auslagern: "ja"
+            platz_sparen: "ja"
 
     steps:
       - name: Repository auschecken
@@ -54,7 +51,6 @@ jobs:
           curl -fL --insecure --ciphers DEFAULT:@SECLEVEL=1 -o "$DL_DIR/uClibc-locale-030818.tgz" https://uclibc.org || \
           curl -fL --insecure -o "$DL_DIR/uClibc-locale-030818.tgz" https://gentoo.org || \
           rm -f "$DL_DIR/uClibc-locale-030818.tgz"
-          ls -lh "$DL_DIR/uClibc-locale-030818.tgz" || true
 
       - name: Alle Freetz-NG Pakete installieren
         run: |
@@ -68,34 +64,27 @@ jobs:
             exit 1
           fi
           
-          # Alle Modell-, Toolchain-, Compiler-, NLS-, Locale- und External-Flags sowie Git/Apache2 sauber entfernen
+          # Alle Modell-, Toolchain-, Compiler-, NLS- und External-Flags sauber entfernen
           grep -vE "^FREETZ_TYPE_7|^# FREETZ_TYPE_7|^FREETZ_TYPE_FIRMWARE_0|^# FREETZ_TYPE_FIRMWARE_0|^FREETZ_BUILD_TOOLCHAIN|^FREETZ_DOWNLOAD_TOOLCHAIN|^FREETZ_TARGET_|^FREETZ_KERNEL_|^FREETZ_SEPARATE_|^FREETZ_STDCXXLIB|^FREETZ_EXTERNAL_|^EXTERNAL_|^# EXTERNAL_|^FREETZ_HOST_|^FREETZ_DISABLE_NLS|^FREETZ_NLS|^.*CFLAGS|^.*CXXFLAGS|^.*LDFLAGS|^FREETZ_PACKAGE_GIT|^FREETZ_PACKAGE_APACHE2" config.base > .config || true
           
           # Zielmodell setzen & fertige Toolchain herunterladen
           echo "${{ matrix.typ }}=y" >> .config
           echo "FREETZ_DOWNLOAD_TOOLCHAIN=y" >> .config
           
-          # Git und Apache2 komplett deaktivieren
+          # Git und Apache2 deaktivieren
           echo "# FREETZ_PACKAGE_GIT is not set" >> .config
           echo "# FREETZ_PACKAGE_APACHE2 is not set" >> .config
           
-          # External-Hauptschalter aktivieren
-          if [ "${{ matrix.auslagern }}" = "ja" ]; then
-            echo "FREETZ_EXTERNAL_ENABLE=y" >> .config
-            echo "FREETZ_EXTERNAL_DOWNLOADER=n" >> .config
-            echo "FREETZ_EXTERNAL_DIRECTORY=\"${{ matrix.ext_dir }}\"" >> .config
+          # Bei 7590 und 7590 AX Microperl, Sudo, USB-IDs und Polipo abschalten (Tor, Samba & Nagios bleiben drin!)
+          if [ "${{ matrix.platz_sparen }}" = "ja" ]; then
+            sed -i -E '/FREETZ_PACKAGE_(MICROPERL|SUDO|USBIDS|POLIPO)/d' .config
+            echo "# FREETZ_PACKAGE_MICROPERL is not set" >> .config
+            echo "# FREETZ_PACKAGE_SUDO is not set" >> .config
+            echo "# FREETZ_PACKAGE_USBIDS is not set" >> .config
+            echo "# FREETZ_PACKAGE_POLIPO is not set" >> .config
           fi
           
-          # Erste Konfigurationsrunde, damit Freetz-NG alle verfügbaren External-Schalter anlegt
           make olddefconfig
-          
-          # Jetzt alle External-Schalter für Tor, Samba, OpenVPN, Python, Microperl und Sudo automatisch aktivieren
-          if [ "${{ matrix.auslagern }}" = "ja" ]; then
-            sed -i -E 's/^# (.*EXTERNAL.*(TOR|SAMBA|OPENVPN|PYTHON|MICROPERL|SUDO).*)=y/\1=y/; s/^# (.*EXTERNAL.*(TOR|SAMBA|OPENVPN|PYTHON|MICROPERL|SUDO).*) is not set/\1=y/' .config
-            make olddefconfig
-            echo "=== Aktivierte External-Pakete ==="
-            grep -E "EXTERNAL.*=y" .config || true
-          fi
 
       - name: Image fuer ${{ matrix.modell }} bauen
         run: |
@@ -120,12 +109,11 @@ jobs:
           path: fehler-${{ matrix.modell }}.txt
           retention-days: 3
 
-      - name: Ergebnisse (Image + optional External) hochladen
+      - name: Ergebnisse (Image) hochladen
         if: success()
         uses: actions/upload-artifact@v4
         with:
           name: freetz-ng-${{ matrix.modell }}
           path: |
             images/*.image
-            images/*.external
           retention-days: 7
