@@ -45,6 +45,14 @@ jobs:
           restore-keys: |
             freetz-dl-
 
+      - name: Defekten uClibc-Locale-Download vorab beheben
+        run: |
+          mkdir -p dl
+          if [ ! -f "dl/uClibc-locale-030818.tgz" ]; then
+            wget --no-check-certificate -O dl/uClibc-locale-030818.tgz https://buildroot.net || \
+            wget --no-check-certificate --ciphers=DEFAULT:@SECLEVEL=1 -O dl/uClibc-locale-030818.tgz https://uclibc.org || true
+          fi
+
       - name: Alle Freetz-NG Pakete installieren
         run: |
           sudo apt-get update
@@ -63,7 +71,6 @@ jobs:
           # Zielmodell setzen & fertige Toolchain herunterladen
           echo "${{ matrix.typ }}=y" >> .config
           echo "FREETZ_DOWNLOAD_TOOLCHAIN=y" >> .config
-          echo "# FREETZ_TARGET_UCLIBC_ENABLES_LOCALE is not set" >> .config
           
           # Git und Apache2 komplett deaktivieren
           echo "# FREETZ_PACKAGE_GIT is not set" >> .config
