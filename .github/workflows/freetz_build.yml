@@ -47,13 +47,14 @@ jobs:
 
       - name: Defekten uClibc-Locale-Download vorab beheben
         run: |
-          mkdir -p dl
-          rm -f dl/uClibc-locale-030818.tgz
-          curl -fL --insecure -o dl/uClibc-locale-030818.tgz https://buildroot.net || \
-          curl -fL --insecure --ciphers DEFAULT:@SECLEVEL=1 -o dl/uClibc-locale-030818.tgz https://uclibc.org || \
-          curl -fL --insecure -o dl/uClibc-locale-030818.tgz https://gentoo.org || \
-          rm -f dl/uClibc-locale-030818.tgz
-          ls -lh dl/uClibc-locale-030818.tgz || true
+          DL_DIR=$(readlink -f dl || echo "dl")
+          mkdir -p "$DL_DIR"
+          rm -f "$DL_DIR/uClibc-locale-030818.tgz"
+          curl -fL --insecure -o "$DL_DIR/uClibc-locale-030818.tgz" https://buildroot.net || \
+          curl -fL --insecure --ciphers DEFAULT:@SECLEVEL=1 -o "$DL_DIR/uClibc-locale-030818.tgz" https://uclibc.org || \
+          curl -fL --insecure -o "$DL_DIR/uClibc-locale-030818.tgz" https://gentoo.org || \
+          rm -f "$DL_DIR/uClibc-locale-030818.tgz"
+          ls -lh "$DL_DIR/uClibc-locale-030818.tgz" || true
 
       - name: Alle Freetz-NG Pakete installieren
         run: |
