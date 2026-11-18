@@ -58,7 +58,7 @@ jobs:
           fi
           
           # Alle Modell-, Toolchain-, Compiler-, NLS- und External-Flags sowie Git/Apache2 sauber entfernen
-          grep -vE "^FREETZ_TYPE_7|^# FREETZ_TYPE_7|^FREETZ_TYPE_FIRMWARE_0|^# FREETZ_TYPE_FIRMWARE_0|^FREETZ_BUILD_TOOLCHAIN|^FREETZ_DOWNLOAD_TOOLCHAIN|^FREETZ_TARGET_|^FREETZ_KERNEL_|^FREETZ_SEPARATE_|^FREETZ_STDCXXLIB|^FREETZ_EXTERNAL_|^EXTERNAL_|^# EXTERNAL_|^FREETZ_HOST_|^FREETZ_DISABLE_NLS|^FREETZ_NLS|^.*CFLAGS|^.*CXXFLAGS|^.*LDFLAGS|^FREETZ_PACKAGE_GIT|^FREETZ_PACKAGE_APACHE2" config.base > .config
+          grep -vE "^FREETZ_TYPE_7|^# FREETZ_TYPE_7|^FREETZ_TYPE_FIRMWARE_0|^# FREETZ_TYPE_FIRMWARE_0|^FREETZ_BUILD_TOOLCHAIN|^FREETZ_DOWNLOAD_TOOLCHAIN|^FREETZ_TARGET_|^FREETZ_KERNEL_|^FREETZ_SEPARATE_|^FREETZ_STDCXXLIB|^FREETZ_EXTERNAL_|^EXTERNAL_|^# EXTERNAL_|^FREETZ_HOST_|^FREETZ_DISABLE_NLS|^FREETZ_NLS|^.*CFLAGS|^.*CXXFLAGS|^.*LDFLAGS|^FREETZ_PACKAGE_GIT|^FREETZ_PACKAGE_APACHE2" config.base > .config || true
           
           # Zielmodell setzen & fertige Toolchain herunterladen
           echo "${{ matrix.typ }}=y" >> .config
@@ -68,19 +68,22 @@ jobs:
           echo "# FREETZ_PACKAGE_GIT is not set" >> .config
           echo "# FREETZ_PACKAGE_APACHE2 is not set" >> .config
           
-          # Tor, Samba, OpenVPN und Python sauber auf USB auslagern (ohne doppeltes FREETZ_ vorne)
+          # Tor, Samba, OpenVPN und Python sauber auf USB auslagern
           if [ "${{ matrix.auslagern }}" = "ja" ]; then
             echo "FREETZ_EXTERNAL_ENABLE=y" >> .config
             echo "FREETZ_EXTERNAL_DOWNLOADER=n" >> .config
             echo "FREETZ_EXTERNAL_DIRECTORY=\"${{ matrix.ext_dir }}\"" >> .config
             echo "EXTERNAL_FREETZ_PACKAGE_TOR=y" >> .config
+            echo "EXTERNAL_FREETZ_PACKAGE_TOR_tor=y" >> .config
             echo "EXTERNAL_FREETZ_PACKAGE_SAMBA=y" >> .config
+            echo "EXTERNAL_FREETZ_PACKAGE_SAMBA_smbd=y" >> .config
             echo "EXTERNAL_FREETZ_PACKAGE_OPENVPN=y" >> .config
+            echo "EXTERNAL_FREETZ_PACKAGE_OPENVPN_openvpn=y" >> .config
             echo "EXTERNAL_FREETZ_PACKAGE_PYTHON=y" >> .config
           fi
           
           make olddefconfig
-          grep -E "EXTERNAL_FREETZ_PACKAGE" .config
+          grep -E "EXTERNAL_" .config || true
 
       - name: Image fuer ${{ matrix.modell }} bauen
         run: |
