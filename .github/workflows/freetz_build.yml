@@ -75,13 +75,14 @@ jobs:
           echo "# FREETZ_PACKAGE_GIT is not set" >> .config
           echo "# FREETZ_PACKAGE_APACHE2 is not set" >> .config
           
-          # Bei 7590 und 7590 AX Microperl, Sudo, USB-IDs und Polipo abschalten (Tor, Samba & Nagios bleiben drin!)
+          # Bei 7590 und 7590 AX Sudo, USB-IDs, Polipo, Wget und Bind abschalten (spart 1,18 MB; Tor, Samba & Nagios bleiben drin!)
           if [ "${{ matrix.platz_sparen }}" = "ja" ]; then
-            sed -i -E '/FREETZ_PACKAGE_(MICROPERL|SUDO|USBIDS|POLIPO)/d' .config
-            echo "# FREETZ_PACKAGE_MICROPERL is not set" >> .config
+            sed -i -E '/FREETZ_PACKAGE_(SUDO|USBIDS|POLIPO|WGET|BIND)/d' .config
             echo "# FREETZ_PACKAGE_SUDO is not set" >> .config
             echo "# FREETZ_PACKAGE_USBIDS is not set" >> .config
             echo "# FREETZ_PACKAGE_POLIPO is not set" >> .config
+            echo "# FREETZ_PACKAGE_WGET is not set" >> .config
+            echo "# FREETZ_PACKAGE_BIND is not set" >> .config
           fi
           
           make olddefconfig
