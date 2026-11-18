@@ -31,7 +31,7 @@ Index: [A](#a) - [B](#b) - [C](#c) - [D](#d) - [E](#e) - [F](#f) - [G](#g) - [H]
   * **[Atop 2.13.0 (binary only)](../../docs/make/atop.md)<a id='atop'></a>**<br>
     The program atop is an interactive monitor to view the load on a Linux system. It shows the occupation of the most critical hardware resources (from a performance point of view) on system level, i.e. cpu, memory, disk and network.
 
-  * **[AutoFS 5.0.5/5.1.9](../../docs/make/autofs.md)<a id='autofs'></a>**<br>
+  * **[AutoFS 5.0.5/5.2.0](../../docs/make/autofs.md)<a id='autofs'></a>**<br>
     Autofs is a kernel-based automounter for Linux. It performs a job similar to amd(8) but relies on a small stub of kernel code instead of pretending to be an NFS server. The result is simpler code, better reliability, and much faster operation in the common case (everything already mounted).
      - [Optionale Aufrufparameter](../../docs/make/autofs.md#optionale-aufrufparameter)
      - [Beispielkonfigurationen der auto.conf](../../docs/make/autofs.md#beispielkonfigurationen-der-autoconf)
@@ -648,8 +648,8 @@ Index: [A](#a) - [B](#b) - [C](#c) - [D](#d) - [E](#e) - [F](#f) - [G](#g) - [H]
   * **[p7zip 16.02 (binary only)](../../docs/make/p7zip.md)<a id='p7zip'></a>**<br>
     7-Zip  is  a  file  archiver  with the highest compression ratio. The program supports 7z (that implements LZMA compression algorithm), ZIP, CAB, ARJ, GZIP, BZIP2, TAR, CPIO, RPM and DEB formats. Compression ratio in the new 7z format is 30-50% better  than ratio in ZIP format.
 
-  * **[PCP client 1c783fb (binary only)](../../docs/make/pcp.md)<a id='pcp'></a>**<br>
-    PCP client library implements client side of PCP (RFC 6887) and NATPMP (RFC 6886) protocols. Switch to NATPMP is done automatically by version negotiation. This library enables any network application to manage network edge device (e.g. to create NAT mapping or ask router for specific flow treatment).
+  * **[pcpnatpmp: PCP/NAT-PMP client 1.0.0 (binary only)](../../docs/make/pcpnatpmp.md)<a id='pcpnatpmp'></a>**<br>
+    Port Control Protocol (PCP) and NAT-PMP client library Implements client side of PCP (RFC 6887) and NAT-PMP (RFC 6886) protocols. Switch to NAT-PMP is done automatically by version negotiation. This library enables any network application to manage network edge device (e.g. to create NAT mapping or ask router for specific flow treatment).
 
   * **[PCSC-lite 1.9.5/2.5.3 (binary only)](../../docs/make/pcsc-lite.md)<a id='pcsc-lite'></a>**<br>
     The purpose of PCSC Lite is to provide a Windows(R) SCard interface in a very small form factor for communicating to smart cards and readers.
@@ -1141,7 +1141,7 @@ Index: [A](#a) - [B](#b) - [C](#c) - [D](#d) - [E](#e) - [F](#f) - [G](#g) - [H]
   * **[ldd 0.1/1.0.59 (binary only)](../../docs/make/ldd.md)<a id='ldd'></a>**<br>
     ldd prints the shared libraries required by each program or shared library specified on the command line.
 
-  * **[lsof 4.89 (binary only) - DEPRECATED](../../docs/make/lsof.md)<a id='lsof'></a>**<br>
+  * **[lsof 4.99.7 (binary only)](../../docs/make/lsof.md)<a id='lsof'></a>**<br>
     lsof (LiSt Open Files) The lsof tool lists information about files opened by processes.
 
   * **[ltrace 0.7.3-git/0.8.1 (binary only)](../../docs/make/ltrace.md)<a id='ltrace'></a>**<br>
